@@ -137,21 +137,83 @@
                 </nav>
             </div>
 
+            <!-- ///////////////////////////////////////// FORM  /////////////////////////////////////////////////////-->
             <div class="col-10 mt-5">
-                    <div class="container">
-                            <div class="row m-3">
-                                <h1>Weekly Schedule</h1>
-                            </div>
-                           
+                <div class="container">
 
+                    <div class="row my-3">
+                        <h1>Weekly Schedule</h1>
+                    </div>
+
+                    <div class="row my-3">
+                            <div class="col-2">
+                                    <label for="exampleFormControlSelect1">Select Day :</label>
+                                </div>
+
+                        <div class="col-4">
+                            <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Date">
+                                <option selected>Please select day</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saterday</option>
+                            </select>
                         </div>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="table-responsive text-center">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Emp. No</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Dept.</th>
+                                        <th scope="col">Positon</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>123456</td>
+                                        <td>momo dfidf</td>
+                                        <td>HR</td>
+                                        <td>Officer</td>
+                                        <td>Online</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>334455</td>
+                                        <td>Mark Thornton</td>
+                                        <td>Admin</td>
+                                        <td>Officer</td>
+                                        <td>Online</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>778866</td>
+                                        <td>the Bird</td>
+                                        <td>HR</td>
+                                        <td>Officer</td>
+                                        <td>Online</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
 
     </div>
 
 
-    <!-- FOOTER -->
+    <!-- ////////////////////////////////////// FOOTER //////////////////////////////// -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
@@ -163,7 +225,7 @@
     </footer>
 
     <script>
-    $('#year').text(""+ new Date().getFullYear());
+        $('#year').text("" + new Date().getFullYear());
     </script>
 </body>
 
