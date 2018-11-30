@@ -23,6 +23,7 @@
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
         }
+    
     </style>
 </head>
 
@@ -137,14 +138,86 @@
                 </nav>
             </div>
 
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////-->
             <div class="col-10 mt-5">
-                    <div class="container">
-                            <div class="row m-3">
-                                <h1>Manage Staff Schedule</h1>
-                            </div>
-                            
+                <div class="container">
+                    <div class="row m-3">
+                        <h1 style="color: brown;">Manage Staff Schedule</h1>
+                    </div>
 
+                    <div class="container">
+                        <div class="row m-3">
+                            <div class="col-md-2">
+                                <label for="exampleFormControlSelect1">SELECT : </label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="day" name="day">
+                                    <option selected>Choose</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                </select>
+                            </div>
                         </div>
+                        <hr style="background-color: black;">
+                    </div>
+
+                    <div class="container">
+                        <div class="row m-3">
+                            <h3>Add Staff</h3>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">EMPLOYEE ID :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="edit_id">
+                                    <option selected>Choose</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">NAME :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Emp. Name " readonly id="edit_name">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">SURNAME :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Emp. Surname" readonly id="edit_surname">
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">POSITION :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Position" readonly id="edit_position">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">DEPARTMENT :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Dept." readonly id="edit_dept">
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <button type="submit" class="btn btn-info">Add</button>
+                        </div>
+                        <hr style="background-color: black;">
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -163,7 +236,7 @@
     </footer>
 
     <script>
-    $('#year').text(""+ new Date().getFullYear());
+        $('#year').text("" + new Date().getFullYear());
     </script>
 </body>
 
