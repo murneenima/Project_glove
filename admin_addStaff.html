@@ -145,14 +145,24 @@
                             <form action="http://localhost:3000/addstaff" method="POST">
                                 <div class="row m-3">
                                     <div class="col-md-3 ">
-                                        <label for="exampleFormControlSelect1">ฺBADGE NO :</label>
+                                        <label for="exampleFormControlSelect1">BADGE NO :</label>
                                     </div>
                                     <div class="col-md-3 ">
                                         <input type="text" class="form-control" id="badgeNo" name="badgeNo"
                                             placeholder="Badge No.">
                                     </div>
                                 </div>
-
+                                
+                                <div class="row m-3">
+                                    <div class="col-md-3 ">
+                                        <label for="exampleFormControlSelect1">PASSWORD :</label>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <input type="password" class="form-control" id="emp_password" name="emp_password"
+                                            placeholder="Password">
+                                    </div>
+                                </div>
+                               
                                 <div class="row m-3">
                                     <div class="col-md-3">
                                         <label for="exampleFormControlSelect1">EMPLOYEE NAME :</label>
@@ -161,6 +171,9 @@
                                         <input type="text" class="form-control" id="emp_name" name="emp_name"
                                             placeholder="Name">
                                     </div>
+                                </div>
+
+                                <div class="row m-3">
                                     <div class="col-md-3">
                                         <label for="exampleFormControlSelect1">EMPLOYEE SURNAME :</label>
                                     </div>
@@ -184,6 +197,9 @@
                                             <option>Admin/Secretary</option>
                                         </select>
                                     </div>
+                                </div>
+
+                                <div class="row m-3">
                                     <div class="col-md-3">
                                         <label for="exampleFormControlSelect1">DEPT :</label>
                                     </div>
@@ -198,21 +214,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row m-3">
-                                    <div class="col-md-3">
-                                        <label for="exampleFormControlSelect1">STATUS :</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <select class="form-control" id="emp_status" name="emp_status">
-                                            <option selected>Choose</option>
-                                            <option>online</option>
-                                            <option>AL</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row m-3  d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                <div class="row mt-5  d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary"> Save  </button>
                                 </div>
                             </form>
 
