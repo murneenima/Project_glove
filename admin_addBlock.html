@@ -142,26 +142,30 @@
                     <div class="row my-3">
                         <h1>Add Block</h1>
                     </div>
-                    <div class="row my-3">
-                        <div class="col-lg-3">
-                            <label for="exampleFormControlSelect1">BLOCK :</label>
+                    <form action="http://localhost:3000/addblock" method="post">
+                        <div class="row my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">BLOCK :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Block" id="blockName" name="blockName">
+                            </div>
                         </div>
-                        <div class="col-lg-4">
-                            <input type="text" class="form-control" placeholder="Block">
+    
+                        <div class="row my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Product Line" id="productLine" name="productLine">
+                            </div>
                         </div>
-                    </div>
+                        <div class="row my-3  d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary" style="text-align: center;">Save</button>
+                        </div>
 
-                    <div class="row my-3">
-                        <div class="col-lg-3">
-                            <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
-                        </div>
-                        <div class="col-lg-4">
-                            <input type="number" class="form-control" placeholder="Product Line">
-                        </div>
-                    </div>
-                    <div class="row my-3  d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary" style="text-align: center;">Save</button>
-                    </div>
+                    </form>
+                    
 
                 </div>
             </div>

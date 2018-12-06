@@ -4,24 +4,10 @@ const bodyParser = require('body-parser')
 const hbs = require('hbs')
 
 
-var Schema = mongoose.Schema
-// ======================= Admin Schema ===========
-var AdminSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        minlength: 8,
-        required: true
-    }
-})
-
-var Admin = mongoose.model('Admin', AdminSchema)
 // ============== require Model ===============
+var Admin = require('./AdminModel')
 var Staff = require('./StaffModel')
+var Block = require('./BlockModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -37,8 +23,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.set('view engine', 'hbs');
-app.use(express.static('public'))
 
 app.use((req, res, next) => { // allow the other to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
@@ -58,8 +42,9 @@ app.get('/', (req, res) => {
     res.send('hello')
 })
 
+// ####################################3####### STAFF ##################################################
 
-// ============ Sign Up ==============//
+// Sign Up 
 app.post('/signup', (req, res) => {
     let newAdmin = Admin({
         username: req.body.username,
@@ -74,7 +59,7 @@ app.post('/signup', (req, res) => {
 })
 
 
-// ================= Admin Login ================
+// Admin Login 
 app.post('/signin', (req, res) => {
     let username = req.body.username1
     let password = req.body.password1
@@ -94,7 +79,7 @@ app.post('/signin', (req, res) => {
     })
 })
 
-// ================== insert staff ============
+// insert staff 
 app.post('/addstaff', (req, res) => {
     if (req.body.emp_position == 'Choose') {
         res.status(400).send('Position doesnot choose');
@@ -153,7 +138,7 @@ app.post('/addstaff', (req, res) => {
 })
 
 
-// ================= update =====================
+// update staff
 app.post('/update', (req, res) => {
        
     let emp_dept = ' '
@@ -205,7 +190,7 @@ app.post('/update', (req, res) => {
 })
 
 
-// ========== remove =============
+// remove staff data
 app.post('/remove', (req, res) => {
     //let dataIn = JSON.parse(req.body)
     console.log('dataIn :' ,req.body.id)
@@ -218,14 +203,14 @@ app.post('/remove', (req, res) => {
 })
 
 
-//=========test============================
+// test
 app.post('/test-post', (req, res) => {
     // let dataIn = JSON.parse(req.body) // string to json
     console.log('dataIn:', req.body.id)
     res.send('done')
 })
 
-// ================== Send Staff ==================
+// Send Data for display all 
 app.get('/sent_data', (req, res) => {
     Staff.find({}, (err, dataType) => {
         if (err) console.log(err);
@@ -238,18 +223,21 @@ app.get('/sent_data', (req, res) => {
     })
 })
 
-// ==================== Delete Staff ==================
-app.get('/deleteStaff', (req, res) => {
-    Staff.findByIdAndRemove(req.params.badgeNo, req.body, function (err, data) {
-        if (!err) {
-            console.log("Deleted");
-        }else{
-            console.log("error");
-        }
-    });
+//####################################### Product ##############################################
+app.post('/addblock',(req,res)=>{
+    let newBlock = Block({
+        blockName : req.body.blockName,
+        productLine : req.body.productLine
+    })
+
+    newBlock.save().then((doc)=>{
+        res.send(doc)
+    }, (err) => {
+        res.status(400).send(err)
+    })
 })
 
-// =================== Port =======================
+//######################################3  Port #################################################
 app.listen(3000, () => {
     console.log(' ##### listening on port 3000 #####')
 })
