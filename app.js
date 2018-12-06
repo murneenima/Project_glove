@@ -37,6 +37,18 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.set('view engine', 'hbs');
+app.use(express.static('public'))
+
+app.use((req, res, next) => { // allow the other to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader("Access-Control-Expose-Headers", "X-HMAC-CSRF, X-Secret, WWW-Authenticate");
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization, X-Access-Token')
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+  })
+
 //app.set('view engine', 'hbs');
 //app.use(express.static('public'))
 
@@ -133,7 +145,7 @@ app.post('/addstaff', (req, res) => {
         emp_dept: emp_dept
     })
     newStaff.save().then((doc) => {
-        res.send(doc)
+        console.log('success')
     }, (err) => {
         res.status(400).send(err)
     })
@@ -141,7 +153,79 @@ app.post('/addstaff', (req, res) => {
 })
 
 
-// ================== Sent Staff ==================
+// ================= update =====================
+app.post('/update', (req, res) => {
+       
+    let emp_dept = ' '
+    if (req.body.emp_dept == 'Admin') {
+        emp_dept = 'Admin';
+    } else if (req.body.emp_dept == 'HR') {
+        emp_dept = 'HR';
+    } else if (req.body.emp_dept == 'Finance') {
+        emp_dept = 'Finance';
+    } else if (req.body.emp_dept == 'IT') {
+        emp_dept = 'IT';
+    }
+
+    let emp_position = ' '
+    if (req.body.emp_position == 'Excutive') {
+        emp_position = 'Excutive';
+    } else if (req.body.emp_position == 'Excutive II') {
+        emp_position = 'Excutive II';
+    } else if (req.body.emp_position == 'Officer') {
+        emp_position = 'Officer';
+    } else if (req.body.emp_position == 'Supervisor') {
+        emp_position = 'Supervisor';
+    } else if (req.body.emp_position == 'Admin/Secretary') {
+        emp_position = 'Admin/Secretary'
+    }
+    console.log(req.body.badgeNo)
+    console.log(req.body.emp_name)
+    console.log(req.body.emp_surname)
+    console.log(emp_dept)
+    console.log(emp_position)
+
+      
+    Staff.findOne({badgeNo: req.body.badgeNo}).then((d) => {
+        d.emp_name = req.body.emp_name
+        d.emp_surname = req.body.emp_surname
+        d.emp_dept = emp_dept
+        d.emp_position = emp_position
+   
+        d.save().then((success) => {
+           // success.render('admin_manageStaffData.hbs')
+           console.log('suuuuuuuccccccceeeeessssssss')
+           
+        }, (e) => {
+            res.status(400).send(e)
+        })
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+
+// ========== remove =============
+app.post('/remove', (req, res) => {
+    //let dataIn = JSON.parse(req.body)
+    console.log('dataIn :' ,req.body.id)
+    Staff.remove({badgeNo: req.body.id}).then((d) => {
+        console.log('=====success====')
+    
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+
+//=========test============================
+app.post('/test-post', (req, res) => {
+    // let dataIn = JSON.parse(req.body) // string to json
+    console.log('dataIn:', req.body.id)
+    res.send('done')
+})
+
+// ================== Send Staff ==================
 app.get('/sent_data', (req, res) => {
     Staff.find({}, (err, dataType) => {
         if (err) console.log(err);
