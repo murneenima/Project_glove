@@ -5,7 +5,7 @@ var Schema = mongoose.Schema
 var BlockSchema = new Schema({
     blockName:{
         type:String,
-        required:true
+        required:true,
     },
     productLine:{
         type:String,

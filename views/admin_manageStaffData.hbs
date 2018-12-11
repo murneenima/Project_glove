@@ -74,7 +74,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_addStaff.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addStaff.html">
                                     <i class="fas fa-user"></i> Add Staff
                                 </a>
                             </li>
@@ -82,9 +82,9 @@
                                 <a class="nav-link" href="#">
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
-                            </li>
+                            </li>หห
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_manageStaffSchedule.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_manageStaffSchedule.html">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
                             </li>
@@ -109,7 +109,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_allProduct.html">
+                                <a class="nav-link" href="http://localhost:3000/send_product">
                                     <i class="fas fa-hands"></i> All Product
                                 </a>
                             </li>
@@ -124,7 +124,7 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="admin_gloveReport.html">
                                     <i class="far fa-chart-bar"></i> Glove Weight Report
                                 </a>
                             </li>
@@ -137,6 +137,7 @@
                     </div>
                 </nav>
             </div>
+            {{!-- //////////////////////////////////////////////////////////////////////////////////////////////////// --}}
 
             <div class="col-10 mt-5">
                 <div class="container">
@@ -320,6 +321,8 @@
             alert('ID  :' + id + ' was deleted')
             location.reload();
         }
+
+        //delete
         function ShowModal(index) {
             $('#delete').data('curid', index); // curid = index
             $('#delete').modal('show');

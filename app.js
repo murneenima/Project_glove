@@ -3,11 +3,11 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const hbs = require('hbs')
 
-
 // ============== require Model ===============
 var Admin = require('./AdminModel')
 var Staff = require('./StaffModel')
 var Block = require('./BlockModel')
+var Product = require('./ProductModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -31,7 +31,7 @@ app.use((req, res, next) => { // allow the other to connect
     res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization, X-Access-Token')
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
-  })
+})
 
 //app.set('view engine', 'hbs');
 //app.use(express.static('public'))
@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 
 // Sign Up 
 app.post('/signup', (req, res) => {
-    let newAdmin = Admin({
+    let newAdmin = new Admin({
         username: req.body.username,
         password: req.body.password
     })
@@ -137,10 +137,9 @@ app.post('/addstaff', (req, res) => {
 
 })
 
-
 // update staff
 app.post('/update', (req, res) => {
-       
+
     let emp_dept = ' '
     if (req.body.emp_dept == 'Admin') {
         emp_dept = 'Admin';
@@ -170,17 +169,17 @@ app.post('/update', (req, res) => {
     console.log(emp_dept)
     console.log(emp_position)
 
-      
-    Staff.findOne({badgeNo: req.body.badgeNo}).then((d) => {
+
+    Staff.findOne({ badgeNo: req.body.badgeNo }).then((d) => {
         d.emp_name = req.body.emp_name
         d.emp_surname = req.body.emp_surname
         d.emp_dept = emp_dept
         d.emp_position = emp_position
-   
+
         d.save().then((success) => {
-           // success.render('admin_manageStaffData.hbs')
-           console.log('suuuuuuuccccccceeeeessssssss')
-           
+            // success.render('admin_manageStaffData.hbs')
+            console.log('suuuuuuuccccccceeeeessssssss')
+
         }, (e) => {
             res.status(400).send(e)
         })
@@ -189,19 +188,17 @@ app.post('/update', (req, res) => {
     })
 })
 
-
 // remove staff data
 app.post('/remove', (req, res) => {
     //let dataIn = JSON.parse(req.body)
-    console.log('dataIn :' ,req.body.id)
-    Staff.remove({badgeNo: req.body.id}).then((d) => {
+    console.log('dataIn :', req.body.id)
+    Staff.remove({ badgeNo: req.body.id }).then((d) => {
         console.log('=====success====')
-    
+
     }, (err) => {
         res.status(400).send(err)
     })
 })
-
 
 // test
 app.post('/test-post', (req, res) => {
@@ -211,7 +208,7 @@ app.post('/test-post', (req, res) => {
 })
 
 // Send Data for display all 
-app.get('/sent_data', (req, res) => {
+app.get('/send_data', (req, res) => {
     Staff.find({}, (err, dataType) => {
         if (err) console.log(err);
     }).then((dataType) => {
@@ -224,20 +221,98 @@ app.get('/sent_data', (req, res) => {
 })
 
 //####################################### Product ##############################################
-app.post('/addblock',(req,res)=>{
+// addblock
+app.post('/addblock', (req, res) => {
     let newBlock = Block({
-        blockName : req.body.blockName,
-        productLine : req.body.productLine
+        productLine: req.body.productLine,
+        blockName: req.body.blockName
     })
 
-    newBlock.save().then((doc)=>{
+    newBlock.save().then((doc) => {
         res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
 })
 
-//######################################3  Port #################################################
+// add Product
+app.post('/addproduct',(req,res)=>{
+
+    let product_size = ''
+    if(req.body.product_size == 'Choose'){
+        res.status(400).send('Size doesnot choose');
+        return
+    }
+    if(req.body.product_size == 'S'){
+        product_size = 'S'
+    }else if(req.body.product_size == 'M'){
+        product_size = 'M'
+    }else if(req.body.product_size == 'X'){
+        product_size = 'X'
+    }else if(req.body.product_size == 'XL'){
+        product_size = 'XL'
+    }
+
+    let newProduct = Product ({
+        product_id:req.body.product_id,
+        product_type:req.body.product_type,
+        product_size:product_size,
+        weight_min:req.body.weight_min,
+        weight_max:req.body.weight_max,
+        length_min:req.body.length_min,
+        length_max:req.body.length_max
+
+    })
+
+    newProduct.save().then((doc)=>{
+        console.log('success')
+        res.send(doc)
+    },(err)=>{
+        res.status(400).send(err)
+    })
+})
+
+// sent all product to display 
+app.get('/send_product',(req,res)=>{
+    Product.find({},(err,dataProduct)=>{
+        if (err) console.log(err)
+    }).then((dataProduct)=>{
+        res.render('admin_allProduct.hbs',{
+            dataProduct:encodeURI(JSON.stringify(dataProduct))
+        })
+    },(err)=>{
+        res.status(400).send('error')
+    })
+})
+
+// edit product data
+app.post('/editproduct',(req,res)=>{
+    Product.findOne({product_id:req.body.product_id}).then((d)=>{
+        d.weight_min = req.body.weight_min
+        d.weight_max = req.body.weight_max
+        d.length_min = req.body.length_min
+        d.length_max = req.body.length_max
+
+        d.save().then((success)=>{
+            console.log('Success')
+        },(e)=>{
+            res.status(400).send(e)
+        },(err)=>{
+            res.status(400).send(err)
+        })
+    })
+})
+
+// remove product data
+app.post('/removeproduct',(req,res)=>{
+    console.log('dataIn :', req.body.id)
+    Product.remove({product_id:req.body.id}).then((d)=>{
+        console.log('Product deleted success')
+    },(err)=>{
+        res.status(400).send(err)
+    })
+})
+//##################v####################3  Port #################################################
 app.listen(3000, () => {
     console.log(' ##### listening on port 3000 #####')
 })

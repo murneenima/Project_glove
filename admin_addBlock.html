@@ -78,7 +78,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_manageStaffData.html">
+                                <a class="nav-link" href="http://localhost:3000/sent_data">
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
@@ -108,7 +108,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_allProduct.html">
+                                <a class="nav-link" href="http://localhost:3000/send_product>
                                     <i class="fas fa-hands"></i> All Product
                                 </a>
                             </li>
@@ -143,6 +143,23 @@
                         <h1>Add Block</h1>
                     </div>
                     <form action="http://localhost:3000/addblock" method="post">
+                        <!-- <div class="row my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">ID :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Block ID" id="blockID" name="blockID" readonly>
+                            </div>
+                        </div> -->
+                                <div class="row my-3">
+                                    <div class="col-lg-3">
+                                        <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" class="form-control" placeholder="Product Line" id="productLine" name="productLine">
+                                    </div>
+                                </div>
+
                         <div class="row my-3">
                             <div class="col-lg-3">
                                 <label for="exampleFormControlSelect1">BLOCK :</label>
@@ -152,14 +169,6 @@
                             </div>
                         </div>
     
-                        <div class="row my-3">
-                            <div class="col-lg-3">
-                                <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
-                            </div>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Product Line" id="productLine" name="productLine">
-                            </div>
-                        </div>
                         <div class="row my-3  d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary" style="text-align: center;">Save</button>
                         </div>
@@ -187,6 +196,11 @@
 
     <script>
     $('#year').text(""+ new Date().getFullYear());
+    // block_id()
+    // function block_id(){
+    //     let id = 0 ;
+    //     document.getElementById("blockID").value = "A"+(id+1);
+    // }
     </script>
 </body>
 
