@@ -8,6 +8,7 @@ var Admin = require('./AdminModel')
 var Staff = require('./StaffModel')
 var Block = require('./BlockModel')
 var Product = require('./ProductModel')
+var Schedule = require('./ScheduleModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -57,7 +58,6 @@ app.post('/signup', (req, res) => {
         res.status(400).send(err)
     })
 })
-
 
 // Admin Login 
 app.post('/signin', (req, res) => {
@@ -209,11 +209,11 @@ app.post('/test-post', (req, res) => {
 
 // Send Data for display all 
 app.get('/send_data', (req, res) => {
-    Staff.find({}, (err, dataType) => {
+    Staff.find({}, (err, dataStaff) => {
         if (err) console.log(err);
-    }).then((dataType) => {
+    }).then((dataStaff) => {
         res.render('admin_manageStaffData.hbs', {
-            dataType: encodeURI(JSON.stringify(dataType))
+            dataStaff: encodeURI(JSON.stringify(dataStaff))
         })
     }, (err) => {
         res.status(400).send('error');
@@ -312,7 +312,41 @@ app.post('/removeproduct',(req,res)=>{
         res.status(400).send(err)
     })
 })
-//##################v####################3  Port #################################################
+
+
+// ######################################### Schedule ###############################################
+// get staff data
+app.get('/send_staff', (req, res) => {
+    Staff.find({}, (err, dataStaff) => {
+        if (err) console.log(err);
+    }).then((dataStaff) => {
+        res.render('admin_manageStaffSchedule.hbs', {
+            dataStaff: encodeURI(JSON.stringify(dataStaff))
+        })
+    }, (err) => {
+        res.status(400).send('error');
+    })
+})
+
+// save schedule 
+app.post('/saveschedule',(req,res)=>{
+    let newSchedule = Schedule({
+        day: req.body.day,
+        s_badgeNo:req.body.edit_id,
+        s_name:req.body.edit_name,
+        s_surname:req.body.edit_surname,
+        s_position:req.body.edit_position,
+        s_department:req.body.edit_dept,
+        s_status:req.body.s_status
+    })
+    newSchedule.save().then((doc)=>{
+        console.log('schedule success')
+        res.send(doc)
+    },(err)=>{
+        res.status(400).send(err)
+    })
+})
+//########################################  Port #################################################
 app.listen(3000, () => {
     console.log(' ##### listening on port 3000 #####')
 })

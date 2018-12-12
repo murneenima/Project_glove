@@ -84,7 +84,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_manageStaffSchedule.html">
+                                <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
                             </li>
@@ -287,13 +287,13 @@
         
         $('#year').text("" + new Date().getFullYear());
 
-        var dataType = "{{dataType}}";
-        var decode_staffdata = JSON.parse(decodeURI(dataType))
+        var dataStaff = "{{dataStaff}}";
+        var decode_staffdata = JSON.parse(decodeURI(dataStaff))
         var staffdata = [];
 
         for (let i = 0; i < decode_staffdata.length; i++) {
             staffdata.push(decode_staffdata[i])
-            // console.log('data' + i + ': ', staffdata[i])
+            console.log('data' + i + ': ', staffdata[i])
         }
 
         display();
