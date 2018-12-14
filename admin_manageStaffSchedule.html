@@ -54,12 +54,12 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_dailySchedule.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_dailySchedule.html">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="admin_weeklySchedule.html">
+                                <a class="nav-link active" href="http://127.0.0.1:5500/admin_weeklySchedule.html">
                                     <i class="fas fa-calendar-alt"></i> Weekly Schedule
                                 </a>
                             </li>
@@ -74,7 +74,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_addStaff.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addStaff.html">
                                     <i class="fas fa-user"></i> Add Staff
                                 </a>
                             </li>
@@ -83,8 +83,13 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
+                             <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/send_staff">
+                                    <i class="fas fa-address-book"></i> Add Staff Schedule
+                                </a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
                             </li>
@@ -99,12 +104,12 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_addBlock.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addBlock.html">
                                     <i class="fas fa-table"></i> Add Block
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_addProduct.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addProduct.html">
                                     <i class="fas fa-allergies"></i> Add Product
                                 </a>
                             </li>
@@ -124,12 +129,12 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_gloveReport.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_gloveReport.html">
                                     <i class="far fa-chart-bar"></i> Glove Weight Report
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="admin_exportReport.html">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_exportReport.html">
                                     <i class="fas fa-clipboard-list"></i> Export Report
                                 </a>
                             </li>
@@ -145,77 +150,8 @@
                         <h1 style="color: brown;">Manage Staff Schedule</h1>
                     </div>
 
-                    <div class="container">
-                        <div class="row m-3">
-                            <div class="col-md-2">
-                                <label for="exampleFormControlSelect1">SELECT : </label>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control" id="day" name="day">
-                                    <option selected>Choose</option>
-                                    <option>Monday</option>
-                                    <option>Tuesday</option>
-                                    <option>Wednesday</option>
-                                    <option>Thursday</option>
-                                    <option>Friday</option>
-                                    <option>Saturday</option>
-                                </select>
-                            </div>
-                        </div>
-                        <hr style="background-color: black;">
-                    </div>
-
-                    <div class="container">
-                        <div class="row m-3">
-                            <h3>Add Staff</h3>
-                        </div>
-
-                        <div class="row m-3">
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">EMPLOYEE ID :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control" id="edit_id">
-                                    <option selected>Choose</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row m-3">
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">NAME :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Emp. Name " readonly id="edit_name">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">SURNAME :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Emp. Surname" readonly id="edit_surname">
-                            </div>
-                        </div>
-
-                        <div class="row m-3">
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">POSITION :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Position" readonly id="edit_position">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">DEPARTMENT :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Dept." readonly id="edit_dept">
-                            </div>
-                        </div>
-
-                        <div class="row m-3">
-                            <button type="submit" class="btn btn-info">Add</button>
-                        </div>
-                        <hr style="background-color: black;">
-                    </div>
+                   
+                
 
                 </div>
             </div>

@@ -16,12 +16,15 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    {{!-- <script type="text/javascript" src="moment.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
 
-    <title> Export Report</title>
+    <title> Daily Schedule</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
+            
         }
     </style>
 </head>
@@ -53,7 +56,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_dailySchedule.html">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
@@ -133,7 +136,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_exportReport.html">
                                     <i class="fas fa-clipboard-list"></i> Export Report
                                 </a>
                             </li>
@@ -142,22 +145,32 @@
                 </nav>
             </div>
 
+            <!-- ////////////////////////////////////// Code ///////////////////////////////// -->
             <div class="col-10 mt-5">
-                    <div class="container">
-                            <div class="row m-3">
-                                <h1>Export Report</h1>
-                            </div>
-                            
+                <div class="container">
 
+                    <div class="row my-3">
+                        <h1>Today's Schedule</h1>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="col-md-2">
+                            <label style="font-size: 25px;">Today : </label>
                         </div>
+                        <div class="col-md-5">
+                            <p id="demo1" style="font-size: 25px;"></p>
+                        </div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
 
     </div>
 
 
-
-    <!-- /////////////////////////////////////////// FOOTER //////////////////////////////////////// -->
+    <!-- FOOTER -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
@@ -168,8 +181,10 @@
         </div>
     </footer>
 
-    <script>
+    <script type="text/javascript">
     $('#year').text(""+ new Date().getFullYear());
+        var now = moment().format('dddd , Do MMMM YYYY ');
+        document.getElementById("demo1").innerHTML = now
     </script>
 </body>
 

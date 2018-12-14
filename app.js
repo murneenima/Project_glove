@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const hbs = require('hbs')
+var moment = require('moment');
 
 // ============== require Model ===============
 var Admin = require('./AdminModel')
@@ -9,6 +10,7 @@ var Staff = require('./StaffModel')
 var Block = require('./BlockModel')
 var Product = require('./ProductModel')
 var Schedule = require('./ScheduleModel')
+var Current = require('./CurrentModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -317,11 +319,15 @@ app.post('/removeproduct',(req,res)=>{
 // ######################################### Schedule ###############################################
 // get staff data
 app.get('/send_staff', (req, res) => {
+    // moment().format('MMMM Do YYYY, h:mm:ss a'); // December 14th 2018, 10:49:50 am
+    // moment().format('dddd'); 
+    // console.log(moment().format('dddd'))
+    // console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
     Staff.find({}, (err, dataStaff) => {
         if (err) console.log(err);
     }).then((dataStaff) => {
-        res.render('admin_manageStaffSchedule.hbs', {
-            dataStaff: encodeURI(JSON.stringify(dataStaff))
+        res.render('admin_addStaffSchedule.hbs', {
+            dataStaff: encodeURI(JSON.stringify(dataStaff))   
         })
     }, (err) => {
         res.status(400).send('error');
@@ -346,6 +352,28 @@ app.post('/saveschedule',(req,res)=>{
         res.status(400).send(err)
     })
 })
+
+
+
+// ####################################### Daily Schedule ####################################
+// display daily schedule 
+app.get('/dailyschedule',(req,res)=>{
+    // moment().format('MMMM Do YYYY, h:mm:ss a'); // December 14th 2018, 10:49:50 am
+    // moment().format('dddd'); 
+    // console.log(moment().format('dddd'))
+    Current.find({},(err, staffschedule)=>{
+        if (err) console.log(err)
+    }).then((staffschedule)=>{
+        res.render('admin_dailySchedule.hbs',{
+            staffschedule:encodeURI(JSON.stringify(staffschedule))
+        })
+    },(err)=>{
+        res.status(400).send('error')
+    })
+})
+
+
+
 //########################################  Port #################################################
 app.listen(3000, () => {
     console.log(' ##### listening on port 3000 #####')
