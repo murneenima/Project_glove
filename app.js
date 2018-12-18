@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const hbs = require('hbs')
 var moment = require('moment');
+var schedule = require('node-schedule');
 
 // ============== require Model ===============
 var Admin = require('./AdminModel')
@@ -202,13 +203,6 @@ app.post('/remove', (req, res) => {
     })
 })
 
-// test
-app.post('/test-post', (req, res) => {
-    // let dataIn = JSON.parse(req.body) // string to json
-    console.log('dataIn:', req.body.id)
-    res.send('done')
-})
-
 // Send Data for display all 
 app.get('/send_data', (req, res) => {
     Staff.find({}, (err, dataStaff) => {
@@ -238,96 +232,92 @@ app.post('/addblock', (req, res) => {
 })
 
 // add Product
-app.post('/addproduct',(req,res)=>{
+app.post('/addproduct', (req, res) => {
 
     let product_size = ''
-    if(req.body.product_size == 'Choose'){
+    if (req.body.product_size == 'Choose') {
         res.status(400).send('Size doesnot choose');
         return
     }
-    if(req.body.product_size == 'S'){
+    if (req.body.product_size == 'S') {
         product_size = 'S'
-    }else if(req.body.product_size == 'M'){
+    } else if (req.body.product_size == 'M') {
         product_size = 'M'
-    }else if(req.body.product_size == 'X'){
+    } else if (req.body.product_size == 'X') {
         product_size = 'X'
-    }else if(req.body.product_size == 'XL'){
+    } else if (req.body.product_size == 'XL') {
         product_size = 'XL'
     }
 
-    let newProduct = Product ({
-        product_id:req.body.product_id,
-        product_type:req.body.product_type,
-        product_size:product_size,
-        weight_min:req.body.weight_min,
-        weight_max:req.body.weight_max,
-        length_min:req.body.length_min,
-        length_max:req.body.length_max
+    let newProduct = Product({
+        product_id: req.body.product_id,
+        product_type: req.body.product_type,
+        product_size: product_size,
+        weight_min: req.body.weight_min,
+        weight_max: req.body.weight_max,
+        length_min: req.body.length_min,
+        length_max: req.body.length_max
 
     })
 
-    newProduct.save().then((doc)=>{
+    newProduct.save().then((doc) => {
         console.log('success')
         res.send(doc)
-    },(err)=>{
+    }, (err) => {
         res.status(400).send(err)
     })
 })
 
 // sent all product to display 
-app.get('/send_product',(req,res)=>{
-    Product.find({},(err,dataProduct)=>{
+app.get('/send_product', (req, res) => {
+    Product.find({}, (err, dataProduct) => {
         if (err) console.log(err)
-    }).then((dataProduct)=>{
-        res.render('admin_allProduct.hbs',{
-            dataProduct:encodeURI(JSON.stringify(dataProduct))
+    }).then((dataProduct) => {
+        res.render('admin_allProduct.hbs', {
+            dataProduct: encodeURI(JSON.stringify(dataProduct))
         })
-    },(err)=>{
+    }, (err) => {
         res.status(400).send('error')
     })
 })
 
 // edit product data
-app.post('/editproduct',(req,res)=>{
-    Product.findOne({product_id:req.body.product_id}).then((d)=>{
+app.post('/editproduct', (req, res) => {
+    Product.findOne({ product_id: req.body.product_id }).then((d) => {
         d.weight_min = req.body.weight_min
         d.weight_max = req.body.weight_max
         d.length_min = req.body.length_min
         d.length_max = req.body.length_max
 
-        d.save().then((success)=>{
+        d.save().then((success) => {
             console.log('Success')
-        },(e)=>{
+        }, (e) => {
             res.status(400).send(e)
-        },(err)=>{
+        }, (err) => {
             res.status(400).send(err)
         })
     })
 })
 
 // remove product data
-app.post('/removeproduct',(req,res)=>{
+app.post('/removeproduct', (req, res) => {
     console.log('dataIn :', req.body.id)
-    Product.remove({product_id:req.body.id}).then((d)=>{
+    Product.remove({ product_id: req.body.id }).then((d) => {
         console.log('Product deleted success')
-    },(err)=>{
+    }, (err) => {
         res.status(400).send(err)
     })
 })
 
 
 // ######################################### Schedule ###############################################
-// get staff data
+// get staff data to add schedule
 app.get('/send_staff', (req, res) => {
-    // moment().format('MMMM Do YYYY, h:mm:ss a'); // December 14th 2018, 10:49:50 am
-    // moment().format('dddd'); 
-    // console.log(moment().format('dddd'))
-    // console.log(moment().format('MMMM Do YYYY, h:mm:ss a'))
     Staff.find({}, (err, dataStaff) => {
         if (err) console.log(err);
     }).then((dataStaff) => {
         res.render('admin_addStaffSchedule.hbs', {
-            dataStaff: encodeURI(JSON.stringify(dataStaff))   
+            dataStaff: encodeURI(JSON.stringify(dataStaff))
         })
     }, (err) => {
         res.status(400).send('error');
@@ -335,44 +325,99 @@ app.get('/send_staff', (req, res) => {
 })
 
 // save schedule 
-app.post('/saveschedule',(req,res)=>{
+app.post('/saveschedule', (req, res) => {
     let newSchedule = Schedule({
         day: req.body.day,
-        s_badgeNo:req.body.edit_id,
-        s_name:req.body.edit_name,
-        s_surname:req.body.edit_surname,
-        s_position:req.body.edit_position,
-        s_department:req.body.edit_dept,
-        s_status:req.body.s_status
+        s_badgeNo: req.body.edit_id,
+        s_name: req.body.edit_name,
+        s_surname: req.body.edit_surname,
+        s_position: req.body.edit_position,
+        s_department: req.body.edit_dept,
+        s_status: req.body.s_status
     })
-    newSchedule.save().then((doc)=>{
+    newSchedule.save().then((doc) => {
         console.log('schedule success')
         res.send(doc)
-    },(err)=>{
+    }, (err) => {
         res.status(400).send(err)
     })
 })
 
 
-
 // ####################################### Daily Schedule ####################################
+// !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
+var j = schedule.scheduleJob('00 00 * * *', function () {
+    var day_format = moment().format('dddd');
+    console.log(day_format)
+    Current.remove({}, function(err) { 
+        console.log('collection removed') 
+     });
+
+    Schedule.find({ day: day_format }, (err, obj) => {
+        for (let i = 0; i < obj.length; i++) {
+            let newCurrent = Current({
+                current_day: obj[i].day,
+                c_badgeNo: obj[i].s_badgeNo,
+                c_name: obj[i].s_name,
+                c_surname: obj[i].s_surname,
+                c_position: obj[i].s_position,
+                c_department: obj[i].s_department,
+                c_status: obj[i].s_status
+            })
+            newCurrent.save().then((doc) => {
+                console.log('schedule success')
+            }, (err) => {
+                console.log('save data to Currnent Model error')
+                //res.status(400).send(err)
+            })
+        }
+    })
+});
+
+
 // display daily schedule 
-app.get('/dailyschedule',(req,res)=>{
-    // moment().format('MMMM Do YYYY, h:mm:ss a'); // December 14th 2018, 10:49:50 am
-    // moment().format('dddd'); 
-    // console.log(moment().format('dddd'))
-    Current.find({},(err, staffschedule)=>{
+app.get('/dailyschedule', (req, res) => {
+    Current.find({}, (err, staffschedule) => {
         if (err) console.log(err)
-    }).then((staffschedule)=>{
-        res.render('admin_dailySchedule.hbs',{
-            staffschedule:encodeURI(JSON.stringify(staffschedule))
+    }).then((staffschedule) => {
+        res.render('admin_dailySchedule.hbs', {
+            staffschedule: encodeURI(JSON.stringify(staffschedule))
         })
-    },(err)=>{
+    }, (err) => {
         res.status(400).send('error')
     })
 })
 
+// ##################### Weekly Schedule #####################
+app.get('/weeklyschedule', (req, res) => {
+    Schedule.find({}, (err, staffschedule) => {
+        if (err) console.log(err)
+    }).then((staffschedule) => {
+        res.render('admin_weeklySchedule.hbs', {
+            staccffschedule: encodeURI(JSON.stringify(staffschedule))
+        })
+    }, (err) => {
+        res.status(400).send('error')
+    })
+})
 
+// #################################### User ###################################3
+//schedule 
+app.get('/userschedule',(req,res)=>{
+    Current.find({}, (err, staffschedule) => {
+        if (err) console.log(err)
+    }).then((staffschedule) => {
+        res.render('user_schedule.hbs', {
+            staffschedule: encodeURI(JSON.stringify(staffschedule))
+        })
+    }, (err) => {
+        res.status(400).send('error')
+    })
+})
+
+app.get('/userlogin',(req,res)=>{
+    res.render('user_login.hbs', {})
+})
 
 //########################################  Port #################################################
 app.listen(3000, () => {

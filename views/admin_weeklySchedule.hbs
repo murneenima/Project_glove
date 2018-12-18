@@ -16,16 +16,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
-    {{!--
-    <script type="text/javascript" src="moment.js"></script> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
 
-    <title> Daily Schedule</title>
+    <title> Weekly Schedule</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
-            
         }
     </style>
 </head>
@@ -57,12 +53,12 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_dailySchedule.html">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="http://127.0.0.1:5500/admin_weeklySchedule.html">
+                                <a class="nav-link active" href="#">
                                     <i class="fas fa-calendar-alt"></i> Weekly Schedule
                                 </a>
                             </li>
@@ -146,74 +142,94 @@
                 </nav>
             </div>
 
-            <!-- ////////////////////////////////////// Code ///////////////////////////////// -->
+            <!-- ///////////////////////////////////////// FORM  /////////////////////////////////////////////////////-->
             <div class="col-10 mt-5">
                 <div class="container">
 
                     <div class="row my-3">
-                        <h1>Today's Schedule</h1>
+                        <h1>Weekly Schedule</h1>
                     </div>
 
                     <div class="row my-3">
-                        <div class="col-md-1">
-                            <label style="font-size: 25px;">Date:</label>
+                        <div class="col-2">
+                            <label for="exampleFormControlSelect1">Select Day :</label>
                         </div>
-                        <div class="col-md-5">
-                            <p id="demo1" style="font-size: 25px;color: brown;"></p>
+
+                        <div class="col-4">
+                            <select class="form-control" id="Select_day" aria-placeholder="Date">
+                                <option disabled selected>Please select day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <button type="button" class="btn btn-info" onclick="is_Selected()">Search</button>
                         </div>
                     </div>
-
 
                     <div class="row my-3">
                         <div class="container">
-                            <table class="table table-striped text-center" id="daily" style="">
+                            <div class="table-responsive text-center">
+                            <table class="table" id="weekly_table">
                             </table>
-
                         </div>
+                        </div>
+                        
                     </div>
+
                 </div>
             </div>
-
         </div>
 
+    </div>
 
-        <!-- FOOTER -->
-        <footer id="main-footer" class="bg-light">
-            <div class="contrainer">
-                <div class="row">
-                    <div class="col text-center py-4">
-                        <p>Copyright &copy; <span id="year"></span></p>
-                    </div>
+
+    <!-- ////////////////////////////////////// FOOTER //////////////////////////////// -->
+    <footer id="main-footer" class="bg-light">
+        <div class="contrainer">
+            <div class="row">
+                <div class="col text-center py-4">
+                    <p>Copyright &copy; <span id="year"></span></p>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        <script type="text/javascript">
-            $('#year').text("" + new Date().getFullYear());
-            var now = moment().format('dddd , Do MMMM YYYY ');
-            document.getElementById("demo1").innerHTML = now
+    <script>
+        $('#year').text("" + new Date().getFullYear());
+        var staffschedule = "{{staffschedule}}"
+        var staff_schedule = JSON.parse(decodeURI(staffschedule))
+        var weekly_schedule = [];
 
-            var staffschedule = "{{staffschedule}}"
-            var schedulestaff = JSON.parse(decodeURI(staffschedule))
-            var schedule = [];
+        for (let i = 0; i < staff_schedule.length; i++) {
+            weekly_schedule.push(staff_schedule[i])
+           // console.log(weekly_schedule[i])
+        }
 
-            for (let i = 0; i < schedulestaff.length; i++) {
-                schedule.push(schedulestaff[i])
-               // console.log(schedule[i].c_name)
+        function is_Selected() {
+            var selected_day = document.getElementById("Select_day").value
+            var table_display = "<thead class='thead-dark'><tr><th scope='col'>#</th><th scope='col'>Badge No</th><th scope='col'>Name  Surname</th><th scope='col'>Position</th><th scope='col'>Dept.</th></tr></thead><tbody>"
+          //      console.log(selected_day)
+            let j = 0 ; 
+            for (let i = 0; i < weekly_schedule.length; i++) {
+                
+                 if (selected_day == weekly_schedule[i].day) {
+                       // console.log("=========",j)
+                        table_display += "<tr><th scope='row'>" + (j + 1) + "</th><td>" + weekly_schedule[i].s_badgeNo + "</td><td>" + weekly_schedule[i].s_name + "  " + weekly_schedule[i].s_surname + "</td><td>" + weekly_schedule[i].s_position + "</td><td>" + weekly_schedule[i].s_department + "</td></tr>"
+                        j++
+                       // console.log(j)
+                 }  
+                 
             }
+             document.getElementById("weekly_table").innerHTML = table_display
 
-            daily_schedule()
-            function daily_schedule() {
-                var table_schedule = "<thead class='table-info'><tr><th scope='col'>#</th><th scope='col'>Firstname</th><th scope='col'>Lastname</th><th scope='col'>Position</th><th scope='col'>Department</th><th scope='col'>Status</th></tr></thead>";
-
-                for (let i = 0; i < schedule.length; i++) {
-                    table_schedule += "<tbody><tr><th scope='row'>" + (i + 1) + "</th><td>" + schedule[i].c_name + "</td><td>" + schedule[i].c_surname + "</td><td>" + schedule[i].c_position + "</td><td>" + schedule[i].c_department +"</td><td>"+schedule[i].c_status+ "</td></tr>"
-                }
-                document.getElementById("daily").innerHTML = table_schedule;
-
-            }
-
-        </script>
+        }
+    </script>
 </body>
 
 </html>
