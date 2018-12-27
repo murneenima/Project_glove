@@ -54,12 +54,12 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_dailySchedule.html">
+                                <a class="nav-link" href="http://localhost:3000/dailySchedule">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="http://127.0.0.1:5500/admin_weeklySchedule.html">
+                                <a class="nav-link active" href="http://localhost:3000/weeklyschedule">
                                     <i class="fas fa-calendar-alt"></i> Weekly Schedule
                                 </a>
                             </li>
@@ -182,7 +182,7 @@
                             </div>
                             <div class="col-md-3">
                                 <select class="form-control" id="edit_id" onclick="GET_staff()" name="edit_id">
-                                    <option selected>Choose</option>
+                                    <option  disabled selected>Choose</option>
 
                                 </select>
                             </div>
@@ -257,7 +257,7 @@
 
         display_badge()
         function display_badge(){
-            var badge_option = "<option>Choose</option>";
+            var badge_option = "<option  disabled selected>Choose</option>";
             for(let i=0;i<staffdata.length;i++){
                // badge_option.push(staffdata[i].badgeNo)
                badge_option += "<option >"+staffdata[i].badgeNo+"</option>"

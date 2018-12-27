@@ -1,51 +1,50 @@
 const mongoose = require('mongoose')
-var Schema = mongoose.Schema 
+var Schema = mongoose.Schema
 
-// ================= Staff Schedule =============
-var ScheduleSchema = new Schema({
-    day:{
+var MonthSchema = new Schema({
+    m_day:{
         type:String,
         //required:true,
 
     },
-    s_badgeNo:{
+    m_badgeNo:{
         type:String,
        // required:true,
         unique:true
     },
-    s_name:{
+    m_name:{
         type:String,
        // required:true
     },
-    s_surname:{
+    m_surname:{
         type:String,
        // required:true
     },
-    s_position:{
+    m_position:{
         type:String,
         //required:true
     },
-    s_department:{
+    m_department:{
         type:String,
        // required:true
     },
-    s_status:{
+    m_status:{
         type:String,
         default: "N/A"
     },
-    s_day:{ // วันที่
+    m_date:{ // วันที่
         type:String,
         default: "N/A"
     },
-    s_month:{
+    m_month:{
         type:String,
         default: "N/A"
     },
-    s_year:{
+    m_year:{
         type:String,
         default: "N/A"
     }
 })
 
-var Schedule = mongoose.model('Schedule',ScheduleSchema)
-module.exports = Schedule
+var Month = mongoose.model('Month',MonthSchema)
+module.exports = Month

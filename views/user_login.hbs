@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -15,9 +15,14 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
-    <title>Schedule</title>
+
+    <!--/////////////////////////jQuery Library//////////////////////////////////-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <title>Login</title>
     <style>
         a:hover {
             background-color: rgb(139, 228, 220);
@@ -57,44 +62,54 @@
         </div>
 
         <div class="container">
-        <form action="http://localhost:3000/signin" method="POST">
-            <div class="row py-2">
-                <div class="col-4">
-                    <label >Badge ID</label>
+            <form action="http://localhost:3000/check_login" method="POST">
+                <div class="row py-2">
+                    <div class="col-4">
+                        <label>Badge ID</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="input-font py-4 form-control" name="badgeNo1" id="badgeNO1" placeholder="Badge NO">
+                    </div>
                 </div>
-                <div class="col-8">
-                    <input type="text" class="input-font py-4 form-control" name="badgeNO" id="badgeNO" placeholder="Badge NO">    
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-4">
-                    <label >Password</label>
-                </div>
-                <div class="col-8">
-                    <input type="text" class="input-font py-4 form-control"  name="password" id="password" placeholder="Password">    
-                </div>
-            </div>
 
-            <div class="row py-2 ">
-                 <button type="button" class="btn btn-info center">Primary</button>
-            </div>
-           
-        </form>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <label>Password</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="password" class="input-font py-4 form-control" name="password" id="password"
+                            placeholder="Password">
+                    </div>
+                </div>
 
+                <div class="row py-2 ">
+                    <button type="submit" id="login" class="btn btn-info center">Login</button>
+                </div>
+            </form>
         </div>
-
-
-
-
-
     </div>
-
-
 </body>
 
-<script>
-
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	// validate support storage
+	if(typeof(Storage) == "undefined") {    
+		alert("Not storage support");
+	}
+	
+	// button click
+	$("#login").click(function(){
+		
+		// set storage
+		localStorage.setItem("badgeNo", $("#badgeNo1").val());
+		localStorage.setItem("password", $("#password").val());
+    
+       // alert('rrrr')
+		
+		window.location="http://localhost:3000/check_login";
+	});
+});
 </script>
 
 </html>

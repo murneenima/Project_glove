@@ -101,7 +101,7 @@
     }
 
     for(let i=0;i<user_schedule.length;i++){ // แทรกหน้า login
-        table_staff += "<tr><td><a href='/userlogin'>"+user_schedule[i].c_badgeNo+"</td><td>"+user_schedule[i].c_name+" "+user_schedule[i].c_surname+"</td><td>"+user_schedule[i].c_department+" "+user_schedule[i].c_position+"</td><td>"+user_schedule[i].c_status+"</td></tr>"
+        table_staff += "<tr><td><a href='/userlogin'>"+user_schedule[i].c_badgeNo+"</td><td>"+user_schedule[i].c_name+" "+user_schedule[i].c_surname+"</td><td>"+user_schedule[i].c_department+" , "+user_schedule[i].c_position+"</td><td>"+user_schedule[i].c_status+"</td></tr>"
     }
         table_staff += "</tbody></table>"
         document.getElementById("stafftable").innerHTML = table_staff

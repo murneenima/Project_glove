@@ -10,8 +10,9 @@ var Admin = require('./AdminModel')
 var Staff = require('./StaffModel')
 var Block = require('./BlockModel')
 var Product = require('./ProductModel')
-var Schedule = require('./ScheduleModel')
+var Schedule = require('./ScheduleModel') // weekly
 var Current = require('./CurrentModel')
+var Month = require('./MonthModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -19,7 +20,6 @@ mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
 }, (err) => {
     console.log('!!!!!!!!!! error to connect with database !!!!!!!!!')
 })
-
 
 var app = express()
 app.use(bodyParser.json()) // ส่งข้อมูลแบบ JSon
@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
     res.send('hello')
 })
 
-// ####################################3####### STAFF ##################################################
+// ########################################### STAFF ##################################################
 
 // Sign Up 
 app.post('/signup', (req, res) => {
@@ -324,7 +324,7 @@ app.get('/send_staff', (req, res) => {
     })
 })
 
-// save schedule 
+// save weekly schedule 
 app.post('/saveschedule', (req, res) => {
     let newSchedule = Schedule({
         day: req.body.day,
@@ -333,11 +333,32 @@ app.post('/saveschedule', (req, res) => {
         s_surname: req.body.edit_surname,
         s_position: req.body.edit_position,
         s_department: req.body.edit_dept,
-        s_status: req.body.s_status
+        s_status: req.body.s_status,
+        s_day:req.body.s_day,
+        s_month:req.body.s_month,
+        s_year:req.body.s_year
     })
     newSchedule.save().then((doc) => {
-        console.log('schedule success')
-        res.send(doc)
+        console.log('saving data to table current')
+       res.send(doc)
+        let newMonth = Month({
+            m_day:req.body.day,
+            m_badgeNo: req.body.edit_id,
+            m_name: req.body.edit_name,
+            m_surname: req.body.edit_surname,
+            m_position: req.body.edit_position,
+            m_department: req.body.edit_dept,
+            m_status: req.body.s_status,
+            m_date:req.body.m_day,
+            m_month:req.body.m_month,
+            m_year:req.body.m_year
+        })
+        newMonth.save().then((doc)=>{
+            console.log('success to save data in table month')
+            //res.send(doc)
+        },(err)=>{
+            res.status(400).send(err)
+        })
     }, (err) => {
         res.status(400).send(err)
     })
@@ -346,15 +367,25 @@ app.post('/saveschedule', (req, res) => {
 
 // ####################################### Daily Schedule ####################################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('00 00 * * *', function () {
+var j = schedule.scheduleJob('21 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
-    Current.remove({}, function(err) { 
-        console.log('collection removed') 
-     });
 
-    Schedule.find({ day: day_format }, (err, obj) => {
+    var day = moment().format('DD');
+    var month = moment().format('MMMM')
+    var year = moment().format('YYYY')
+    // console.log(day)
+    // console.log(month)
+    // console.log(year)
+
+    Current.remove({}, function (err) {
+        console.log('collection removed')
+    });
+
+    Schedule.find({ day: day_format }, (err, obj) => {    
         for (let i = 0; i < obj.length; i++) {
+            var name = obj[i].s_name;
+            console.log(name)
             let newCurrent = Current({
                 current_day: obj[i].day,
                 c_badgeNo: obj[i].s_badgeNo,
@@ -362,16 +393,38 @@ var j = schedule.scheduleJob('00 00 * * *', function () {
                 c_surname: obj[i].s_surname,
                 c_position: obj[i].s_position,
                 c_department: obj[i].s_department,
-                c_status: obj[i].s_status
+                c_status: obj[i].s_status,
+                c_date:day,
+                c_month:month,
+                c_year:year
             })
+
             newCurrent.save().then((doc) => {
                 console.log('schedule success')
+                Schedule.findOne({s_badgeNo:obj[i].s_badgeNo},function(err,data){
+                    if(data){
+                        data.s_day = day
+                        data.s_month = month
+                        data.s_year = year 
+                        data.save(function(err) {
+                            if (err) // do something
+                            console.log('is fail to update date')
+                            else 
+                            console.log('is UPdated date')
+                        });
+                    }else{
+                        console.log(err);
+                    }
+                })
+                
             }, (err) => {
                 console.log('save data to Currnent Model error')
                 //res.status(400).send(err)
             })
         }
     })
+
+   
 });
 
 
@@ -389,12 +442,14 @@ app.get('/dailyschedule', (req, res) => {
 })
 
 // ##################### Weekly Schedule #####################
+// display weekly schedule
 app.get('/weeklyschedule', (req, res) => {
     Schedule.find({}, (err, staffschedule) => {
         if (err) console.log(err)
     }).then((staffschedule) => {
         res.render('admin_weeklySchedule.hbs', {
-            staccffschedule: encodeURI(JSON.stringify(staffschedule))
+            staffschedule: encodeURI(JSON.stringify(staffschedule))
+
         })
     }, (err) => {
         res.status(400).send('error')
@@ -402,8 +457,8 @@ app.get('/weeklyschedule', (req, res) => {
 })
 
 // #################################### User ###################################3
-//schedule 
-app.get('/userschedule',(req,res)=>{
+//schedule user side
+app.get('/userschedule', (req, res) => {
     Current.find({}, (err, staffschedule) => {
         if (err) console.log(err)
     }).then((staffschedule) => {
@@ -415,9 +470,56 @@ app.get('/userschedule',(req,res)=>{
     })
 })
 
-app.get('/userlogin',(req,res)=>{
+// user login fail
+app.get('/userlogin', (req, res) => {
     res.render('user_login.hbs', {})
 })
+
+// check login
+app.post('/check_login', (req, res) => {
+    let badgeNo = req.body.badgeNo1
+    let emp_password = req.body.password
+    //console.log(badgeNo)
+    
+    // var day = moment().format('DD');
+    // var month = moment().format('MMMM')
+    // var year = moment().format('YYYY')
+    // console.log(day)
+    // console.log(month)
+    // console.log(year)
+
+
+    Current.findOne({ c_badgeNo: req.body.badgeNo1 }, function (err, result) {
+        if (result) {
+            // res.send(result)
+            Staff.find({
+                badgeNo: badgeNo,
+                emp_password: emp_password
+            }).then((staff) => {
+                if (staff.length == 1) {
+                    res.render('user_insertform.hbs',result)
+                } else {
+                    console.log('error to checking login')
+                }
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        } else {
+            console.log('eeeeeeeeerrrrrrrrrooooooooooorrrrrrrrrrrr')
+            res.render('user_login.hbs', result)
+            
+        }
+    })
+
+
+})
+//###################################### send block,line Form ############################# 
+
+//######################################## Log Out ##############################################
+// app.get('/logout', function (req, res) {
+//     delete req.session.user_id;
+//     res.redirect('/login');
+// });
 
 //########################################  Port #################################################
 app.listen(3000, () => {

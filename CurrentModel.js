@@ -32,6 +32,18 @@ var CurrentSchema = new Schema({
     c_status:{
         type:String,
         default: "N/A"
+    },
+    c_date:{ // วันที่
+        type:String,
+        required:true
+    },
+    c_month:{
+        type:String,
+        required:true
+    },
+    c_year:{
+        type:String,
+        required:true
     }
 })
 
