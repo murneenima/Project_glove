@@ -62,7 +62,7 @@
         </div>
 
         <div class="container">
-            <form action="http://localhost:3000/check_login" method="POST">
+            <form name="myForm" action="http://localhost:3000/check_login" method="POST" onsubmit="return check_form()">
                 <div class="row py-2">
                     <div class="col-4">
                         <label>Badge ID</label>
@@ -77,13 +77,13 @@
                         <label>Password</label>
                     </div>
                     <div class="col-8">
-                        <input type="password" class="input-font py-4 form-control" name="password" id="password"
+                        <input type="password" class="input-font py-4 form-control" name="password" id="password" 
                             placeholder="Password">
                     </div>
                 </div>
 
                 <div class="row py-2 ">
-                    <button type="submit" id="login" class="btn btn-info center">Login</button>
+                    <button type="submit" id="login" class="btn btn-info center" onclick="checkCookie()" >Login</button>
                 </div>
             </form>
         </div>
@@ -91,25 +91,56 @@
 </body>
 
 <script type="text/javascript">
-$(document).ready(function(){
-	
-	// validate support storage
-	if(typeof(Storage) == "undefined") {    
-		alert("Not storage support");
-	}
-	
-	// button click
-	$("#login").click(function(){
-		
-		// set storage
-		localStorage.setItem("badgeNo", $("#badgeNo1").val());
-		localStorage.setItem("password", $("#password").val());
-    
-       // alert('rrrr')
-		
-		window.location="http://localhost:3000/check_login";
-	});
-});
+
+function check_form(){
+    var x = document.forms["myForm"]["badgeNo1"].value;
+    if (x == "") {
+    alert("Badge ID must be filled out");
+    return false;
+  }
+}
+
+
+
+function setCookie(cname,cvalue,exdays) {
+  var d = new Date();
+ // console.log("1."+d)
+  var time_get = parseInt(d.getTime())
+  var time_expire = parseInt(exdays*60*1000);
+  d.setTime(time_get+time_expire);
+  var expires = "expires=" + d.toGMTString();
+  //console.log("2."+d)
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  var user=getCookie("username");
+  if (user != "") {
+    alert("Welcome again " + user);
+  } else {
+     user = document.getElementById("badgeNO1").value
+     if (user != "" && user != null) {
+        alert("Welcome " + user);
+        setCookie("username", user, 1);
+     }
+  }
+}
 </script>
 
 </html>

@@ -310,7 +310,7 @@ app.post('/removeproduct', (req, res) => {
 })
 
 
-// ######################################### Schedule ###############################################
+// ######################################### Schedule #######################
 // get staff data to add schedule
 app.get('/send_staff', (req, res) => {
     Staff.find({}, (err, dataStaff) => {
@@ -364,10 +364,9 @@ app.post('/saveschedule', (req, res) => {
     })
 })
 
-
-// ####################################### Daily Schedule ####################################
+// ####################### Daily Schedule ######################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('21 * * * *', function () {
+var j = schedule.scheduleJob('59 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -456,7 +455,7 @@ app.get('/weeklyschedule', (req, res) => {
     })
 })
 
-// #################################### User ###################################3
+// #################################### User #################
 //schedule user side
 app.get('/userschedule', (req, res) => {
     Current.find({}, (err, staffschedule) => {
@@ -470,34 +469,26 @@ app.get('/userschedule', (req, res) => {
     })
 })
 
+
 // user login fail
 app.get('/userlogin', (req, res) => {
     res.render('user_login.hbs', {})
 })
 
+
 // check login
 app.post('/check_login', (req, res) => {
     let badgeNo = req.body.badgeNo1
     let emp_password = req.body.password
-    //console.log(badgeNo)
-    
-    // var day = moment().format('DD');
-    // var month = moment().format('MMMM')
-    // var year = moment().format('YYYY')
-    // console.log(day)
-    // console.log(month)
-    // console.log(year)
-
-
     Current.findOne({ c_badgeNo: req.body.badgeNo1 }, function (err, result) {
         if (result) {
-            // res.send(result)
             Staff.find({
                 badgeNo: badgeNo,
                 emp_password: emp_password
             }).then((staff) => {
                 if (staff.length == 1) {
-                    res.render('user_insertform.hbs',result)
+                    console.log('login success')
+                    res.render('user_insertform.hbs',{staff:encodeURI(JSON.stringify(staff))})
                 } else {
                     console.log('error to checking login')
                 }
@@ -505,13 +496,10 @@ app.post('/check_login', (req, res) => {
                 res.status(400).send(err)
             })
         } else {
-            console.log('eeeeeeeeerrrrrrrrrooooooooooorrrrrrrrrrrr')
-            res.render('user_login.hbs', result)
-            
+            console.log('error to find data pls login again')
+            res.render('user_login.hbs', result)      
         }
     })
-
-
 })
 //###################################### send block,line Form ############################# 
 

@@ -15,8 +15,12 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
+    <!--/////////////////////////jQuery Library//////////////////////////////////-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <title>Form</title>
+    {{!-- <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script> --}}
+
     <style>
         a:hover {
             background-color: rgb(139, 228, 220);
@@ -46,157 +50,138 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fas fa-file-alt"></i>  Form</a>
+                    <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Form</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-
-    <!--body--->
-    {{!-- <div class="container ">
-        
+    <div class="container d-flex justify-content-center">
         <form action="">
-                <div class="row mt-4  d-flex justify-content-center">
-                        <h5>Glove Weight Form</h5>
-                    </div>
-            
             <div class="row my-3">
-                <div class="col">
-                    <label for="formGroupExampleInput">จำนวน Line</label>
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Badge :</label>
                 </div>
-                <div class="col">   
-                    <select class="custom-select custom-select-sm" id="amountline" onclick="number_line()">
-                        <option value="" disabled selected>select</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
+                <div class="col-6">
+                    <input id="bagde" name="badge" class="form-control"  readonly>
+                    {{!-- <span id="badge"></span> <br /> --}}
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Block :</label>
+                </div>
+                <div class="col-6">
+                    {{!-- get data --}}
+                    <select class="custom-select custom-select-sm">
+                        <option disabled selected>select</option>
+                        <option value="A">Blcok A</option>
+                        <option value="B">Block B</option>
+                        <option value="C">Block C</option>
                     </select>
                 </div>
             </div>
-        </form>
-        <hr style="color: black;border: solid 0.3px;">
-    </div> --}}
 
-    <div class="container d-flex justify-content-center">
-        <form action="">
-                <div class="row my-3">
-                        <div class="col-6">
-                            <label for="formGroupExampleInput">Badge :</label>
-                        </div>
-                        <div class="col-6">
-                            {{!-- <input id="bagde" name="badge" class="form-control" placeholder="Length"> --}}
-                            <span id="badge"></span> <br />
-                        </div>
-                    </div>
+            <div class="row my-3">
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Product Line :</label>
+                </div>
+                <div class="col-6">
+                    {{!-- get data --}}
+                    <select class="custom-select custom-select-sm">
+                        <option disabled selected>select</option>
+                        <option value="1">Line 1</option>
+                        <option value="2">Line 2</option>
+                        <option value="3">Line 3</option>
+                    </select>
+                </div>
+            </div>
 
-                <div class="row my-3">
-                        <div class="col-6">
-                            <label for="formGroupExampleInput">Block :</label>
-                        </div>
-                        <div class="col-6">
-                            {{!-- get data --}}
-                            <select class="custom-select custom-select-sm">
-                                <option disabled selected>select</option>
-                                <option value="A">Blcok A</option>
-                                <option value="B">Block B</option>
-                                <option value="C">Block C</option>
-                            </select>
-                        </div>
-                    </div>
-                
-                    <div class="row my-3">
-                        <div class="col-6">
-                            <label for="formGroupExampleInput">Product Line :</label>
-                        </div>
-                        <div class="col-6">
-                            {{!-- get data --}}
-                            <select class="custom-select custom-select-sm">
-                                <option disabled selected>select</option>
-                                <option value="1">Line 1</option>
-                                <option value="2">Line 2</option>
-                                <option value="3">Line 3</option>
-                            </select>
-                        </div>
-                    </div>
-                
-                    <div class="row my-3">
-                            <div class="col-6">
-                                {{!-- get data --}}
-                                <label for="formGroupExampleInput">Product Name :</label>
-                            </div>
-                            <div class="col-6">
-                                <select class="custom-select custom-select-sm">
-                                    <option disabled selected>select</option>
-                                    <option value="1">aass</option>
-                                    <option value="2">eeeee</option>
-                                    <option value="3">ttrrtt</option>
-                                    <option value="3">kkiijj</option>
-                                </select>
-                            </div>
-                        </div>
+            <div class="row my-3">
+                <div class="col-6">
+                    {{!-- get data --}}
+                    <label for="formGroupExampleInput">Product Name :</label>
+                </div>
+                <div class="col-6">
+                    <select class="custom-select custom-select-sm">
+                        <option disabled selected>select</option>
+                        <option value="1">aass</option>
+                        <option value="2">eeeee</option>
+                        <option value="3">ttrrtt</option>
+                        <option value="3">kkiijj</option>
+                    </select>
+                </div>
+            </div>
 
-                    <div class="row my-3">
-                        <div class="col-6">
-                            <label for="formGroupExampleInput">Product Size :</label>
-                        </div>
-                        <div class="col-6">
-                            <select class="custom-select custom-select-sm">
-                                <option disabled selected>select</option>
-                                <option value="1">Size S</option>
-                                <option value="2">Size M</option>
-                                <option value="3">Size L</option>
-                                <option value="3">Size XL</option>
-                            </select>
-                        </div>
-                    </div>
-                
-                    <div class="row my-3">
-                        <div class="col-6">
-                            <label for="formGroupExampleInput">Length :</label>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Length">
-                        </div>
-                    </div>
-                
-                    <div class="row my-3">
-                        <div class="col-6">
-                            <label for="formGroupExampleInput">Weight :</label>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Weight">
-                        </div>
-                    </div>
-                
-                    <div class="row my-3">
-                            <div class="col-6">
-                                <label for="formGroupExampleInput">Line Speed :</label>
-                            </div>
-                            <div class="col-6">
-                                <select class="custom-select custom-select-sm">
-                                    <option disabled selected>select</option>
-                                    <option value="1">2334455</option>
-                                    <option value="2">112233</option>
-                                </select>
-                            </div>
-                        </div>
+            <div class="row my-3">
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Product Size :</label>
+                </div>
+                <div class="col-6">
+                    <select class="custom-select custom-select-sm">
+                        <option disabled selected>select</option>
+                        <option value="1">Size S</option>
+                        <option value="2">Size M</option>
+                        <option value="3">Size L</option>
+                        <option value="3">Size XL</option>
+                    </select>
+                </div>
+            </div>
 
-                    <div class="row my-3  d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary">Submit</button>
-                    </div>
+            <div class="row my-3">
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Length :</label>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Length">
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Weight :</label>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Weight">
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-6">
+                    <label for="formGroupExampleInput">Line Speed :</label>
+                </div>
+                <div class="col-6">
+                    <select class="custom-select custom-select-sm">
+                        <option disabled selected>select</option>
+                        <option value="1">2334455</option>
+                        <option value="2">112233</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row my-3  d-flex justify-content-center">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
         </form>
     </div>
 </body>
+
 <script type="text/javascript">
-$(document).ready(function(){
-	
-	// get value from storage
-	$("#badge").html( localStorage.getItem("badgeNo"));
-	//$("#password").html( localStorage.getItem("password"));
-	//alert('hello')
-});
+
+    var staff = "{{staff}}"
+    var de_badgeNO = JSON.parse(decodeURI(staff))
+    var daily_staff = [];
+    for(let i=0;i<de_badgeNO.length ;i++){
+        daily_staff.push(de_badgeNO[i])
+    }
+
+    console.log(daily_staff)
+    for(let i=0 ; i< daily_staff.length;i++){
+        console.log(daily_staff[i].badgeNo) 
+        document.getElementById("bagde").value = daily_staff[i].badgeNo
+    }
+
 </script>
 
-</html>         
+</html>
