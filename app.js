@@ -72,7 +72,8 @@ app.post('/signin', (req, res) => {
         password: password
     }).then((admin) => {
         if (admin.length == 1) {
-            res.send(admin)
+            //res.send(admin)
+            res.render('admin_dailyschedule.hbs')
         } else {
             res.status(400).send('Cannot Login')
         }
@@ -134,6 +135,7 @@ app.post('/addstaff', (req, res) => {
     })
     newStaff.save().then((doc) => {
         console.log('success')
+        res.render('admin_addStaff.hbs')
     }, (err) => {
         res.status(400).send(err)
     })
@@ -356,6 +358,7 @@ app.post('/saveschedule', (req, res) => {
         newMonth.save().then((doc)=>{
             console.log('success to save data in table month')
             //res.send(doc)
+            //res.render('admin_addStaffSchedule.hbs')
         },(err)=>{
             res.status(400).send(err)
         })
@@ -366,7 +369,7 @@ app.post('/saveschedule', (req, res) => {
 
 // ####################### Daily Schedule ######################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('59 * * * *', function () {
+var j = schedule.scheduleJob('58 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
