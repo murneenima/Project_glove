@@ -369,7 +369,7 @@ app.post('/saveschedule', (req, res) => {
 
 // ####################### Daily Schedule ######################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('58 * * * *', function () {
+var j = schedule.scheduleJob('02 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -421,7 +421,7 @@ var j = schedule.scheduleJob('58 * * * *', function () {
                 
             }, (err) => {
                 console.log('save data to Currnent Model error')
-                //res.status(400).send(err)
+                res.status(400).send(err)
             })
         }
     })
@@ -505,6 +505,14 @@ app.post('/check_login', (req, res) => {
     })
 })
 //###################################### send block,line Form ############################# 
+
+// app.get('/getdata',(req,res)=>{
+//     Block.find({},(err,dataBlock)=>{
+//         if(err) console.log(err)
+//     }).then((dataBlock)=>{
+//         res.render('',)
+//     })
+// })
 
 //######################################## Log Out ##############################################
 // app.get('/logout', function (req, res) {

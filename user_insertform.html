@@ -93,18 +93,15 @@
                             <label for="formGroupExampleInput">Block :</label>
                         </div>
                         <div class="col-6">
-                            <select class="custom-select custom-select-sm">
+                            <select class="custom-select custom-select-sm" name="block" id="block">
                                 <option selected>select</option>
-                                <option value="1">Blcok A</option>
-                                <option value="2">Block B</option>
-                                <option value="3">Block C</option>
                             </select>
                         </div>
                     </div>
                 
                     <div class="row my-3">
                         <div class="col-6">
-                            <label for="formGroupExampleInput">Product Line :</label>
+                            <label for="formGroupExampleInput" name="line" id="line">Product Line :</label>
                         </div>
                         <div class="col-6">
                             <select class="custom-select custom-select-sm">
@@ -121,7 +118,7 @@
                                 <label for="formGroupExampleInput">Product Name :</label>
                             </div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm">
+                                <select class="custom-select custom-select-sm" name="product_name" id="product_name">
                                     <option selected>select</option>
                                     <option value="1">aass</option>
                                     <option value="2">eeeee</option>
@@ -136,7 +133,7 @@
                             <label for="formGroupExampleInput">Product Size :</label>
                         </div>
                         <div class="col-6">
-                            <select class="custom-select custom-select-sm">
+                            <select class="custom-select custom-select-sm" name="product_size" id="product_size">
                                 <option selected>select</option>
                                 <option value="1">Size S</option>
                                 <option value="2">Size M</option>
@@ -151,7 +148,7 @@
                             <label for="formGroupExampleInput">Length :</label>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Length">
+                            <input type="text" class="form-control-sm" placeholder="Length" name="length" id="length">
                         </div>
                     </div>
                 
@@ -160,7 +157,7 @@
                             <label for="formGroupExampleInput">Weight :</label>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Weight">
+                            <input type="text" class="form-control" placeholder="Weight" name="weight" id="weight">
                         </div>
                     </div>
                 
@@ -169,16 +166,12 @@
                                 <label for="formGroupExampleInput">Line Speed :</label>
                             </div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm">
-                                    <option selected>select</option>
-                                    <option value="1">2334455</option>
-                                    <option value="2">112233</option>
-                                </select>
+                                <input type="text" class="form-control" placeholder="Line Speed" name="line_speed" id="line_speed">
                             </div>
                         </div>
 
                     <div class="row my-3  d-flex justify-content-center">
-                        <button type="button" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="submit" id="submit" class="btn btn-primary" >Submit</button>
                     </div>
         </form>
     </div>
