@@ -13,6 +13,7 @@ var Product = require('./ProductModel')
 var Schedule = require('./ScheduleModel') // weekly
 var Current = require('./CurrentModel')
 var Month = require('./MonthModel')
+var Spotcheck = require('./SpotcheckModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -223,7 +224,8 @@ app.get('/send_data', (req, res) => {
 app.post('/addblock', (req, res) => {
     let newBlock = Block({
         productLine: req.body.productLine,
-        blockName: req.body.blockName
+        blockName: req.body.blockName,
+        staff:req.body.staff
     })
 
     newBlock.save().then((doc) => {
@@ -259,7 +261,6 @@ app.post('/addproduct', (req, res) => {
         weight_max: req.body.weight_max,
         length_min: req.body.length_min,
         length_max: req.body.length_max
-
     })
 
     newProduct.save().then((doc) => {
@@ -369,7 +370,7 @@ app.post('/saveschedule', (req, res) => {
 
 // ####################### Daily Schedule ######################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('02 * * * *', function () {
+var j = schedule.scheduleJob('03 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -425,8 +426,6 @@ var j = schedule.scheduleJob('02 * * * *', function () {
             })
         }
     })
-
-   
 });
 
 
@@ -458,7 +457,7 @@ app.get('/weeklyschedule', (req, res) => {
     })
 })
 
-// #################################### User #################
+// ############################## User #################
 //schedule user side
 app.get('/userschedule', (req, res) => {
     Current.find({}, (err, staffschedule) => {
@@ -504,6 +503,10 @@ app.post('/check_login', (req, res) => {
         }
     })
 })
+
+//################ Fuction ####################
+
+
 //###################################### send block,line Form ############################# 
 
 // app.get('/getdata',(req,res)=>{

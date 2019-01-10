@@ -10,6 +10,10 @@ var BlockSchema = new Schema({
     productLine:{
         type:String,
         required:true
+    },
+    staff:{
+        type:String,
+        default:'N/A'
     }
 })
 
