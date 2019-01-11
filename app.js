@@ -370,7 +370,7 @@ app.post('/saveschedule', (req, res) => {
 
 // ####################### Daily Schedule ######################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('03 * * * *', function () {
+var j = schedule.scheduleJob('51 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -480,6 +480,7 @@ app.get('/userlogin', (req, res) => {
 
 // check login
 app.post('/check_login', (req, res) => {
+    let data = {}
     let badgeNo = req.body.badgeNo1
     let emp_password = req.body.password
     Current.findOne({ c_badgeNo: req.body.badgeNo1 }, function (err, result) {
@@ -489,8 +490,26 @@ app.post('/check_login', (req, res) => {
                 emp_password: emp_password
             }).then((staff) => {
                 if (staff.length == 1) {
+                    data.Staff = staff
+                    //console.log(staff)
                     console.log('login success')
-                    res.render('user_insertform.hbs',{staff:encodeURI(JSON.stringify(staff))})
+
+                    Block.find({},(err,datablock)=>{
+                        if(err) console.log(err)
+                    }).then((datablock)=>{
+                        data.Block = datablock
+                
+                        Product.find({},(err,dataproduct)=>{
+                            if(err) console.log(err)
+                        }).then((dataproduct)=>{
+                            data.Product = dataproduct
+                            //res.send(data)
+                            res.render('user_insertform.hbs',{data:encodeURI(JSON.stringify(data))})
+                        },(err)=>{
+                            res.status(400).send(err)
+                        })
+                    })
+
                 } else {
                     console.log('error to checking login')
                 }
@@ -504,7 +523,24 @@ app.post('/check_login', (req, res) => {
     })
 })
 
-//################ Fuction ####################
+// // get product , line , block data
+// app.get('/data_form',(req,res)=>{
+//     let data= {}
+//     Block.find({},(err,datablock)=>{
+//         if(err) console.log(err)
+//     }).then((datablock)=>{
+//         data.Block = datablock
+
+//         Product.find({},(err,dataproduct)=>{
+//             if(err) console.log(err)
+//         }).then((dataproduct)=>{
+//             data.Product = dataproduct
+//             res.send(data)
+//         },(err)=>{
+//             res.status(400).send(err)
+//         })
+//     })
+// })
 
 
 //###################################### send block,line Form ############################# 

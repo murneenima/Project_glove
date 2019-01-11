@@ -58,7 +58,7 @@
     </nav>
 
     <div class="container d-flex justify-content-center ">
-        <form action="http://localhost:3000/getdata" method="POST" id="myForm">
+        <form action="http://localhost:3000/data_form" method="GET" id="myForm">
             <div class="row mt-4  d-flex justify-content-center">
                 <h5>Glove Weight Form</h5>
             </div>
@@ -87,7 +87,9 @@
 
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">badgeNo</label></div>
-                <div class="col-6"><input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge "></div>
+                <div class="col-6">
+                    <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge" readonly >
+                </div>
             </div>
 
             <div class="row my-3">
@@ -144,7 +146,7 @@
                         <option value="2">112233</option>
                     </select></div>
             </div>
-            <div class="row my-3  d-flex justify-content-center"><button type="button" class="btn btn-primary">Submit</button></div>
+            <div class="row my-3  d-flex justify-content-center"><button type="submit" class="btn btn-primary">Submit</button></div>
             {{!-- <hr style="color: black;border: solid 0.3px;"> --}}
         </form>
 
@@ -154,27 +156,21 @@
 <script type="text/javascript">
 
     // ------------------------------------------------------------------------------------
-            var staff = "{{staff}}"
-            var de_badgeNO = JSON.parse(decodeURI(staff))
-            var daily_staff = [];
-            for (let i = 0; i < de_badgeNO.length; i++) {
-                daily_staff.push(de_badgeNO[i])
+            var data = "{{data}}"
+            var de_data = JSON.parse(decodeURI(data))
+            {{!-- console.log(de_data.Product)
+            console.log(de_data.Block)
+            console.log(de_data.Staff) --}}
+
+            var Staff ="";
+            var Block = "";
+            var Product = "";
+
+            for(let i=0;i<de_data.length;i++0){
+                Staff[i].push(de.data.Staff[i])
+                console.log(Staff[i])
             }
 
-            console.log(daily_staff)
-            for (let i = 0; i < daily_staff.length; i++) {
-                console.log(daily_staff[i].badgeNo)
-
-                document.getElementById("bagde").value = daily_staff[i].badgeNo
-            }
-   // ------------------------------------
-            var block = "{{block}}"
-            var de_block = JSON.parse(decodeURI(block))
-            var data_block = [];
-            for(let i=0;i<de_block.length;i++){
-                data_block.push(de_block)
-            }
-            console.log(data_block)
 </script>
 
 </html>
