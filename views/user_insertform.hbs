@@ -58,7 +58,7 @@
     </nav>
 
     <div class="container d-flex justify-content-center ">
-        <form action="http://localhost:3000/save_data" method="get" >
+        <form action="http://localhost:3000/save_data" method="post" >
             <div class="row mt-4  d-flex justify-content-center">
                 <h5>Glove Weight Form</h5>
             </div>
@@ -186,7 +186,7 @@
                 select_product += '<option value="'+Block[i].productLine+'">'+Block[i].productLine+'</option>'
             }
             for(let j=0;j<Product.length;j++){
-                select_name += '<option value="'+Product[j].product_type+' '+Product[j].product_id+'">'+Product[j].product_type+' '+Product[j].product_id+'</option>'
+                select_name += '<option value="'+Product[j].product_type+'-'+Product[j].product_id+'">'+Product[j].product_type+'-'+Product[j].product_id+'</option>'
             }
            
             document.getElementById("productline").innerHTML = select_product

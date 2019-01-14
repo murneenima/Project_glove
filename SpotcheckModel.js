@@ -11,6 +11,10 @@ var SpotcheckSchema = new Schema({
         type:String,
         required:true
     },
+    spot_surname:{
+        type:String,
+        required:true
+    },
     spot_date:{
         type:String,
         required:true
