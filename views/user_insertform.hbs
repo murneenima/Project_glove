@@ -58,7 +58,7 @@
     </nav>
 
     <div class="container d-flex justify-content-center ">
-        <form action="http://localhost:3000/data_form" method="GET" id="myForm">
+        <form action="http://localhost:3000/save_data" method="get" >
             <div class="row mt-4  d-flex justify-content-center">
                 <h5>Glove Weight Form</h5>
             </div>
@@ -94,17 +94,18 @@
 
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm">
-                        <option selected>select</option>
-                        <option value="1">Blcok A</option>
-                        <option value="2">Block B</option>
-                        <option value="3">Block C</option>
+                <div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block">
+                        <option disabled selected>select</option>
+                        <option value="A">Blcok A</option>
+                        <option value="B">Block B</option>
+                        <option value="C">Block C</option>
                     </select></div>
             </div>
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm">
-                        <option disableds selected>select</option>
+                <div class="col-6">
+                    <select class="custom-select custom-select-sm" id="productline" name="productline">
+                        <option disabled selected>select</option>
                         <option value="1">Line 1</option>
                         <option value="2">Line 2</option>
                         <option value="3">Line 3</option>
@@ -112,7 +113,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm">
+                <div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name">
                         <option disabled selected>select</option>
                         <option value="1">aass</option>
                         <option value="2">eeeee</option>
@@ -122,29 +123,29 @@
             </div>
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm">
+                <div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize">
                         <option disabled selected>select</option>
-                        <option value="1">Size S</option>
-                        <option value="2">Size M</option>
-                        <option value="3">Size L</option>
-                        <option value="3">Size XL</option>
+                        <option value="S">Size S</option>
+                        <option value="M">Size M</option>
+                        <option value="L">Size L</option>
+                        <option value="XL">Size XL</option>
                     </select></div>
             </div>
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
-                <div class="col-6"><input type="text" class="form-control" placeholder="Length"></div>
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Length" id="length" name="length"></div>
             </div>
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
-                <div class="col-6"><input type="text" class="form-control" placeholder="Weight"></div>
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Weight" id="weight" name="weight"></div>
             </div>
             <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm">
-                        <option disabled selected>select</option>
-                        <option value="1">2334455</option>
-                        <option value="2">112233</option>
-                    </select></div>
+                <div class="col-6">
+                     <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
+                </div>
             </div>
             <div class="row my-3  d-flex justify-content-center"><button type="submit" class="btn btn-primary">Submit</button></div>
             {{!-- <hr style="color: black;border: solid 0.3px;"> --}}
@@ -161,16 +162,40 @@
             {{!-- console.log(de_data.Product)
             console.log(de_data.Block)
             console.log(de_data.Staff) --}}
+    mm()
+    function mm(){
 
-            var Staff ="";
-            var Block = "";
-            var Product = "";
+            var Block = [];
+            var Product = [];
+            var Staff = [];
 
-            for(let i=0;i<de_data.length;i++0){
-                Staff[i].push(de.data.Staff[i])
-                console.log(Staff[i])
+            let select_product = '<select class="custom-select custom-select-sm" id="productline"><option disabled selected>select</option>'
+            let select_name = '<select class="custom-select custom-select-sm" id="product_name"><option disabled selected>select</option>'
+            for(let i=0;i<de_data.Staff.length;i++){
+                Staff.push(de_data.Staff[i])
+            } 
+
+            for(let i=0;i<de_data.Block.length;i++){
+                Block.push(de_data.Block[i])
+            } 
+            for(let i=0;i<de_data.Product.length;i++){
+                Product.push(de_data.Product[i])
+            } 
+            
+            for(let i=0;i<Block.length;i++){
+                select_product += '<option value="'+Block[i].productLine+'">'+Block[i].productLine+'</option>'
             }
+            for(let j=0;j<Product.length;j++){
+                select_name += '<option value="'+Product[j].product_type+' '+Product[j].product_id+'">'+Product[j].product_type+' '+Product[j].product_id+'</option>'
+            }
+           
+            document.getElementById("productline").innerHTML = select_product
+            document.getElementById("product_name").innerHTML = select_name
+            console.log(Staff[0].badgeNo)
+            document.getElementById("bagde").value = Staff[0].badgeNo
+    }
 
+   
 </script>
 
 </html>

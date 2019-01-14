@@ -2,8 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const hbs = require('hbs')
-var moment = require('moment');
-var schedule = require('node-schedule');
+const moment = require('moment');
+const request = require('request')
+const schedule = require('node-schedule');
 
 // ============== require Model ===============
 var Admin = require('./AdminModel')
@@ -40,6 +41,28 @@ app.use((req, res, next) => { // allow the other to connect
 
 //app.set('view engine', 'hbs');
 //app.use(express.static('public'))
+
+//==================================== Line notify =================================================
+
+request({
+  method: 'POST',
+  uri: 'https://notify-api.line.me/api/notify',
+  header: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  auth: {
+    bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+  },
+  form: {
+    message: '123456', //ข้อความที่จะส่ง
+  },
+}, (err, httpResponse, body) => {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(body)
+  }
+})
 
 
 //============= API test============//
@@ -370,7 +393,7 @@ app.post('/saveschedule', (req, res) => {
 
 // ####################### Daily Schedule ######################
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('51 * * * *', function () {
+var j = schedule.scheduleJob('27  * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -523,35 +546,68 @@ app.post('/check_login', (req, res) => {
     })
 })
 
-// // get product , line , block data
-// app.get('/data_form',(req,res)=>{
-//     let data= {}
-//     Block.find({},(err,datablock)=>{
-//         if(err) console.log(err)
-//     }).then((datablock)=>{
-//         data.Block = datablock
 
-//         Product.find({},(err,dataproduct)=>{
-//             if(err) console.log(err)
-//         }).then((dataproduct)=>{
-//             data.Product = dataproduct
-//             res.send(data)
-//         },(err)=>{
-//             res.status(400).send(err)
-//         })
-//     })
-// })
+//#################################### save_data ####################################
+app.get('/save_data',(req,res)=>{
 
+    let product_size = ''
+    if (req.body.productsize == 'selected') {
+        res.status(400).send('Size doesnot select');
+        return
+    }
+    if (req.body.productsize == 'S') {
+        product_size = 'S'
+    } else if (req.body.productsize == 'M') {
+        product_size = 'M'
+    } else if (req.body.productsize == 'X') {
+        product_size = 'X'
+    } else if (req.body.productsize == 'XL') {
+        product_size = 'XL'
+    }
 
-//###################################### send block,line Form ############################# 
+    let name = "";
+    let date = moment().format('dddd');
+    let day = moment().format('DD');
+    let month = moment().format('MMMM')
+    let year =  moment().format('YYYY')
+    Current.findOne({spot_badge:req.body.badge}).then((d)=>{
+        name = d.c_name 
+        
+    },(err)=>{
+        res.status(400).send(err)
+    })
+    
+    console.log(req.body.badge)
+    console.log(name)
+    console.log(date)
+    console.log(day)
+    console.log(month)
+    console.log(year)
+    console.log(req.body.block)
+    console.log(req.body.productline)
+    console.log(req.body.productname)
+    console.log(product_size)
+    console.log(req.body.length)
+    console.log(req.body.weight)
+    console.log(req.body.linespeed)
+    // let newSpotscheck = Spotcheck({
+    //     spot_badge:req.body.badge,
+    //     spot_name:name,
+    //     spot_date:date,
+    //     spot_day:day,
+    //     spot_month:month,
+    //     spot_year:year,
+    //     spot_block:req.body.block,
+    //     spot_productline:req.body.productline,
+    //     spot_productname:req.body.productname,
+    //     spot_size:req.body.productsize,
+    //     spot_length:req.body.length,
+    //     spot_weight:req.body.weight,
+    //     spot_linespeed:req.body.linespeed
 
-// app.get('/getdata',(req,res)=>{
-//     Block.find({},(err,dataBlock)=>{
-//         if(err) console.log(err)
-//     }).then((dataBlock)=>{
-//         res.render('',)
-//     })
-// })
+    // })
+})
+
 
 //######################################## Log Out ##############################################
 // app.get('/logout', function (req, res) {
