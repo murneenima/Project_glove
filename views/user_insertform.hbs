@@ -50,9 +50,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                {{!-- <li class="nav-item active">
                     <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Form</a>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </nav>
@@ -147,7 +147,7 @@
                      <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
                 </div>
             </div>
-            <div class="row my-3  d-flex justify-content-center"><button type="submit" class="btn btn-primary">Submit</button></div>
+            <div class="row my-3  d-flex justify-content-center"><button type="submit" onclick="submitdata()" class="btn btn-primary">Submit</button></div>
             {{!-- <hr style="color: black;border: solid 0.3px;"> --}}
         </form>
 
@@ -193,6 +193,10 @@
             document.getElementById("product_name").innerHTML = select_name
             console.log(Staff[0].badgeNo)
             document.getElementById("bagde").value = Staff[0].badgeNo
+    }
+
+    function submitdata(){
+       // alert(' Success to submit data')
     }
 
    

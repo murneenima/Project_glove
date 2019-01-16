@@ -213,14 +213,14 @@
 
         function is_Selected() {
             var selected_day = document.getElementById("Select_day").value
-            var table_display = "<thead class='thead-dark'><tr><th scope='col'>#</th><th scope='col'>Badge No</th><th scope='col'>Name  Surname</th><th scope='col'>Position</th><th scope='col'>Dept.</th></tr></thead><tbody>"
+            var table_display = "<thead class='thead-dark'><tr><th scope='col'>#</th><th scope='col'>Badge No</th><th scope='col'>Name</th><th scope='col'>Surname</th><th scope='col'>Position</th><th scope='col'>Dept.</th></tr></thead><tbody>"
           //      console.log(selected_day)
             let j = 0 ; 
             for (let i = 0; i < weekly_schedule.length; i++) {
                 
                  if (selected_day == weekly_schedule[i].day) {
                        // console.log("=========",j)
-                        table_display += "<tr><th scope='row'>" + (j + 1) + "</th><td>" + weekly_schedule[i].s_badgeNo + "</td><td>" + weekly_schedule[i].s_name + "  " + weekly_schedule[i].s_surname + "</td><td>" + weekly_schedule[i].s_position + "</td><td>" + weekly_schedule[i].s_department + "</td></tr>"
+                        table_display += "<tr><th scope='row'>" + (j + 1) + "</th><td>" + weekly_schedule[i].s_badgeNo + "</td><td>" + weekly_schedule[i].s_name + "</td><td>" + weekly_schedule[i].s_surname + "</td><td>" + weekly_schedule[i].s_position + "</td><td>" + weekly_schedule[i].s_department + "</td></tr>"
                         j++
                        // console.log(j)
                  }  

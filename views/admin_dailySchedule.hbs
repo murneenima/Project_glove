@@ -207,7 +207,7 @@
                 var table_schedule = "<thead class='table-info'><tr><th scope='col'>#</th><th scope='col'>Firstname</th><th scope='col'>Lastname</th><th scope='col'>Position</th><th scope='col'>Department</th><th scope='col'>Status</th></tr></thead>";
 
                 for (let i = 0; i < schedule.length; i++) {
-                    table_schedule += "<tbody><tr><th scope='row'>" + (i + 1) + "</th><td>" + schedule[i].c_name + "</td><td>" + schedule[i].c_surname + "</td><td>" + schedule[i].c_position + "</td><td>" + schedule[i].c_department +"</td><td>"+schedule[i].c_status+ "</td></tr>"
+                    table_schedule += "<tbody><tr><th scope='row'>" + (i + 1) + "</th><td>" + schedule[i].c_name + "</td><td>"+" " + schedule[i].c_surname + "</td><td>" + schedule[i].c_position + "</td><td>" + schedule[i].c_department +"</td><td>"+schedule[i].c_status+ "</td></tr>"
                 }
                 document.getElementById("daily").innerHTML = table_schedule;
 

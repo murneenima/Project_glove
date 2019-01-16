@@ -15,6 +15,7 @@ var Schedule = require('./ScheduleModel') // weekly
 var Current = require('./CurrentModel')
 var Month = require('./MonthModel')
 var Spotcheck = require('./SpotcheckModel')
+var StandardValue = require('./StandardValueModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -235,6 +236,21 @@ app.post('/remove', (req, res) => {
     }, (err) => {
         res.status(400).send(err)
     })
+    Schedule.remove({ badgeNo: req.body.id }).then((d) => {
+        console.log('=====success remove in table shedule ====')
+
+    }, (err) => {
+        res.status(400).send(err)
+    })
+    Month.remove({ badgeNo: req.body.id }).then((d) => {
+        console.log('=====success remove in table shedule ====')
+
+    }, (err) => {
+        res.status(400).send(err)
+    })
+
+
+
 })
 
 // Send Data for display all 
@@ -344,7 +360,7 @@ app.post('/removeproduct', (req, res) => {
 })
 
 
-// ######################################### Schedule #######################
+// ################################## Schedule #######################
 // get staff data to add schedule
 app.get('/send_staff', (req, res) => {
     Staff.find({}, (err, dataStaff) => {
@@ -374,7 +390,8 @@ app.post('/saveschedule', (req, res) => {
     })
     newSchedule.save().then((doc) => {
         console.log('saving data to table current')
-       res.send(doc)
+      // res.send(doc)
+        res.render('admin_addStaffSchedule.hbs')
         let newMonth = Month({
             m_day:req.body.day,
             m_badgeNo: req.body.edit_id,
@@ -399,9 +416,9 @@ app.post('/saveschedule', (req, res) => {
     })
 })
 
-// ####################### Daily Schedule ######################
+//  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('09 * * * *', function () {
+var j = schedule.scheduleJob('16 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -473,6 +490,8 @@ app.get('/dailyschedule', (req, res) => {
     })
 })
 
+// manage staff schedule เปลี่ยน status
+
 // ##################### Weekly Schedule #####################
 // display weekly schedule
 app.get('/weeklyschedule', (req, res) => {
@@ -509,7 +528,7 @@ app.get('/userlogin', (req, res) => {
 })
 
 
-// check login
+// check login 
 app.post('/check_login', (req, res) => {
     let data = {}
     let badgeNo = req.body.badgeNo1
@@ -555,7 +574,7 @@ app.post('/check_login', (req, res) => {
 })
 
 
-//#################################### save_data ####################################
+// save_data when fill information and line notify
 app.post('/save_data',(req,res)=>{
 
     let name = "";
@@ -602,6 +621,7 @@ app.post('/save_data',(req,res)=>{
          })
          newSpotscheck.save().then((doc)=>{
              console.log('success to save data on SPOTCHECK table')
+             res.render('user_insertform.hbs')
          },(err)=>{
              res.status(400).send(err)
          })
@@ -620,8 +640,7 @@ app.post('/save_data',(req,res)=>{
         // console.log(product_id)
 
          Product.findOne({product_type:product_type}).then((d)=>{
-            if(length<d.length_min || length > d.length_max){
-                console.log('!!!!!Over length !!!!!')
+             if(length > d.length_max){
                 request({
                     method: 'POST',
                     uri: 'https://notify-api.line.me/api/notify',
@@ -632,7 +651,8 @@ app.post('/save_data',(req,res)=>{
                       bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                     },
                     form: {
-                      message: 'Product Name :" '+d.product_type+' "is OVER LENGTH !!!!!', //ข้อความที่จะส่ง
+                      message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is OVER LENGTH !!!!! ', //ข้อความที่จะส่ง
+                     
                     },
                   }, (err, httpResponse, body) => {
                     if (err) {
@@ -641,8 +661,32 @@ app.post('/save_data',(req,res)=>{
                       console.log(body)
                     }
                   })
-            }
-            if(weight < d.weight_min || weight > d.weight_max){
+             }else{
+                 if(length<d.length_min){
+                     console.log('!!!!!Over length !!!!!')
+                     request({
+                         method: 'POST',
+                         uri: 'https://notify-api.line.me/api/notify',
+                         header: {
+                           'Content-Type': 'application/x-www-form-urlencoded',
+                         },
+                         auth: {
+                           bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                         },
+                         form: {
+                           message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is UNDER LENGTH !!!!!', //ข้อความที่จะส่ง
+                           
+                        },
+                       }, (err, httpResponse, body) => {
+                         if (err) {
+                           console.log(err)
+                         } else {
+                           console.log(body)
+                         }
+                       })
+                 }
+             }
+            if(weight < d.weight_min){
                 console.log(' !!!! Over weight !!!!!')
                 request({
                     method: 'POST',
@@ -654,7 +698,8 @@ app.post('/save_data',(req,res)=>{
                       bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                     },
                     form: {
-                      message: 'Product Name : "'+d.product_type+' "is OVER WEIGHT !!!!!', //ข้อความที่จะส่ง
+                      message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is UNDER WEIGHT !!!!!', //ข้อความที่จะส่ง
+                      
                     },
                   }, (err, httpResponse, body) => {
                     if (err) {
@@ -664,6 +709,31 @@ app.post('/save_data',(req,res)=>{
                     }
                   })
                   
+            }else{
+                if(weight > d.weight_min){
+                    console.log(' !!!! Over weight !!!!!')
+                    request({
+                        method: 'POST',
+                        uri: 'https://notify-api.line.me/api/notify',
+                        header: {
+                          'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        auth: {
+                          bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                        },
+                        form: {
+                          message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is OVER WEIGHT !!!!!', //ข้อความที่จะส่ง
+                          
+                        },
+                      }, (err, httpResponse, body) => {
+                        if (err) {
+                          console.log(err)
+                        } else {
+                          console.log(body)
+                        }
+                      })
+                      
+                } 
             }
          },(err)=>{
              res.status(400).send(err)

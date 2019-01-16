@@ -317,7 +317,7 @@
             console.log('id will delete at ' + id)
 
 
-            $.ajax('http://10.7.4.158:3000/remove', {
+            $.ajax('http://localhost:3000/remove', {
                 data: JSON.stringify({ id }),
                 contentType: 'application/json',
                 type: 'POST',
@@ -337,12 +337,16 @@
             $('#edit').data('curid', index); // curid = index
             $('#edit').modal('show');
             document.getElementById("badgeNo").value = staffdata[index].badgeNo
+            document.getElementById("emp_name").value = staffdata[index].emp_name
+            document.getElementById("emp_surname").value = staffdata[index].emp_surname
+            document.getElementById("emp_position").value = staffdata[index].emp_position
+            document.getElementById("emp_dept").value = staffdata[index].emp_dept
 
         }
         
         function reloadpage() {
-            alert('Edit data Success')
-            window.location.search += '&param=42';
+           // alert('Edit data Success')
+            location.reload();
             
         }
 

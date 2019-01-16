@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -16,57 +16,221 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
-    <title>add filed</title>
-    <style>
-        ul {
-            padding: 0;
-            margin: 0;
-        }
 
-        ul li {
-            list-style: none;
+    <title> Add Block</title>
+    <style>
+        body {
+            background-color: snow;
+            font-family: 'IBM Plex Sans', sans-serif;
         }
     </style>
 </head>
 
 <body>
-    <div id="form1">
-        <!-- Dynamic Form Div -->
+    <!-- /////////////////////////////////// Navbar ///////////////////////////////////////////////////////////-->
+    <nav class="navbar navbar-dark bg-info fixed-top flex-md-nowrap p-0">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Glove Weight Spot Check</a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="#">Sign out</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- //////////////////////////////////// Body ////////////////////////////////////////////////////// -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 mt-4">
+                <nav class="d-none d-sm-block bg-light fixed-left sidebar">
+                    <div class="sidebar-sticky">
+
+                        <!-- ================================== Schedule ============================================= -->
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Schedule</span>
+                            <a class="d-flex align-items-center text-muted">
+                                <i class="fas fa-angle-down"></i>
+                            </a>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_dailySchedule.html">
+                                    <i class="fas fa-calendar-check"></i> Daily Schedule
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="http://127.0.0.1:5500/admin_weeklySchedule.html">
+                                    <i class="fas fa-calendar-alt"></i> Weekly Schedule
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- ================================== Staff ============================================= -->
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Staff</span>
+                            <a class="d-flex align-items-center text-muted">
+                                <i class="fas fa-angle-down"></i>
+                            </a>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addStaff.html">
+                                    <i class="fas fa-user"></i> Add Staff
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/send_data">
+                                    <i class="fas fa-user-cog"></i> Manage Staff Data
+                                </a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/send_staff">
+                                    <i class="fas fa-address-book"></i> Add Staff Schedule
+                                </a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/manageschedule">
+                                    <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- ================================== Product ============================================= -->
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Product</span>
+                            <a class="d-flex align-items-center text-muted">
+                                <i class="fas fa-angle-down"></i>
+                            </a>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-table"></i> Add Block
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addProduct.html">
+                                    <i class="fas fa-allergies"></i> Add Product
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/send_product">
+                                    <i class="fas fa-hands"></i> All Product
+                                </a>
+                            </li>
+                        </ul>
+
+                        <!-- ====================================== Report ============================================ -->
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Reports</span>
+                            <a class="d-flex align-items-center text-muted">
+                                <i class="fas fa-angle-down"></i>
+                            </a>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_gloveReport.html">
+                                    <i class="far fa-chart-bar"></i> Glove Weight Report
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_exportReport.html">
+                                    <i class="fas fa-clipboard-list"></i> Export Report
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="col-10 mt-5">
+                <div class="container">
+                    <div class="row my-3">
+                        <h1>Add Block</h1>
+                    </div>
+                    <form action="http://localhost:3000/addblock" method="post">
+                        <!-- <div class="row my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">ID :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Block ID" id="blockID" name="blockID" readonly>
+                            </div>
+                        </div> -->
+                                <!-- <div class="row my-3">
+                                    <div class="col-lg-3">
+                                        <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" class="form-control" placeholder="Product Line" id="productLine" name="productLine">
+                                    </div>
+                                </div>
+
+                        <div class="row my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">BLOCK :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Block" id="blockName" name="blockName">
+                            </div>
+                        </div>
+    
+                        <div class="row my-3  d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary" style="text-align: center;">Save</button>
+                        </div> -->
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-size" role="tab" aria-controls="pills-home" aria-selected="true">Add Size</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-name" role="tab" aria-controls="pills-profile" aria-selected="false">Add Product Name</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-type" role="tab" aria-controls="pills-contact" aria-selected="false">Add Product Type</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-length" role="tab" aria-controls="pills-contact" aria-selected="false">Add Standard Length</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-weight" role="tab" aria-controls="pills-contact" aria-selected="false">Add Standard Weight</a>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-size" role="tabpanel" aria-labelledby="pills-home-tab">SIZE</div>
+                            <div class="tab-pane fade" id="pills-name" role="tabpanel" aria-labelledby="pills-profile-tab">NAME</div>
+                            <div class="tab-pane fade" id="pills-type" role="tabpanel" aria-labelledby="pills-contact-tab">TYPE</div>
+                            <div class="tab-pane fade" id="pills-length" role="tabpanel" aria-labelledby="pills-contact-tab">LENGTH</div>
+                            <div class="tab-pane fade" id="pills-weight" role="tabpanel" aria-labelledby="pills-contact-tab">WEIGHT</div>
+                          </div>
+
+                    </form>
+                    
+
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
+    <!-- FOOTER -->
+    <footer id="main-footer" class="bg-light">
+        <div class="contrainer">
+            <div class="row">
+                <div class="col text-center py-4">
+                    <p>Copyright &copy; <span id="year"></span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    $('#year').text(""+ new Date().getFullYear());
+    // block_id()
+    // function block_id(){
+    //     let id = 0 ;
+    //     document.getElementById("blockID").value = "A"+(id+1);
+    // }
+    </script>
 </body>
-<script>
-    $(document).ready(function () {
-        $("div#form1").append(
-            // Creating Form Div and Adding <h2> and <p> Paragraph Tag in it.
-            $("<h3/>").text("Contact Form"), $("<p/>").text("This is my form. Please fill it out. It's awesome!"), $("<form/>", {
-                action: '#',
-                method: '#'
-            }).append(
-                // Create <form> Tag and Appending in HTML Div form1.
-                $("<input/>", {
-                    type: 'text',
-                    id: 'vname',
-                    name: 'name',
-                    placeholder: 'Your Name'
-                }), // Creating Input Element With Attribute.
-                $("<input/>", {
-                    type: 'text',
-                    id: 'vemail',
-                    name: 'email',
-                    placeholder: 'Your Email'
-                }), $("<textarea/>", {
-                    rows: '5px',
-                    cols: '27px',
-                    type: 'text',
-                    id: 'vmsg',
-                    name: 'msg',
-                    placeholder: 'Message'
-                }), $("<br/>"), $("<input/>", {
-                    type: 'submit',
-                    id: 'submit',
-                    value: 'Submit'
-                })))
-    });
-</script>
 
 </html>

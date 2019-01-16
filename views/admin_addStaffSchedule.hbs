@@ -83,12 +83,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -147,84 +147,88 @@
             <div class="col-10 mt-5">
                 <form action="http://localhost:3000/saveschedule" method="POST">
                     <div class="container">
-                    <div class="row m-3">
-                        <h1 style="color: brown;">Add Staff Schedule</h1>
+                        <div class="row m-3">
+                            <h1 style="color: brown;">Add Staff Schedule</h1>
+                        </div>
+
+                        <div class="container">
+                            <div class="row m-3">
+                                <div class="col-md-4">
+                                    <label for="exampleFormControlSelect1">SELECT DAY TO DISPLAY SCHEDULE : </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="day" name="day">
+                                        <option disabled selected>Choose</option>
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>Wednesday</option>
+                                        <option>Thursday</option>
+                                        <option>Friday</option>
+                                        <option>Saturday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr style="background-color: black;">
+                        </div>
+
+                        <div class="container">
+                            <div class="row m-3">
+                                <h3>Add Staff</h3>
+                            </div>
+
+                            <div class="row m-3">
+                                <div class="col-md-3">
+                                    <label for="exampleFormControlSelect1">EMPLOYEE ID :</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="edit_id" onclick="GET_staff()" name="edit_id">
+                                        <option disabled selected>Choose</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row m-3">
+                                <div class="col-md-3">
+                                    <label for="exampleFormControlSelect1">NAME :</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" placeholder="Emp. Name " readonly id="edit_name"
+                                        name="edit_name">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleFormControlSelect1">SURNAME :</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" placeholder="Emp. Surname" readonly id="edit_surname"
+                                        name="edit_surname">
+                                </div>
+                            </div>
+
+                            <div class="row m-3">
+                                <div class="col-md-3">
+                                    <label for="exampleFormControlSelect1">POSITION :</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" placeholder="Position" readonly id="edit_position"
+                                        name="edit_position">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleFormControlSelect1">DEPARTMENT :</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input class="form-control" type="text" placeholder="Dept." readonly id="edit_dept"
+                                        name="edit_dept">
+                                </div>
+                            </div>
+
+                            <div class="row m-3">
+                                <button type="button" id="bb" onclick="alert_savedata()" class="btn btn-info">Add</button>
+                            </div>
+                            <hr style="background-color: black;">
+                        </div>
+
                     </div>
-
-                    <div class="container">
-                        <div class="row m-3">
-                            <div class="col-md-2">
-                                <label for="exampleFormControlSelect1">SELECT : </label>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control" id="day" name="day">
-                                    <option disabled selected>Choose</option>
-                                    <option>Monday</option>
-                                    <option>Tuesday</option>
-                                    <option>Wednesday</option>
-                                    <option>Thursday</option>
-                                    <option>Friday</option>
-                                    <option>Saturday</option>
-                                </select>
-                            </div>
-                        </div>
-                        <hr style="background-color: black;">
-                    </div>
-
-                    <div class="container">
-                        <div class="row m-3">
-                            <h3>Add Staff</h3>
-                        </div>
-
-                        <div class="row m-3">
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">EMPLOYEE ID :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-control" id="edit_id" onclick="GET_staff()" name="edit_id">
-                                    <option  disabled selected>Choose</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row m-3">
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">NAME :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Emp. Name " readonly id="edit_name" name="edit_name">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">SURNAME :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Emp. Surname" readonly id="edit_surname" name="edit_surname">
-                            </div>
-                        </div>
-
-                        <div class="row m-3">
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">POSITION :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Position" readonly id="edit_position" name="edit_position">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="exampleFormControlSelect1">DEPARTMENT :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" type="text" placeholder="Dept." readonly id="edit_dept" name="edit_dept">
-                            </div>
-                        </div>
-
-                        <div class="row m-3">
-                            <button type="submit" class="btn btn-info">Add</button>
-                        </div>
-                        <hr style="background-color: black;">
-                    </div>
-
-                </div>
                 </form>
             </div>
         </div>
@@ -246,34 +250,35 @@
     <script>
         $('#year').text("" + new Date().getFullYear());
 
-         var dataStaff = "{{dataStaff}}";
+        var dataStaff = "{{dataStaff}}";
         var decode_staffdata = JSON.parse(decodeURI(dataStaff))
         var staffdata = [];
 
+
         for (let i = 0; i < decode_staffdata.length; i++) {
             staffdata.push(decode_staffdata[i])
-            console.log('data' + i + ': ', staffdata[i])
+           // console.log('data' + i + ': ', staffdata[i])
         }
 
         display_badge()
-        function display_badge(){
+        function display_badge() {
             var badge_option = "<option  disabled selected>Choose</option>";
-            for(let i=0;i<staffdata.length;i++){
-               // badge_option.push(staffdata[i].badgeNo)
-               badge_option += "<option >"+staffdata[i].badgeNo+"</option>"
+            for (let i = 0; i < staffdata.length; i++) {
+                // badge_option.push(staffdata[i].badgeNo)
+                badge_option += "<option >" + staffdata[i].badgeNo + "</option>"
             }
-                document.getElementById("edit_id").innerHTML = badge_option
+            document.getElementById("edit_id").innerHTML = badge_option
 
         }
 
         //display staff data 
-        
-        function GET_staff(){
+
+        function GET_staff() {
             var get_staff = document.getElementById("edit_id").value
             var badgeno = [];
-           // console.log(get_staff)
-            for(let i=0;i<staffdata.length;i++){
-                if(get_staff == staffdata[i].badgeNo){
+            // console.log(get_staff)
+            for (let i = 0; i < staffdata.length; i++) {
+                if (get_staff == staffdata[i].badgeNo) {
                     document.getElementById("edit_name").value = staffdata[i].emp_name
                     document.getElementById("edit_surname").value = staffdata[i].emp_surname
                     document.getElementById("edit_position").value = staffdata[i].emp_position
@@ -281,6 +286,20 @@
                 }
             }
         }
+
+        function alert_savedata() {
+            if (document.getElementById("day").value == "Choose") {
+                alert('Plssssssssssssssssssssssssssssssssssssssssss Select Day')
+                document.getElementsByName("bb").type = "submit";
+            } else {
+                document.getElementsByName("bb").type = "submit";
+                console.log('submit')
+                alert('Save data success')
+                location.reload();
+            }
+        }
+
+
     </script>
 </body>
 
