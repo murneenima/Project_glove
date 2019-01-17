@@ -15,7 +15,11 @@ var Schedule = require('./ScheduleModel') // weekly
 var Current = require('./CurrentModel')
 var Month = require('./MonthModel')
 var Spotcheck = require('./SpotcheckModel')
-var StandardValue = require('./StandardValueModel')
+var StdSize = require('./StdSizeModel')
+var StdProductName = require('./StdProductNameModel')
+var StdProductType = require('./StdProductTypeModel')
+var StdLength = require('./StdLengthModel')
+var StdWeight = require('./StdWeightModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -42,29 +46,6 @@ app.use((req, res, next) => { // allow the other to connect
 
 //app.set('view engine', 'hbs');
 //app.use(express.static('public'))
-
-//==================================== Line notify =================================================
-
-/*request({
-  method: 'POST',
-  uri: 'https://notify-api.line.me/api/notify',
-  header: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  auth: {
-    bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
-  },
-  form: {
-    message: '123456', //ข้อความที่จะส่ง
-  },
-}, (err, httpResponse, body) => {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log(body)
-  }
-}) */
-
 
 //============= API test============//
 app.get('/', (req, res) => {
@@ -267,58 +248,150 @@ app.get('/send_data', (req, res) => {
 })
 
 //####################################### Product ##############################################
-// addblock
-app.post('/addblock', (req, res) => {
-    let newBlock = Block({
-        productLine: req.body.productLine,
-        blockName: req.body.blockName,
-        staff:req.body.staff
-    })
+// add size
+app.post('/addsize', (req, res) => {
+    let newSize = new StdSize({
+        std_size:req.body.size
+    })    
 
-    newBlock.save().then((doc) => {
-        res.send(doc)
-    }, (err) => {
-        res.status(400).send(err)
-    })
-})
-
-// add Product
-app.post('/addproduct', (req, res) => {
-
-    let product_size = ''
-    if (req.body.product_size == 'Choose') {
-        res.status(400).send('Size doesnot choose');
-        return
-    }
-    if (req.body.product_size == 'S') {
-        product_size = 'S'
-    } else if (req.body.product_size == 'M') {
-        product_size = 'M'
-    } else if (req.body.product_size == 'X') {
-        product_size = 'X'
-    } else if (req.body.product_size == 'XL') {
-        product_size = 'XL'
-    }
-
-    let newProduct = Product({
-        product_id: req.body.product_id,
-        product_type: req.body.product_type,
-        product_size: product_size,
-        weight_min: req.body.weight_min,
-        weight_max: req.body.weight_max,
-        length_min: req.body.length_min,
-        length_max: req.body.length_max
-    })
-
-    newProduct.save().then((doc) => {
+    newSize.save().then((doc) => {
         console.log('success')
         res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
 })
+// add addpdname
+app.post('/addpdname', (req, res) => {
+    let newStdProductName = new StdProductName({
+        std_productname:req.body.std_productname
+    })    
+
+    newStdProductName.save().then((doc) => {
+        console.log('success')
+        res.send(doc)
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+// add addpdtype
+app.post('/addpdtype', (req, res) => {
+    let newStdProductType = new StdProductType({
+        std_producttype:req.body.std_producttype
+    })    
+
+    newStdProductType.save().then((doc) => {
+        console.log('success')
+        res.send(doc)
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+// add add length
+app.post('/addlength', (req, res) => {
+    let newStdLength = new StdLength({
+        std_length:req.body.std_length
+    })    
+
+    newStdLength.save().then((doc) => {
+        console.log('success')
+        res.send(doc)
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+// add add weight
+app.post('/addweight', (req, res) => {
+    let newStdWeight = new StdWeight({
+        std_weight:req.body.std_weight
+    })    
+
+    newStdProductType.save().then((doc) => {
+        console.log('succes')
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+// export all value
+app.get('/sendvalue',(req,res)=>{
+    let data = {}
+
+    StdSize.find({},(err,Size)=>{
+        if(err) console.log('error')
+    }).then((Size)=>{
+        data.Size = Size
+
+        StdProductName.find({},(err,ProductName)=>{
+            if(err) console.log('error')
+        }).then((ProductName)=>{
+            data.ProductName = ProductName
+            
+            StdProductType.find({},(err,ProductType)=>{
+                if(err) console.log('error')
+            }).then((ProductType)=>{
+                data.ProductType = ProductType
+                
+                StdLength.find({},(err,Length)=>{
+                    if(err) console.log('error')
+                }).then((Length)=>{
+                    data.Length = Length
+                    
+                    StdWeight.find({},(err,Weight)=>{
+                        if(err) console.log('error')
+                    }).then((Weight)=>{
+                        data.Weight = Weight
+                        
+                        res.render('admin_addProduct.hbs',{data:encodeURI(JSON.stringify(data))})
+                    },(err)=>{
+                        res.status(400).send(err)
+                    })
+                })
+                
+            })
+        })
+    })
+})
+
+
+// add Product แก้ใหม่
+// app.post('/addproduct', (req, res) => {
+
+//     let product_size = ''
+//     if (req.body.product_size == 'Choose') {
+//         res.status(400).send('Size doesnot choose');
+//         return
+//     }
+//     if (req.body.product_size == 'S') {
+//         product_size = 'S'
+//     } else if (req.body.product_size == 'M') {
+//         product_size = 'M'
+//     } else if (req.body.product_size == 'X') {
+//         product_size = 'X'
+//     } else if (req.body.product_size == 'XL') {
+//         product_size = 'XL'
+//     }
+
+//     let newProduct = Product({
+//         product_id: req.body.product_id,
+//         product_type: req.body.product_type,
+//         product_size: product_size,
+//         weight_min: req.body.weight_min,
+//         weight_max: req.body.weight_max,
+//         length_min: req.body.length_min,
+//         length_max: req.body.length_max
+//     })
+
+//     newProduct.save().then((doc) => {
+//         console.log('success')
+//         res.send(doc)
+//     }, (err) => {
+//         res.status(400).send(err)
+//     })
+// })
 
 // sent all product to display 
+
 app.get('/send_product', (req, res) => {
     Product.find({}, (err, dataProduct) => {
         if (err) console.log(err)

@@ -82,12 +82,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -145,45 +145,109 @@
             <div class="col-10 mt-5">
                 <div class="container">
                     <div class="row my-3">
-                        <h1>Add Block</h1>
+                        <h1>Add Value</h1>
                     </div>
-                    <form action="http://localhost:3000/addblock" method="post">
-                        <!-- <div class="row my-3">
-                            <div class="col-lg-3">
-                                <label for="exampleFormControlSelect1">ID :</label>
-                            </div>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Block ID" id="blockID" name="blockID" readonly>
-                            </div>
-                        </div> -->
+
+                    <div class="container">
+                        <!-- Add Size -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addsize" method="POST">
                                 <div class="row my-3">
-                                    <div class="col-lg-3">
-                                        <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
+                                    <div class="col-4">
+                                        <h4> Add Size : </h4>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control" placeholder="Product Line" id="productLine" name="productLine">
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="size" name="size" placeholder="Size">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
                                     </div>
                                 </div>
-
-                        <div class="row my-3">
-                            <div class="col-lg-3">
-                                <label for="exampleFormControlSelect1">BLOCK :</label>
-                            </div>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Block" id="blockName" name="blockName">
-                            </div>
+                            </form>
                         </div>
-    
-                        <div class="row my-3  d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary" style="text-align: center;">Save</button>
-                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
 
-                    </form>
-                    
+                        <!-- Add Product Name -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addpdname" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Product Name : </h4>
+                                        <!-- <label for="exampleFormControlInput1">Add Size : </label> -->
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_productname" name="std_productname" placeholder="Product Name">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info" >Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                            <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add Product Type -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addpdtype" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Product Name : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_producttype" name="std_producttype" placeholder="Product Type">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add STD Length -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addlength" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add STD Length : </h4>        
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_length" name="std_length" placeholder="Standard Length">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+
+                        <!-- Add STD Weight -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addweight" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add STD Weight : </h4>        
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_weight" name="std_weight" placeholder="Standard Weight">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+                    </div>
 
                 </div>
+
             </div>
         </div>
+    </div>
+    </div>
 
     </div>
 
@@ -200,12 +264,18 @@
     </footer>
 
     <script>
-    $('#year').text(""+ new Date().getFullYear());
+        $('#year').text("" + new Date().getFullYear());
     // block_id()
     // function block_id(){
     //     let id = 0 ;
     //     document.getElementById("blockID").value = "A"+(id+1);
     // }
+
+    function Reload_data(){
+        alert('was pressed')
+        window.location.reload();
+
+    }
     </script>
 </body>
 

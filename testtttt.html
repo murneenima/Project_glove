@@ -82,12 +82,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -145,69 +145,102 @@
             <div class="col-10 mt-5">
                 <div class="container">
                     <div class="row my-3">
-                        <h1>Add Block</h1>
+                        <h1>Add Value</h1>
                     </div>
-                    <form action="http://localhost:3000/addblock" method="post">
-                        <!-- <div class="row my-3">
-                            <div class="col-lg-3">
-                                <label for="exampleFormControlSelect1">ID :</label>
-                            </div>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Block ID" id="blockID" name="blockID" readonly>
-                            </div>
-                        </div> -->
-                                <!-- <div class="row my-3">
-                                    <div class="col-lg-3">
-                                        <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
+
+                    <div class="container">
+                        <!-- Add Size -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Size : </h4>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control" placeholder="Product Line" id="productLine" name="productLine">
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_size" placeholder="Size">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-info">Save</button>
                                     </div>
                                 </div>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
 
-                        <div class="row my-3">
-                            <div class="col-lg-3">
-                                <label for="exampleFormControlSelect1">BLOCK :</label>
-                            </div>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Block" id="blockName" name="blockName">
+                        <!-- Add Product Name -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <div class="row my-3">
+                                <div class="col-4">
+                                    <h4> Add Product Name : </h4>
+                                    <!-- <label for="exampleFormControlInput1">Add Size : </label> -->
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="std_productname" placeholder="Product Name">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-info" >Save</button>
+                                </div>
                             </div>
                         </div>
-    
-                        <div class="row my-3  d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary" style="text-align: center;">Save</button>
-                        </div> -->
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-size" role="tab" aria-controls="pills-home" aria-selected="true">Add Size</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-name" role="tab" aria-controls="pills-profile" aria-selected="false">Add Product Name</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-type" role="tab" aria-controls="pills-contact" aria-selected="false">Add Product Type</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-length" role="tab" aria-controls="pills-contact" aria-selected="false">Add Standard Length</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-weight" role="tab" aria-controls="pills-contact" aria-selected="false">Add Standard Weight</a>
-                            </li>
-                          </ul>
-                          <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-size" role="tabpanel" aria-labelledby="pills-home-tab">SIZE</div>
-                            <div class="tab-pane fade" id="pills-name" role="tabpanel" aria-labelledby="pills-profile-tab">NAME</div>
-                            <div class="tab-pane fade" id="pills-type" role="tabpanel" aria-labelledby="pills-contact-tab">TYPE</div>
-                            <div class="tab-pane fade" id="pills-length" role="tabpanel" aria-labelledby="pills-contact-tab">LENGTH</div>
-                            <div class="tab-pane fade" id="pills-weight" role="tabpanel" aria-labelledby="pills-contact-tab">WEIGHT</div>
-                          </div>
+                            <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
 
-                    </form>
-                    
+                        <!-- Add Product Type -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <div class="row my-3">
+                                <div class="col-4">
+                                    <h4> Add Product Name : </h4>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="std_producttype" placeholder="Product Type">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-info">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add STD Length -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add STD Length : </h4>        
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_length" placeholder="Standard Length">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+
+                        <!-- Add STD Weight -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <div class="row my-3">
+                                <div class="col-4">
+                                    <h4> Add STD Weight : </h4>        
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" class="form-control" id="std_weight" placeholder="Standard Weight">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-info">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+
+
+                    </div>
 
                 </div>
+
             </div>
         </div>
+    </div>
+    </div>
 
     </div>
 
@@ -224,7 +257,7 @@
     </footer>
 
     <script>
-    $('#year').text(""+ new Date().getFullYear());
+        $('#year').text("" + new Date().getFullYear());
     // block_id()
     // function block_id(){
     //     let id = 0 ;

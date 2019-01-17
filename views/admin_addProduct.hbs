@@ -17,13 +17,12 @@
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
 
-    <title>Manage Staff Schedule</title>
+    <title> Add Product</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
         }
-    
     </style>
 </head>
 
@@ -89,7 +88,7 @@
                                 </a>
                             </li>
                              <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
                             </li>
@@ -109,7 +108,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:3000/sendvalue">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-allergies"></i> Add Product
                                 </a>
                             </li>
@@ -143,24 +142,98 @@
                 </nav>
             </div>
 
-            <!-- ///////////////////////////////////////////////////////////////////////////////////////-->
+
+            <!-- /////////////////////////////// Add Product ////////////////////////// -->
             <div class="col-10 mt-5">
                 <div class="container">
-                    <div class="row m-3">
-                        <h1 style="color: brown;">Manage Staff Schedule</h1>
+                    <div class="row my-3">
+                        <h1>Add Product</h1>
                     </div>
+                    <form action="http://localhost:3000/addproduct" method="post">
+                        <div class="row  my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">PRODUCT ID :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Product ID" id="product_id" name="product_id">
+                            </div>
+                        </div>
 
-                   
+                        <div class="row  my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">PRODUCT NAME :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Product Type" id="product_name"
+                                    name="product_type">
+                            </div>
+                        </div>
 
-                    
+                        <div class="row  my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">PRODUCT TYPE :</label>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" placeholder="Product Type" id="product_type"
+                                    name="product_type">
+                            </div>
+                        </div>
+
+                        <div class="row  my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">SIZE :</label>
+
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-control" id="product_size" name="product_size">
+                                    <option selected>Choose</option>
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>X</option>
+                                    <option>XL</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row  my-lg-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">STANDARD WEIGHT :</label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" placeholder="Min" id="weight_min" name="weight_min">
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" placeholder="Max" id="weight_max" name="weight_max">
+                            </div>
+                        </div>
+
+                        <div class="row  my-lg-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">STANDARD LENGTH :</label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" placeholder="Min" id="length_min" name="length_min">
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" placeholder="Max" id="length_max" name="length_max">
+                            </div>
+                        </div>
+
+                        <div class="row my-3  d-flex justify-content-center">
+                            <button type="submit" onclick="reloadpage()" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+
+
                 </div>
+
             </div>
         </div>
 
     </div>
 
 
-    <!-- ################################### FOOTER #################################### -->
+    <!-- FOOTER -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
@@ -173,6 +246,44 @@
 
     <script>
         $('#year').text("" + new Date().getFullYear());
+        function reloadpage(){
+            alert('testttt')
+        }
+        var data = "{{data}}"
+        var data_value = JSON.parse(decodeURI(data))
+        var Size = [];
+        var ProductName = [];
+        var ProductType =[];
+        var Length = [];
+        var Weight = [];
+        
+        let option_size = [];
+        let option_pdname = [];
+        let option_pdtype = [];
+        let option_length = [];
+        let option_weight = [];
+       
+        for(let i=0;i<data_value.Size.length;i++){
+            Size.push(data_value.Size[i])
+            console.log(Size[i])
+        }
+        for(let i=0;i<data_value.ProductName.length;i++){
+            ProductName.push(data_value.ProductName[i])
+            console.log(ProductName[i])
+        }
+        for(let i=0;i<data_value.ProductType.length;i++){
+            ProductType.push(data_value.ProductType[i])
+            console.log(ProductType[i])
+        }
+        for(let i=0;i<data_value.Length.length;i++){
+            Length.push(data_value.Length[i])
+            console.log(Length[i])
+        }
+        for(let i=0;i<data_value.Weight.length;i++){
+            Weight.push(data_value.Weight[i])
+            console.log(Weight[i]) 
+        }
+
     </script>
 </body>
 
