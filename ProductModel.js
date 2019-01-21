@@ -8,6 +8,10 @@ var ProductSchema = new Schema ({
         required:true,
         unique:true
     },
+    product_name:{
+        type:String,
+        required:true
+    },
     product_type:{
         type:String,
         required:true

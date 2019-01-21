@@ -50,20 +50,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                {{!-- <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Form</a>
-                </li> --}}
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Log out</a>
+                </li>
             </ul>
         </div>
     </nav>
 
     <div class="container d-flex justify-content-center ">
-        <form action="http://localhost:3000/save_data" method="post" >
+        <form action="http://localhost:3000/save_data" method="post" id >
             <div class="row mt-4  d-flex justify-content-center">
                 <h5>Glove Weight Form</h5>
             </div>
 
-            {{!-- <div class="row my-3">
+            <div class="row my-3">
                 <div class="col">
                     <label for="formGroupExampleInput">จำนวน Line</label>
                 </div>
@@ -83,9 +83,12 @@
             </div>
 
             <div class="row my-3"></div>
-            <hr style="color: black;border: solid 0.3px;"> --}}
+            <hr style="color: black;border: solid 0.3px;">
 
-            <div class="row my-3">
+            <div class="container" id="form_data">
+
+            </div>
+            {{!-- <div class="row my-3">
                 <div class="col-6"><label for="formGroupExampleInput">badgeNo</label></div>
                 <div class="col-6">
                     <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge" readonly >
@@ -148,7 +151,7 @@
                 </div>
             </div>
             <div class="row my-3  d-flex justify-content-center"><button type="submit" onclick="submitdata()" class="btn btn-primary">Submit</button></div>
-            {{!-- <hr style="color: black;border: solid 0.3px;"> --}}
+            <hr style="color: black;border: solid 0.3px;"> --}}
         </form>
 
     </div>
@@ -162,7 +165,7 @@
             {{!-- console.log(de_data.Product)
             console.log(de_data.Block)
             console.log(de_data.Staff) --}}
-    mm()
+    //mm()
     function mm(){
 
             var Block = [];
@@ -195,8 +198,14 @@
             document.getElementById("bagde").value = Staff[0].badgeNo
     }
 
-    function submitdata(){
-       // alert(' Success to submit data')
+    function myFunction(){
+        alert(' Success to submit data')
+        let line = document.getElementById('line').value
+        var inner_data = '<div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">badgeNo</label></div><div class="col-6"><input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge" readonly ></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Block :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="productline" name="productline"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Length :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Length" id="length" name="length"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Weight :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Weight" id="weight" name="weight"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed"></div></div><div class="row my-3  d-flex justify-content-center"></div><hr style="color: black;border: solid 0.3px;">'
+        console.log(line)
+        for(let i=0;i<line;i++){             
+            document.getElementById("form_data").innerHTML = inner_data
+        }
     }
 
    

@@ -104,8 +104,8 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addBlock.html">
-                                    <i class="fas fa-table"></i> Add Block
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addValue.html">
+                                    <i class="fas fa-table"></i> Add Value
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -145,7 +145,7 @@
 
             <!-- ///////////////////////////////////////////////////////////////////////////////////////-->
             <div class="col-10 mt-5">
-                <form action="http://localhost:3000/saveschedule" method="POST">
+                <form action="http://localhost:3000/saveschedule" method="POST" id="myForm">
                     <div class="container">
                         <div class="row m-3">
                             <h1 style="color: brown;">Add Staff Schedule</h1>
@@ -295,7 +295,8 @@
                 document.getElementsByName("bb").type = "submit";
                 console.log('submit')
                 alert('Save data success')
-                location.reload();
+                document.getElementById("myForm").submit();
+               // location.reload();
             }
         }
 

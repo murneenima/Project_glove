@@ -103,8 +103,8 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addBlock.html">
-                                    <i class="fas fa-table"></i> Add Block
+                                <a class="nav-link" href="http://127.0.0.1:5500/admin_addValue.html">
+                                    <i class="fas fa-table"></i> Add Value
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -164,8 +164,9 @@
                                 <label for="exampleFormControlSelect1">PRODUCT NAME :</label>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Product Type" id="product_name"
-                                    name="product_type">
+                                <select class="form-control" id="product_name" name="product_name">
+                                    
+                                </select>
                             </div>
                         </div>
 
@@ -174,8 +175,9 @@
                                 <label for="exampleFormControlSelect1">PRODUCT TYPE :</label>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="Product Type" id="product_type"
-                                    name="product_type">
+                                <select class="form-control" id="product_type" name="product_type">
+                                   
+                                </select>
                             </div>
                         </div>
 
@@ -186,11 +188,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <select class="form-control" id="product_size" name="product_size">
-                                    <option selected>Choose</option>
-                                    <option>S</option>
-                                    <option>M</option>
-                                    <option>X</option>
-                                    <option>XL</option>
+                                   
                                 </select>
                             </div>
                         </div>
@@ -200,10 +198,14 @@
                                 <label for="exampleFormControlSelect1">STANDARD WEIGHT :</label>
                             </div>
                             <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="Min" id="weight_min" name="weight_min">
+                                <select class="form-control"  id="weight_min" name="weight_min">
+                                   
+                                </select>
                             </div>
                             <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="Max" id="weight_max" name="weight_max">
+                                <select class="form-control"  id="weight_max" name="weight_max">
+                                   
+                                </select>
                             </div>
                         </div>
 
@@ -212,10 +214,14 @@
                                 <label for="exampleFormControlSelect1">STANDARD LENGTH :</label>
                             </div>
                             <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="Min" id="length_min" name="length_min">
+                                <select class="form-control"  id="length_min" name="length_min">
+                                   
+                                </select>
                             </div>
                             <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="Max" id="length_max" name="length_max">
+                                <select class="form-control"  id="length_max" name="length_max">
+                                    
+                                </select>
                             </div>
                         </div>
 
@@ -257,32 +263,52 @@
         var Length = [];
         var Weight = [];
         
-        let option_size = [];
-        let option_pdname = [];
-        let option_pdtype = [];
-        let option_length = [];
-        let option_weight = [];
+        let option_size = '<select class="form-control" id="product_size" name="product_size"><option disabled selected>Choose</option>'
+        let option_pdname = '<select class="form-control" id="product_name" name="product_name"><option disabled selected>Choose</option>'
+        let option_pdtype = '<select class="form-control" id="product_type" name="product_type"><option disabled selected>Choose</option>'
+        let option_weightmin = '<select class="form-control"  id="weight_min" name="weight_min"><option disabled selected>Choose</option>'
+        let option_weightmax = '<select class="form-control"  id="weight_max" name="weight_max"><option disabled selected>Choose</option>'
+        let option_lengthmin = '<select class="form-control"  id="length_min" name="length_min"><option disabled selected>Choose</option>'
+        let option_lengthmax = '<select class="form-control"  id="length_max" name="length_max"><option disabled selected>Choose</option>'
        
-        for(let i=0;i<data_value.Size.length;i++){
-            Size.push(data_value.Size[i])
-            console.log(Size[i])
-        }
         for(let i=0;i<data_value.ProductName.length;i++){
             ProductName.push(data_value.ProductName[i])
             console.log(ProductName[i])
+            option_pdname += "<option value='"+ProductName[i].std_productname+"'>"+ProductName[i].std_productname+"</option>"
         }
         for(let i=0;i<data_value.ProductType.length;i++){
             ProductType.push(data_value.ProductType[i])
             console.log(ProductType[i])
+            option_pdtype +="<option value='"+ProductType[i].std_producttype+"'>"+ProductType[i].std_producttype+"</option>"
+        }
+        for(let i=0;i<data_value.Size.length;i++){
+            Size.push(data_value.Size[i])
+            console.log(Size[i])
+            option_size +="<option value='"+ Size[i].std_size+ "'>"+Size[i].std_size+"</option>"
         }
         for(let i=0;i<data_value.Length.length;i++){
             Length.push(data_value.Length[i])
             console.log(Length[i])
+            option_lengthmin+="<option value='"+Length[i].std_length+"'>"+Length[i].std_length+"</option>"
+            option_lengthmax+="<option value='"+Length[i].std_length+"'>"+Length[i].std_length+"</option>"
         }
         for(let i=0;i<data_value.Weight.length;i++){
             Weight.push(data_value.Weight[i])
             console.log(Weight[i]) 
+            option_weightmin +="<option value='"+Weight[i].std_weight+"'>"+Weight[i].std_weight+"</option>"
+            option_weightmax +="<option value='"+Weight[i].std_weight+"'>"+Weight[i].std_weight+"</option>"
         }
+
+        document.getElementById('product_name').innerHTML = option_pdname
+        document.getElementById('product_type').innerHTML = option_pdtype
+        document.getElementById('product_size').innerHTML = option_size
+        document.getElementById('weight_min').innerHTML = option_weightmin
+        document.getElementById('weight_max').innerHTML = option_weightmax
+        document.getElementById('length_min').innerHTML = option_lengthmin
+        document.getElementById('length_max').innerHTML = option_lengthmax
+
+      
+        
 
     </script>
 </body>

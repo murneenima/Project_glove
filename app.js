@@ -217,20 +217,19 @@ app.post('/remove', (req, res) => {
     }, (err) => {
         res.status(400).send(err)
     })
-    Schedule.remove({ badgeNo: req.body.id }).then((d) => {
+
+    Schedule.findByIdAndRemove({ badgeNo: req.body.id }).then((d) => {
         console.log('=====success remove in table shedule ====')
 
     }, (err) => {
         res.status(400).send(err)
     })
-    Month.remove({ badgeNo: req.body.id }).then((d) => {
+    Month.findOneAndRemove({ badgeNo: req.body.id }).then((d) => {
         console.log('=====success remove in table shedule ====')
 
     }, (err) => {
         res.status(400).send(err)
     })
-
-
 
 })
 
@@ -306,8 +305,9 @@ app.post('/addweight', (req, res) => {
         std_weight:req.body.std_weight
     })    
 
-    newStdProductType.save().then((doc) => {
+    newStdWeight.save().then((doc) => {
         console.log('succes')
+        res.status(400).send(err)
     }, (err) => {
         res.status(400).send(err)
     })
@@ -354,43 +354,28 @@ app.get('/sendvalue',(req,res)=>{
 })
 
 
-// add Product แก้ใหม่
-// app.post('/addproduct', (req, res) => {
 
-//     let product_size = ''
-//     if (req.body.product_size == 'Choose') {
-//         res.status(400).send('Size doesnot choose');
-//         return
-//     }
-//     if (req.body.product_size == 'S') {
-//         product_size = 'S'
-//     } else if (req.body.product_size == 'M') {
-//         product_size = 'M'
-//     } else if (req.body.product_size == 'X') {
-//         product_size = 'X'
-//     } else if (req.body.product_size == 'XL') {
-//         product_size = 'XL'
-//     }
+app.post('/addproduct', (req, res) => {
+   let newProduct =new Product({
+        product_id: req.body.product_id,
+        product_name: req.body.product_name,
+        product_type: req.body.product_type,
+        product_size: req.body.product_size,
+        weight_min: req.body.weight_min,
+        weight_max: req.body.weight_max,
+        length_min: req.body.length_min,
+        length_max: req.body.length_max
+    })
 
-//     let newProduct = Product({
-//         product_id: req.body.product_id,
-//         product_type: req.body.product_type,
-//         product_size: product_size,
-//         weight_min: req.body.weight_min,
-//         weight_max: req.body.weight_max,
-//         length_min: req.body.length_min,
-//         length_max: req.body.length_max
-//     })
+    newProduct.save().then((doc) => {
+        console.log(doc)
+        res.send(doc)
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
 
-//     newProduct.save().then((doc) => {
-//         console.log('success')
-//         res.send(doc)
-//     }, (err) => {
-//         res.status(400).send(err)
-//     })
-// })
-
-// sent all product to display 
+//sent all product to display 
 
 app.get('/send_product', (req, res) => {
     Product.find({}, (err, dataProduct) => {
@@ -449,7 +434,8 @@ app.get('/send_staff', (req, res) => {
 
 // save weekly schedule 
 app.post('/saveschedule', (req, res) => {
-    let newSchedule = Schedule({
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaa')
+    let newSchedule = new Schedule({
         day: req.body.day,
         s_badgeNo: req.body.edit_id,
         s_name: req.body.edit_name,
@@ -463,9 +449,7 @@ app.post('/saveschedule', (req, res) => {
     })
     newSchedule.save().then((doc) => {
         console.log('saving data to table current')
-      // res.send(doc)
-        res.render('admin_addStaffSchedule.hbs')
-        let newMonth = Month({
+        let newMonth = new Month({
             m_day:req.body.day,
             m_badgeNo: req.body.edit_id,
             m_name: req.body.edit_name,
@@ -480,18 +464,18 @@ app.post('/saveschedule', (req, res) => {
         newMonth.save().then((doc)=>{
             console.log('success to save data in table month')
             //res.send(doc)
-            //res.render('admin_addStaffSchedule.hbs')
+            res.render('admin_addStaffSchedule.hbs')
         },(err)=>{
             res.status(400).send(err)
         })
     }, (err) => {
         res.status(400).send(err)
     })
-})
+ })
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('16 * * * *', function () {
+var j = schedule.scheduleJob('41 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
