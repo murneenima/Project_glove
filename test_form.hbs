@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+        <style type="text/css">
+        #second,#third,#fourth,#result{
+            display: none;
+        }
+        </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6 bg-info">
+                <h1 class="text-center" id="result">Hello</h1>
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                        aria-valuemax="100">
+                    <b class="lead" id="progressText">Form 1</b>
+                    </div>
+                </div>
+                <form action="http://localhost:3000/save_data" method="POST" id="myForm">
+                    <div class="row mt-4  d-flex justify-content-center">
+                        <h5>Glove Weight Form</h5>
+                    </div>
+
+                    <div class="first" id="first">
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">badgeNo1</label></div>
+                            <div class="col-6">
+                                <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge"
+                                    readonly>
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div>
+                            <div class="col-6">
+                                <select class="custom-select custom-select-sm" id="productline" name="productline">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                                <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
+                                <div class="col-6">
+                                    <select class="custom-select custom-select-sm" id="length" name="length">
+                                    </select></div>
+                                    <b class="form-text text-danger" id="overlength">Over1  </b>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
+                                <div class="col-6">
+                                    <select class="custom-select custom-select-sm" id="weight" name="weight">
+                                    </select></div>
+                                    <b class="form-text text-danger" id="overweight">Over1</b>
+                            </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
+                            <div class="col-6">
+                                <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
+                            </div>
+                        </div>
+                       
+                        <hr style="color: black;border: solid 0.3px;">
+                        <div class="row">
+                            <a href="#" class="btn btn-danger" id="next-1">Next</a>
+                        </div>
+                    </div>
+
+                    <div class="second" id="second">
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">badgeNo2</label></div>
+                            <div class="col-6">
+                                <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge"
+                                    readonly>
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div>
+                            <div class="col-6">
+                                <select class="custom-select custom-select-sm" id="productline" name="productline">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                                <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
+                                <div class="col-6">
+                                    <select class="custom-select custom-select-sm" id="length" name="length">
+                                    </select></div>
+                                    <b class="form-text text-danger" id="overlength">Over2</b>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
+                                <div class="col-6">
+                                    <select class="custom-select custom-select-sm" id="weight" name="weight">
+    
+                                    </select></div>
+                                    <b class="form-text text-danger" id="overweight">Over2</b>
+                            </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
+                            <div class="col-6">
+                                <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
+                            </div>
+                        </div>
+                      
+                        <hr style="color: black;border: solid 0.3px;">
+                        <div class="row">
+                            <a href="#" class="btn btn-danger" id="prev-2">Previous</a>
+                            <a href="#" class="btn btn-danger" id="next-2">Next</a>
+                        </div>
+                    </div>
+
+                    <div class="third" id="third">
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">badgeNo3</label></div>
+                            <div class="col-6">
+                                <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge"
+                                    readonly>
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div>
+                            <div class="col-6">
+                                <select class="custom-select custom-select-sm" id="productline" name="productline">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                                <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
+                                <div class="col-6">
+                                    <select class="custom-select custom-select-sm" id="length" name="length">
+                                    </select></div>
+                                    <b class="form-text text-danger" id="overlength">Over3</b>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
+                                <div class="col-6">
+                                    <select class="custom-select custom-select-sm" id="weight" name="weight">
+    
+                                    </select></div>
+                                    <b class="form-text text-danger" id="overweight">Over3</b>
+                            </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
+                            <div class="col-6">
+                                <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
+                            </div>
+                        </div>
+                    
+                        <hr style="color: black;border: solid 0.3px;">
+                        <div class="row">
+                            <a href="#" class="btn btn-danger" id="prev-3">Previous</a>
+                            <a href="#" class="btn btn-danger" id="next-3">Next</a>
+                        </div>
+                    </div>
+
+                    <div class="fourth" id="fourth">
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">badgeNo4</label></div>
+                            <div class="col-6">
+                                <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge"
+                                    readonly>
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div>
+                            <div class="col-6">
+                                <select class="custom-select custom-select-sm" id="productline" name="productline">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize">
+
+                                </select></div>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
+                            <div class="col-6">
+                                <select class="custom-select custom-select-sm" id="length" name="length">
+                                </select></div>
+                                <b class="form-text text-danger" id="overlength">Over4</b>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
+                            <div class="col-6">
+                                <select class="custom-select custom-select-sm" id="weight" name="weight">
+
+                                </select></div>
+                                <b class="form-text text-danger" id="overweight">Over4</b>
+                        </div>
+                        <div class="row my-3">
+                            <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
+                            <div class="col-6">
+                                <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
+                            </div>
+                        </div>
+                    
+                        <hr style="color: black;border: solid 0.3px;">
+                        <div class="row">
+                            <a href="#" class="btn btn-danger" id="prev-4">Previous</a>
+                           <input type="submit" name="submit" value="Submit" id="submit" class="btn btn-success">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#next-1").click(function(){
+            $("#second").show();
+            $("#first").hide();
+            $("#progressBar").css("width","50%")
+            $("#progressText").html("Form 2")
+        })
+
+        $("#next-2").click(function(){
+            $("#third").show();
+            $("#second").hide();
+            $("#progressBar").css("width","75%")
+            $("#progressText").html("Form 3")
+        })
+
+        $("#next-3").click(function(){
+            $("#fourth").show();
+            $("#third").hide();
+            $("#progressBar").css("width","100%")
+            $("#progressText").html("Form 4")
+        })
+
+        $("#prev-2").click(function(){
+            $("#first").show();
+            $("#second").hide();
+            $("#progressBar").css("width","25%")
+            $("#progressText").html("Form 1")
+        })
+
+        $("#prev-3").click(function(){
+            $("#second").show();
+            $("#third").hide();
+            $("#progressBar").css("width","50%")
+            $("#progressText").html("Form 2")
+        })
+
+        $("#prev-4").click(function(){
+            $("#third").show();
+            $("#fourth").hide();
+            $("#progressBar").css("width","75%")
+            $("#progressText").html("Form 3")
+        })
+    })
+</script>
+
+</html>

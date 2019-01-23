@@ -15,13 +15,12 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
+
     <!--/////////////////////////jQuery Library//////////////////////////////////-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    {{!--
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script> --}}
 
+    <title>Form</title>
     <style>
         a:hover {
             background-color: rgb(139, 228, 220);
@@ -50,15 +49,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Log out</a>
+                              <li class="nav-item active">
+                    <a class="nav-link" href="#"> Log out</a>
                 </li>
             </ul>
         </div>
     </nav>
 
+
+    <!-- body-->
     <div class="container d-flex justify-content-center ">
-        <form action="http://localhost:3000/save_data" method="post" id >
+
+        <form action="" id="myForm">
             <div class="row mt-4  d-flex justify-content-center">
                 <h5>Glove Weight Form</h5>
             </div>
@@ -84,131 +86,79 @@
 
             <div class="row my-3"></div>
             <hr style="color: black;border: solid 0.3px;">
-
-            <div class="container" id="form_data">
-
-            </div>
-            {{!-- <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">badgeNo</label></div>
-                <div class="col-6">
-                    <input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge" readonly >
-                </div>
-            </div>
-
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block">
-                        <option disabled selected>select</option>
-                        <option value="A">Blcok A</option>
-                        <option value="B">Block B</option>
-                        <option value="C">Block C</option>
-                    </select></div>
-            </div>
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div>
-                <div class="col-6">
-                    <select class="custom-select custom-select-sm" id="productline" name="productline">
-                        <option disabled selected>select</option>
-                        <option value="1">Line 1</option>
-                        <option value="2">Line 2</option>
-                        <option value="3">Line 3</option>
-                    </select></div>
-            </div>
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name">
-                        <option disabled selected>select</option>
-                        <option value="1">aass</option>
-                        <option value="2">eeeee</option>
-                        <option value="3">ttrrtt</option>
-                        <option value="3">kkiijj</option>
-                    </select></div>
-            </div>
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                <div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize">
-                        <option disabled selected>select</option>
-                        <option value="S">Size S</option>
-                        <option value="M">Size M</option>
-                        <option value="L">Size L</option>
-                        <option value="XL">Size XL</option>
-                    </select></div>
-            </div>
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
-                <div class="col-6">
-                    <input type="text" class="form-control" placeholder="Length" id="length" name="length"></div>
-            </div>
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
-                <div class="col-6">
-                    <input type="text" class="form-control" placeholder="Weight" id="weight" name="weight"></div>
-            </div>
-            <div class="row my-3">
-                <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
-                <div class="col-6">
-                     <input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed">
-                </div>
-            </div>
-            <div class="row my-3  d-flex justify-content-center"><button type="submit" onclick="submitdata()" class="btn btn-primary">Submit</button></div>
-            <hr style="color: black;border: solid 0.3px;"> --}}
         </form>
 
     </div>
-</body>
 
+</body>
 <script type="text/javascript">
 
-    // ------------------------------------------------------------------------------------
-            var data = "{{data}}"
-            var de_data = JSON.parse(decodeURI(data))
-            {{!-- console.log(de_data.Product)
-            console.log(de_data.Block)
-            console.log(de_data.Staff) --}}
-    //mm()
-    function mm(){
 
-            var Block = [];
-            var Product = [];
-            var Staff = [];
+    function myFunction() {
+        let line = document.getElementById("line").value
+        console.log("" + line)
 
-            let select_product = '<select class="custom-select custom-select-sm" id="productline"><option disabled selected>select</option>'
-            let select_name = '<select class="custom-select custom-select-sm" id="product_name"><option disabled selected>select</option>'
-            for(let i=0;i<de_data.Staff.length;i++){
-                Staff.push(de_data.Staff[i])
-            } 
+        if (line == "select") {
+            alert('Select value')
+        }
 
-            for(let i=0;i<de_data.Block.length;i++){
-                Block.push(de_data.Block[i])
-            } 
-            for(let i=0;i<de_data.Product.length;i++){
-                Product.push(de_data.Product[i])
-            } 
+        for (let i = 0; i < line; i++) {
+          //  $('#myForm').append('<div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Block :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Blcok A</option><option value="2">Block B</option><option value="3">Block C</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Line 1</option><option value="2">Line 2</option><option value="3">Line 3</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">aass</option><option value="2">eeeee</option><option value="3">ttrrtt</option><option value="3">kkiijj</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Size S</option><option value="2">Size M</option><option value="3">Size L</option><option value="3">Size XL</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Length :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Length"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Weight :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Weight"></div></div><div class="row my-3"> <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">2334455</option><option value="2">112233</option></select></div></div><div class="row my-3  d-flex justify-content-center"><button type="button" class="btn btn-primary">Submit</button></div><hr style="color: black;border: solid 0.3px;">');    
+            $('#myForm').append(' <div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">badgeNo</label></div><div class="col-6"><input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge" readonly ></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Block :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="productline" name="productline"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="product_type" name="product_type"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Length :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="length" name="length"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Weight :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="weight" name="weight"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed"></div></div><hr style="color: black;border: solid 0.3px;">')
+            $('#myForm').append('<hr style="color: black;border: solid 0.3px;">')
+            document.getElementById("line_submit").disabled = true
+       }
+       $('#myForm').append('<div class="col"><button type="submit" onclick="myFunction()" id="line_submit" class="btn btn-info">submit</button></div>')
+
+        mm()
+
+    }
+
+    // // ------------------------------------------------------------------------------------
+     var data = "{{data}}"
+             var de_data = JSON.parse(decodeURI(data))
+             {{!-- console.log(de_data.Product)
+             console.log(de_data.Block)
+             console.log(de_data.Staff) --}}
+     
+     function mm(){
+
+             var Block = [];
+             var Product = [];
+             var Staff = [];
+
+             
+             let select_block = ''
+             let select_name = '<select class="custom-select custom-select-sm" id="product_name"><option disabled selected>select</option>'
+             let select_productline = ''
+             let select_product = ''
+
+
+         for(let i=0;i<de_data.Staff.length;i++){
+                 Staff.push(de_data.Staff[i])
+             } 
+
+             for(let i=0;i<de_data.Block.length;i++){
+                 Block.push(de_data.Block[i])
+             } 
+             for(let i=0;i<de_data.Product.length;i++){
+                 Product.push(de_data.Product[i])
+             } 
             
-            for(let i=0;i<Block.length;i++){
-                select_product += '<option value="'+Block[i].productLine+'">'+Block[i].productLine+'</option>'
-            }
-            for(let j=0;j<Product.length;j++){
-                select_name += '<option value="'+Product[j].product_type+'-'+Product[j].product_id+'">'+Product[j].product_type+'-'+Product[j].product_id+'</option>'
-            }
+             for(let i=0;i<Block.length;i++){
+                 select_product += '<option value="'+Block[i].productLine+'">'+Block[i].productLine+'</option>'
+             }
+             for(let j=0;j<Product.length;j++){
+                 select_name += '<option value="'+Product[j].product_type+'-'+Product[j].product_id+'">'+Product[j].product_type+'-'+Product[j].product_id+'</option>'
+             }
            
             document.getElementById("productline").innerHTML = select_product
             document.getElementById("product_name").innerHTML = select_name
             console.log(Staff[0].badgeNo)
             document.getElementById("bagde").value = Staff[0].badgeNo
-    }
+     }
 
-    function myFunction(){
-        alert(' Success to submit data')
-        let line = document.getElementById('line').value
-        var inner_data = '<div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">badgeNo</label></div><div class="col-6"><input type="text" id="bagde" name="badge" class="form-control" placeholder="Badge" readonly ></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Block :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="block" name="block"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="productline" name="productline"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="product_name" name="product_name"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div><div class="col-6"><select class="custom-select custom-select-sm" id="productsize" name="productsize"></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Length :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Length" id="length" name="length"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Weight :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Weight" id="weight" name="weight"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Line Speed" id="linespeed" name="linespeed"></div></div><div class="row my-3  d-flex justify-content-center"></div><hr style="color: black;border: solid 0.3px;">'
-        console.log(line)
-        for(let i=0;i<line;i++){             
-            document.getElementById("form_data").innerHTML = inner_data
-        }
-    }
 
-   
 </script>
 
 </html>

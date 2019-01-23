@@ -368,7 +368,8 @@ app.post('/addproduct', (req, res) => {
     })
 
     newProduct.save().then((doc) => {
-        console.log(doc)
+        //console.log(doc)
+        
         res.send(doc)
     }, (err) => {
         res.status(400).send(err)
@@ -475,7 +476,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('41 * * * *', function () {
+var j = schedule.scheduleJob('25 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 

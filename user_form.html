@@ -49,8 +49,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                              <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Form</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"> Log out</a>
                 </li>
             </ul>
         </div>
@@ -80,34 +80,37 @@
                 </div>
 
                 <div class="col">
-                    <button type="button" onclick="myFunction()" id="line_submit" class="btn btn-info">submit</button>
+                    <button type="button" onclick="myFunction() " id="line_submit" class="btn btn-info">submit</button>
                 </div>
             </div>
 
-            <div class="row my-3"></div>
-            <hr style="color: black;border: solid 0.3px;">
-        </form>
+            <div class="row my-3" id="data_form">
+
+            </div>
+            <hr style="color: black;border: solid 0.3px;">         
+     </form>
 
     </div>
 
 </body>
 <script type="text/javascript">
 
+   
     function myFunction() {
         let line = document.getElementById("line").value
         console.log("" + line)
+        alert(line)
 
         if (line == "select") {
             alert('Select value')
         }
 
         for (let i = 0; i < line; i++) {
-          //  $('#myForm').append('<div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Block :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Blcok A</option><option value="2">Block B</option><option value="3">Block C</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Line :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Line 1</option><option value="2">Line 2</option><option value="3">Line 3</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">aass</option><option value="2">eeeee</option><option value="3">ttrrtt</option><option value="3">kkiijj</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Size S</option><option value="2">Size M</option><option value="3">Size L</option><option value="3">Size XL</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Length :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Length"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Weight :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Weight"></div></div><div class="row my-3"> <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">2334455</option><option value="2">112233</option></select></div></div><div class="row my-3  d-flex justify-content-center"><button type="button" class="btn btn-primary">Submit</button></div><hr style="color: black;border: solid 0.3px;">');    
-            $('#myForm').append('<div class="container d-flex justify-content-center"><form action=""><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput   ">Block :</label></div><div class="col-6"><select class="custom-select custom-select-sm" name="block'+i+' id="block'+i+'"><option selected>select</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput" name="line'+i+'" id="line'+i+'">Product Line :</label></div><div class="col-6"><select class="custom-select custom-select-sm"><option selected>select</option><option value="1">Line 1</option><option value="2">Line 2</option><option value="3">Line 3</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div><div class="col-6"><select class="custom-select custom-select-sm" name="product_name'+i+'" id="product_name'+i+'"><option selected>select</option><option value="1">aass</option><option value="2">eeeee</option><option value="3">ttrrtt</option><option value="3">kkiijj</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div><div class="col-6"><select class="custom-select custom-select-sm" name="product_size'+i+'" id="product_size'+i+'"><option selected>select</option><option value="S">Size S</option><option value="M">Size M</option><option value="L">Size L</option><option value="XL">Size XL</option></select></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Length :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Length" name="length'+i+'" id="length'+i+'"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Weight :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Weight" name="weight'+i+'" id="weight'+i+'"></div></div><div class="row my-3"><div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div><div class="col-6"><input type="text" class="form-control" placeholder="Line Speed" name="line_speed'+i+'" id="line_speed'+i+'"></div></div><div class="row my-3 d-flex justify-content-center"></div></form><hr style="color: black;border: solid 0.3px;"></div>')
-            $('#myForm').append('<hr style="color: black;border: solid 0.3px;">')
+            $('#myForm').append('<div class="tab">Name:<p><input placeholder="First name..."  name="fname"></p><p><input placeholder="Last name..."  name="lname"></p></div>')
             document.getElementById("line_submit").disabled = true
-       }
-
+        }
+      //  $('#myForm').append('<div class="col"><button type="submit" onclick="myFunction()" id="line_submit" class="btn btn-info">submit</button></div>')
+            $('myForm').append('<div style="overflow:auto;"><div style="float:right;"><button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button><button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button></div></div>')
 
     }
 
