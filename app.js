@@ -476,7 +476,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('25 * * * *', function () {
+var j = schedule.scheduleJob('02 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -602,24 +602,53 @@ app.post('/check_login', (req, res) => {
                     //console.log(staff)
                     console.log('login success')
 
+                    // block 
                     Block.find({},(err,datablock)=>{
                         if(err) console.log(err)
                     }).then((datablock)=>{
                         data.Block = datablock
                 
+                        // product bame , prduct type
                         Product.find({},(err,dataproduct)=>{
                             if(err) console.log(err)
                         }).then((dataproduct)=>{
                             data.Product = dataproduct
-                            //res.send(data)
-                            res.render('user_insertform.hbs',{data:encodeURI(JSON.stringify(data))})
-                        },(err)=>{
-                            res.status(400).send(err)
+                            
+                            //  Size
+                            StdSize.find({},(err,datasize)=>{
+                                if(err) console.log(err)
+                            }).then((datasize)=>{
+                                data.StdSize = datasize
+
+                            // Std Length
+                            StdLength.find({},(err,datalength)=>{
+                                if (err) console.log(err)
+                            }).then((datalength)=>{
+                                data.StdLength = datalength
+
+                                
+                            //Std weight
+                            StdWeight.find({},(err,dataweight)=>{
+                                if(err) console.log(err)
+                            }).then((dataweight)=>{
+                                data.StdWeight = dataweight
+                                res.render('test_form.hbs', {
+                                    data:encodeURI(JSON.stringify(data))
+                                })
+                            },(err)=>{
+                               res.status(400).send(err)
+                            })
+                            
+                            })
+
+                            })
+                        
                         })
                     })
 
                 } else {
                     console.log('error to checking login')
+                    res.render('user_login.hbs', {})
                 }
             }, (err) => {
                 res.status(400).send(err)
