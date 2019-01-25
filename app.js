@@ -476,7 +476,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('02 * * * *', function () {
+var j = schedule.scheduleJob('09 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -685,6 +685,7 @@ app.post('/save_data',(req,res)=>{
         console.log(req.body.block)
         console.log(req.body.productline)
         console.log(req.body.product_name)
+        console.log(req.body.product_type)
         console.log(req.body.productsize)
         console.log(req.body.length)
         console.log(req.body.weight)
@@ -701,6 +702,7 @@ app.post('/save_data',(req,res)=>{
              spot_block:req.body.block,
              spot_productline:req.body.productline,
              spot_productname:req.body.product_name,
+             spot_producttype:req.body.product_type,
              spot_size:req.body.productsize,
              spot_length:req.body.length,
              spot_weight:req.body.weight,

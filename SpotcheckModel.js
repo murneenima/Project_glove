@@ -43,6 +43,10 @@ var SpotcheckSchema = new Schema({
         type:String,
         required:true
     },
+    spot_productype:{
+        type:String,
+        required:true
+    },
     spot_size:{
         type:String,
         required:true
