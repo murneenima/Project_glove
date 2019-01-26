@@ -20,6 +20,8 @@ var StdProductName = require('./StdProductNameModel')
 var StdProductType = require('./StdProductTypeModel')
 var StdLength = require('./StdLengthModel')
 var StdWeight = require('./StdWeightModel')
+var StdBlock = require('./StdBlockModel')
+var StdProductline = require('./StdProductlineModel')
 
 // =============== Connect =========================
 mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
@@ -313,6 +315,34 @@ app.post('/addweight', (req, res) => {
     })
 })
 
+// add block
+app.post('/addblock',(req,res)=>{
+    let newStdBlock = new StdBlock({
+        std_block:req.body.block
+    })    
+
+    newStdBlock.save().then((doc) => {
+        console.log('succes')
+        res.status(400).send(err)
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+// add productline
+app.post('/addproductline',(req,res)=>{
+    let newStdProductline = new StdProductline({
+        std_productline:req.body.productline
+    })    
+
+    newStdProductline.save().then((doc) => {
+        console.log('succes')
+        res.status(400).send(err)
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
 // export all value
 app.get('/sendvalue',(req,res)=>{
     let data = {}
@@ -353,8 +383,7 @@ app.get('/sendvalue',(req,res)=>{
     })
 })
 
-
-
+// add product
 app.post('/addproduct', (req, res) => {
    let newProduct =new Product({
         product_id: req.body.product_id,
@@ -476,7 +505,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('09 * * * *', function () {
+var j = schedule.scheduleJob('21 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 

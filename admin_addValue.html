@@ -149,6 +149,42 @@
                     </div>
 
                     <div class="container">
+                        <!-- Add Block -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addblock" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Block : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="block" name="block" placeholder="Block">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add Product Line -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addproductline" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Product Line : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="productline" name="productline" placeholder="Product Line">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
                         <!-- Add Size -->
                         <div class="div p-2" style="background-color:rgb(148, 229, 231)">
                             <form action="http://localhost:3000/addsize" method="POST">
