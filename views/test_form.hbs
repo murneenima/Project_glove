@@ -106,19 +106,21 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productname1" name="productname1">
+                            <div class="col-6"><select class="custom-select custom-select-sm" s id="productname1" name="productname1">
 
                                 </select></div>
                         </div>
-                        {{!-- <div class="row my-3">
+                        <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="producttype1" name="producttype1">
+                            <div class="col-6"><select class="custom-select custom-select-sm" 
+                                    id="producttype1" name="producttype1">
 
                                 </select></div>
-                        </div> --}}
+                        </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize1" name="productsize1">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight()"
+                                    id="productsize1" name="productsize1">
 
                                 </select></div>
                         </div>
@@ -126,16 +128,17 @@
                             <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
                             <div class="col-6">
                                 <select class="custom-select custom-select-sm" id="length1" name="length1">
-                                </select></div>
-                            <b class="form-text text-danger" id="overlength">Over1 </b>
+                                </select>
+                            </div>
                         </div>
+                            <b class="form-text text-danger" id="overlength"> </b>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
                             <div class="col-6">
                                 <select class="custom-select custom-select-sm" id="weight1" name="weight1">
                                 </select></div>
-                            <b class="form-text text-danger" id="overweight">Over1</b>
                         </div>
+                            <b class="form-text text-danger" id="overweight"></b>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
                             <div class="col-6">
@@ -179,12 +182,12 @@
 
                                 </select></div>
                         </div>
-                        {{!-- <div class="row my-3">
+                        <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
                             <div class="col-6"><select class="custom-select custom-select-sm" id="producttype2" name="producttype2">
 
                                 </select></div>
-                        </div> --}}
+                        </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
                             <div class="col-6"><select class="custom-select custom-select-sm" id="productsize2" name="productsize2">
@@ -250,12 +253,12 @@
 
                                 </select></div>
                         </div>
-                        {{!-- <div class="row my-3">
+                        <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
                             <div class="col-6"><select class="custom-select custom-select-sm" id="producttype3" name="producttype3">
 
                                 </select></div>
-                        </div> --}}
+                        </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
                             <div class="col-6"><select class="custom-select custom-select-sm" id="productsize3" name="productsize3">
@@ -317,16 +320,17 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productname4" name="productname4">
+                            <div class="col-6"><select class="custom-select custom-select-sm"  id="productname4"
+                                    name="productname4">
 
                                 </select></div>
                         </div>
-                        {{!-- <div class="row my-3">
+                        <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
                             <div class="col-6"><select class="custom-select custom-select-sm" id="producttype4" name="producttype4">
 
                                 </select></div>
-                        </div> --}}
+                        </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
                             <div class="col-6"><select class="custom-select custom-select-sm" id="productsize4" name="productsize4">
@@ -372,15 +376,18 @@
 
     var data = "{{data}}"
     var de_data = JSON.parse(decodeURI(data))
-   // console.log(de_data)
+    console.log(de_data)
     //  console.log(de_data.Product)
     //  console.log(de_data.Staff)
     //  console.log(de_data.StdLength)
     //  console.log(de_data.StdSize)
     //  console.log(de_data.StdWeight)
-    var Block = [];
+    var StdBlock = [];
     var Staff = [];
     var Product = []
+    var StdProductName = [];
+    var StdProductType = [];
+    var StdProductline = [];
     var StdSize = [];
     var StdLength = [];
     var StdWeight = [];
@@ -391,96 +398,115 @@
     var option_productsize = "<option disabled selected>select</option>"
     var option_length = "<option disabled selected>select</option>"
     var option_weight = "<option disabled selected>select</option>"
-    
+
     mm()
     myFunction()
     function mm() {
+        // ===================================================================================================//
+        for (let i = 0; i < de_data.StdBlock.length; i++) {
+            StdBlock.push(de_data.StdBlock[i])
+            option_block += '<option value="' + StdBlock[i].std_block + '">' + StdBlock[i].std_block + '</option>'
+        }
+        for (let i = 0; i < de_data.StdProductline.length; i++) {
+            StdProductline.push(de_data.StdProductline[i])
+            option_productline += '<option value="' + StdProductline[i].std_productline + '">' + StdProductline[i].std_productline + '</option>'
+        }
+        for (let i = 0; i < de_data.Staff.length; i++) {
+            Staff.push(de_data.Staff[i])
+        }
+        for (let i = 0; i < de_data.StdProductName.length; i++) {
+            StdProductName.push(de_data.StdProductName[i])
+            option_productname += '<option value="' + StdProductName[i].std_productname + '">' + StdProductName[i].std_productname + '</option>'
+        }
+        for (let i = 0; i < de_data.StdProductType.length; i++) {
+            StdProductType.push(de_data.StdProductType[i])
+            option_producttype += '<option value="' + StdProductType[i].std_producttype + '">' + StdProductType[i].std_producttype + '</option>'
+        }
+        for (let i = 0; i < de_data.Product.length; i++) {
+            Product.push(de_data.Product[i])
+        }
 
-    // ===================================================================================================//
-    for (let i = 0; i < de_data.Block.length; i++) {
-        Block.push(de_data.Block[i])
+        for (let i = 0; i < de_data.StdSize.length; i++) {
+            StdSize.push(de_data.StdSize[i])
+            option_productsize += '<option value="' + StdSize[i].std_size + '">' + StdSize[i].std_size + '</option>'
+        }
+        for (let i = 0; i < de_data.StdLength.length; i++) {
+            StdLength.push(de_data.StdLength[i])
+            option_length += '<option value="' + StdLength[i].std_length + '">' + StdLength[i].std_length + '</option>'
+        }
+        for (let i = 0; i < de_data.StdWeight.length; i++) {
+            StdWeight.push(de_data.StdWeight[i])
+            option_weight += '<option value="' + StdWeight[i].std_weight + '">' + StdWeight[i].std_weight + '</option>'
+        }
+
+
+
+        // ===================================================================================================//
+        //let badge = Staff[0].badgeNo
+        // document.getElementById(":first/badge").value = Staff[0].badgeNo
+        document.getElementById("block1").innerHTML = option_block
+        document.getElementById("block2").innerHTML = option_block
+        document.getElementById("block3").innerHTML = option_block
+        document.getElementById("block4").innerHTML = option_block
+
+        document.getElementById("productline1").innerHTML = option_productline
+        document.getElementById("productline2").innerHTML = option_productline
+        document.getElementById("productline3").innerHTML = option_productline
+        document.getElementById("productline4").innerHTML = option_productline
+
+        document.getElementById("productname1").innerHTML = option_productname
+        document.getElementById("productname2").innerHTML = option_productname
+        document.getElementById("productname3").innerHTML = option_productname
+        document.getElementById("productname4").innerHTML = option_productname
+
+        document.getElementById("producttype1").innerHTML = option_producttype
+        document.getElementById("producttype2").innerHTML = option_producttype
+        document.getElementById("producttype3").innerHTML = option_producttype
+        document.getElementById("producttype4").innerHTML = option_producttype
+
+        document.getElementById("productsize1").innerHTML = option_productsize
+        document.getElementById("productsize2").innerHTML = option_productsize
+        document.getElementById("productsize3").innerHTML = option_productsize
+        document.getElementById("productsize4").innerHTML = option_productsize
+
+        document.getElementById("length1").innerHTML = option_length
+        document.getElementById("length2").innerHTML = option_length
+        document.getElementById("length3").innerHTML = option_length
+        document.getElementById("length4").innerHTML = option_length
+
+        document.getElementById("weight1").innerHTML = option_weight
+        document.getElementById("weight2").innerHTML = option_weight
+        document.getElementById("weight3").innerHTML = option_weight
+        document.getElementById("weight4").innerHTML = option_weight
+
     }
-    for (let i = 0; i < de_data.Staff.length; i++) {
-        Staff.push(de_data.Staff[i])
-    }
-    for(let i=0;i<de_data.Product.length;i++){
-        Product.push(de_data.Product[i])
-    }
-    for(let i=0;i<de_data.StdSize.length;i++){
-        StdSize.push(de_data.StdSize[i])
-    }
-    for(let i=0;i<de_data.StdLength.length;i++){
-        StdLength.push(de_data.StdLength[i])
-    }
-    for(let i=0;i<de_data.StdWeight.length;i++){
-        StdWeight.push(de_data.StdWeight[i])
-    }
 
+    function overlength_weight() {
+        
+        let selectname = document.getElementById("productname1")
+        let optionname = selectname.options[selectname.selectedIndex].value;
 
-    // ===================================================================================================//
-    for (let i = 0; i < Block.length; i++) {
-        console.log(Block[i])
-        option_block += '<option value="'+ Block[i].blockName +'">' + Block[i].blockName + '</option>'
-        option_productline += '<option value="'+ Block[i].productLine +'">' + Block[i].productLine + '</option>'
-    }
-    for (let i = 0; i < Product.length; i++) {
-        console.log(Product[i])
-        option_productname += '<option value="'+Product[i].product_name+'-'+Product[i].product_type+'">' + Product[i].product_name+'-'+Product[i].product_type+ '</option>'
-        option_producttype += '<option value="'+Product[i].product_type +'">' + Product[i].product_type + '</option>'
-    }
-    for (let i = 0; i < StdSize.length; i++) {
-        console.log(StdSize[i])
-        option_productsize += '<option value="'+ StdSize[i].std_size +'">' + StdSize[i].std_size + '</option>'
-    }
-    for (let i = 0; i < StdLength.length; i++) {
-        console.log(StdLength[i])
-        option_length += '<option value="' + StdLength[i].std_length + '">' + StdLength[i].std_length + '</option>'
-    }
-    for (let i = 0; i < StdWeight.length; i++) {
-        console.log(StdWeight[i])
-        option_weight += '<option value="' + StdWeight[i].std_weight  + '">' + StdWeight[i].std_weight  + '</option>'
+        let selecttype = document.getElementById("producttype1")
+        let optiontype = selecttype.options[selecttype.selectedIndex].value;
+
+        let selectsize = document.getElementById("productsize1")
+        let optionsize = selectsize.options[selectsize.selectedIndex].value;
+
+        console.log(optionname)
+        console.log(optiontype)
+        console.log(optionsize)
+        if(optionname !== 'select' && optiontype !== 'select' && optionsize !== 'select'){ 
+            for (let i=0;i<Product.length;i++) {
+                if (optionname == Product[i].product_name && optiontype == Product[i].product_type && optionsize == Product[i].product_size) {
+                    var l = document.createTextNode("*** Std Length "+Product[i].length_min+" mm to "+Product[i].length_max+ " mm ***");
+                        document.getElementById("overlength").appendChild(l);
+                    var w = document.createTextNode("*** Std Weight "+Product[i].weight_min+" g to "+Product[i].weight_max+ " g ***");
+                    document.getElementById("overweight").appendChild(w);
+                }
+            }
+        }
     }
 
-
-    // ===================================================================================================//
-    //let badge = Staff[0].badgeNo
-    // document.getElementById(":first/badge").value = Staff[0].badgeNo
-    document.getElementById("block1").innerHTML = option_block
-    document.getElementById("block2").innerHTML = option_block
-    document.getElementById("block3").innerHTML = option_block
-    document.getElementById("block4").innerHTML = option_block
-
-    document.getElementById("productline1").innerHTML = option_productline
-    document.getElementById("productline2").innerHTML = option_productline
-    document.getElementById("productline3").innerHTML = option_productline
-    document.getElementById("productline4").innerHTML = option_productline
-
-    document.getElementById("productname1").innerHTML = option_productname
-    document.getElementById("productname2").innerHTML = option_productname
-    document.getElementById("productname3").innerHTML = option_productname
-    document.getElementById("productname4").innerHTML = option_productname
-
-    document.getElementById("producttype1").innerHTML = option_producttype
-    document.getElementById("producttype2").innerHTML = option_producttype
-    document.getElementById("producttype3").innerHTML = option_producttype
-    document.getElementById("producttype4").innerHTML = option_producttype
-
-    document.getElementById("productsize1").innerHTML = option_productsize
-    document.getElementById("productsize2").innerHTML = option_productsize
-    document.getElementById("productsize3").innerHTML = option_productsize
-    document.getElementById("productsize4").innerHTML = option_productsize
-
-    document.getElementById("length1").innerHTML = option_length
-    document.getElementById("length2").innerHTML = option_length
-    document.getElementById("length3").innerHTML = option_length
-    document.getElementById("length4").innerHTML = option_length
-
-    document.getElementById("weight1").innerHTML = option_weight
-    document.getElementById("weight2").innerHTML = option_weight
-    document.getElementById("weight3").innerHTML = option_weight
-    document.getElementById("weight4").innerHTML = option_weight
-
-    } // fn
     function myFunction() {
         $("#pg").hide()
         $("#first").hide();

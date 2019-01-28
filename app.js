@@ -252,8 +252,8 @@ app.get('/send_data', (req, res) => {
 // add size
 app.post('/addsize', (req, res) => {
     let newSize = new StdSize({
-        std_size:req.body.size
-    })    
+        std_size: req.body.size
+    })
 
     newSize.save().then((doc) => {
         console.log('success')
@@ -265,8 +265,8 @@ app.post('/addsize', (req, res) => {
 // add addpdname
 app.post('/addpdname', (req, res) => {
     let newStdProductName = new StdProductName({
-        std_productname:req.body.std_productname
-    })    
+        std_productname: req.body.std_productname
+    })
 
     newStdProductName.save().then((doc) => {
         console.log('success')
@@ -278,8 +278,8 @@ app.post('/addpdname', (req, res) => {
 // add addpdtype
 app.post('/addpdtype', (req, res) => {
     let newStdProductType = new StdProductType({
-        std_producttype:req.body.std_producttype
-    })    
+        std_producttype: req.body.std_producttype
+    })
 
     newStdProductType.save().then((doc) => {
         console.log('success')
@@ -291,8 +291,8 @@ app.post('/addpdtype', (req, res) => {
 // add add length
 app.post('/addlength', (req, res) => {
     let newStdLength = new StdLength({
-        std_length:req.body.std_length
-    })    
+        std_length: req.body.std_length
+    })
 
     newStdLength.save().then((doc) => {
         console.log('success')
@@ -304,88 +304,119 @@ app.post('/addlength', (req, res) => {
 // add add weight
 app.post('/addweight', (req, res) => {
     let newStdWeight = new StdWeight({
-        std_weight:req.body.std_weight
-    })    
+        std_weight: req.body.std_weight
+    })
 
     newStdWeight.save().then((doc) => {
         console.log('succes')
-        res.status(400).send(err)
+
     }, (err) => {
         res.status(400).send(err)
     })
 })
 
-// add block
-app.post('/addblock',(req,res)=>{
+// add std block
+app.post('/addblock', (req, res) => {
     let newStdBlock = new StdBlock({
-        std_block:req.body.block
-    })    
+        std_block: req.body.block
+    })
 
     newStdBlock.save().then((doc) => {
         console.log('succes')
-        res.status(400).send(err)
     }, (err) => {
         res.status(400).send(err)
     })
 })
 
 // add productline
-app.post('/addproductline',(req,res)=>{
+app.post('/addproductline', (req, res) => {
     let newStdProductline = new StdProductline({
-        std_productline:req.body.productline
-    })    
+        std_productline: req.body.productline
+    })
 
     newStdProductline.save().then((doc) => {
         console.log('succes')
-        res.status(400).send(err)
     }, (err) => {
         res.status(400).send(err)
     })
 })
 
-// export all value
-app.get('/sendvalue',(req,res)=>{
+// export all value for adding product
+app.get('/sendvalue', (req, res) => {
     let data = {}
 
-    StdSize.find({},(err,Size)=>{
-        if(err) console.log('error')
-    }).then((Size)=>{
+    StdSize.find({}, (err, Size) => {
+        if (err) console.log('error')
+    }).then((Size) => {
         data.Size = Size
 
-        StdProductName.find({},(err,ProductName)=>{
-            if(err) console.log('error')
-        }).then((ProductName)=>{
+        StdProductName.find({}, (err, ProductName) => {
+            if (err) console.log('error')
+        }).then((ProductName) => {
             data.ProductName = ProductName
-            
-            StdProductType.find({},(err,ProductType)=>{
-                if(err) console.log('error')
-            }).then((ProductType)=>{
+
+            StdProductType.find({}, (err, ProductType) => {
+                if (err) console.log('error')
+            }).then((ProductType) => {
                 data.ProductType = ProductType
-                
-                StdLength.find({},(err,Length)=>{
-                    if(err) console.log('error')
-                }).then((Length)=>{
+
+                StdLength.find({}, (err, Length) => {
+                    if (err) console.log('error')
+                }).then((Length) => {
                     data.Length = Length
-                    
-                    StdWeight.find({},(err,Weight)=>{
-                        if(err) console.log('error')
-                    }).then((Weight)=>{
+
+                    StdWeight.find({}, (err, Weight) => {
+                        if (err) console.log('error')
+                    }).then((Weight) => {
                         data.Weight = Weight
-                        
-                        res.render('admin_addProduct.hbs',{data:encodeURI(JSON.stringify(data))})
-                    },(err)=>{
+                        res.render('admin_addProduct.hbs', { data: encodeURI(JSON.stringify(data)) })
+                    }, (err) => {
                         res.status(400).send(err)
                     })
                 })
-                
+
             })
+        })
+    })
+})
+
+//adddblock_productline
+app.post('/adddblock_productline', (req, res) => {
+    let newBlock = new Block({
+        blockName: req.body.block,
+        productLine: req.body.productline
+    })
+
+    newBlock.save().then((doc) => {
+        console.log('succes to saving in BLOCK ')
+    }, (err) => {
+        res.status(400).send(err)
+    })
+})
+
+// =====================================================================
+
+// add product line to block
+app.get('/sendblock', (req, res) => {
+    let data = {}
+    StdBlock.find({}, (err, Block) => {
+        if (err) console.log('error')
+        data.Block = Block
+    }).then((Block) => {
+        StdProductline.find({}, (err, ProductLine) => {
+            if (err) console.log('error')
+        }).then((Productline) => {
+            data.Productline = Productline
+            res.render('admin_addBlock.hbs', { data: encodeURI(JSON.stringify(data)) })
+        }, (err) => {
+            res.status(400).send(err)
         })
     })
 })
 
 // add product
 app.post('/addproduct', (req, res) => {
-   let newProduct =new Product({
+    let newProduct = new Product({
         product_id: req.body.product_id,
         product_name: req.body.product_name,
         product_type: req.body.product_type,
@@ -398,15 +429,15 @@ app.post('/addproduct', (req, res) => {
 
     newProduct.save().then((doc) => {
         //console.log(doc)
-        
+
         res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
 })
 
-//sent all product to display 
 
+//sent all product to display 
 app.get('/send_product', (req, res) => {
     Product.find({}, (err, dataProduct) => {
         if (err) console.log(err)
@@ -473,39 +504,39 @@ app.post('/saveschedule', (req, res) => {
         s_position: req.body.edit_position,
         s_department: req.body.edit_dept,
         s_status: req.body.s_status,
-        s_day:req.body.s_day,
-        s_month:req.body.s_month,
-        s_year:req.body.s_year
+        s_day: req.body.s_day,
+        s_month: req.body.s_month,
+        s_year: req.body.s_year
     })
     newSchedule.save().then((doc) => {
         console.log('saving data to table current')
         let newMonth = new Month({
-            m_day:req.body.day,
+            m_day: req.body.day,
             m_badgeNo: req.body.edit_id,
             m_name: req.body.edit_name,
             m_surname: req.body.edit_surname,
             m_position: req.body.edit_position,
             m_department: req.body.edit_dept,
             m_status: req.body.s_status,
-            m_date:req.body.m_day,
-            m_month:req.body.m_month,
-            m_year:req.body.m_year
+            m_date: req.body.m_day,
+            m_month: req.body.m_month,
+            m_year: req.body.m_year
         })
-        newMonth.save().then((doc)=>{
+        newMonth.save().then((doc) => {
             console.log('success to save data in table month')
             //res.send(doc)
             res.render('admin_addStaffSchedule.hbs')
-        },(err)=>{
+        }, (err) => {
             res.status(400).send(err)
         })
     }, (err) => {
         res.status(400).send(err)
     })
- })
+})
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('21 * * * *', function () {
+var j = schedule.scheduleJob('47 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -520,7 +551,7 @@ var j = schedule.scheduleJob('21 * * * *', function () {
         console.log('collection removed')
     });
 
-    Schedule.find({ day: day_format }, (err, obj) => {    
+    Schedule.find({ day: day_format }, (err, obj) => {
         for (let i = 0; i < obj.length; i++) {
             var name = obj[i].s_name;
             console.log(name)
@@ -532,29 +563,29 @@ var j = schedule.scheduleJob('21 * * * *', function () {
                 c_position: obj[i].s_position,
                 c_department: obj[i].s_department,
                 c_status: obj[i].s_status,
-                c_date:day,
-                c_month:month,
-                c_year:year
+                c_date: day,
+                c_month: month,
+                c_year: year
             })
 
             newCurrent.save().then((doc) => {
                 console.log('schedule success')
-                Schedule.findOne({s_badgeNo:obj[i].s_badgeNo},function(err,data){
-                    if(data){
+                Schedule.findOne({ s_badgeNo: obj[i].s_badgeNo }, function (err, data) {
+                    if (data) {
                         data.s_day = day
                         data.s_month = month
-                        data.s_year = year 
-                        data.save(function(err) {
+                        data.s_year = year
+                        data.save(function (err) {
                             if (err) // do something
-                            console.log('is fail to update date')
-                            else 
-                            console.log('is UPdated date')
+                                console.log('is fail to update date')
+                            else
+                                console.log('is UPdated date')
                         });
-                    }else{
+                    } else {
                         console.log(err);
                     }
                 })
-                
+
             }, (err) => {
                 console.log('save data to Currnent Model error')
                 res.status(400).send(err)
@@ -632,46 +663,62 @@ app.post('/check_login', (req, res) => {
                     console.log('login success')
 
                     // block 
-                    Block.find({},(err,datablock)=>{
-                        if(err) console.log(err)
-                    }).then((datablock)=>{
-                        data.Block = datablock
-                
+                    StdBlock.find({}, (err, datablock) => {
+                        if (err) console.log(err)
+                    }).then((datablock) => {
+                        data.StdBlock = datablock
+
                         // product bame , prduct type
-                        Product.find({},(err,dataproduct)=>{
-                            if(err) console.log(err)
-                        }).then((dataproduct)=>{
+                        Product.find({}, (err, dataproduct) => {
+                            if (err) console.log(err)
+                        }).then((dataproduct) => {
                             data.Product = dataproduct
-                            
+
                             //  Size
-                            StdSize.find({},(err,datasize)=>{
-                                if(err) console.log(err)
-                            }).then((datasize)=>{
+                            StdSize.find({}, (err, datasize) => {
+                                if (err) console.log(err)
+                            }).then((datasize) => {
                                 data.StdSize = datasize
 
-                            // Std Length
-                            StdLength.find({},(err,datalength)=>{
-                                if (err) console.log(err)
-                            }).then((datalength)=>{
-                                data.StdLength = datalength
+                                // Std Length
+                                StdLength.find({}, (err, datalength) => {
+                                    if (err) console.log(err)
+                                }).then((datalength) => {
+                                    data.StdLength = datalength
 
-                                
-                            //Std weight
-                            StdWeight.find({},(err,dataweight)=>{
-                                if(err) console.log(err)
-                            }).then((dataweight)=>{
-                                data.StdWeight = dataweight
-                                res.render('test_form.hbs', {
-                                    data:encodeURI(JSON.stringify(data))
+
+                                    //Std weight
+                                    StdWeight.find({}, (err, dataweight) => {
+                                        if (err) console.log(err)
+                                    }).then((dataweight) => {
+                                        data.StdWeight = dataweight
+
+                                        StdProductline.find({}, (err, dataproductline) => {
+                                            if (err) console.log(err)
+                                        }).then((dataproductline) => {
+                                            data.StdProductline = dataproductline
+
+                                            StdProductName.find({}, (err, dataProductname) => {
+                                                if (err) console.log(err)
+                                            }).then((dataProductname) => {
+                                                data.StdProductName = dataProductname
+
+                                                StdProductType.find({},(err,producttype)=>{
+                                                    if (err) console.log(err)
+                                                }).then((producttype)=>{
+                                                    data.StdProductType = producttype 
+                                                    res.render('test_form.hbs', { data: encodeURI(JSON.stringify(data)) })
+                                                }, (err) => {
+                                                    res.status(400).send(err)
+                                                })
+                                            })
+                                        })
+                                    })
+
                                 })
-                            },(err)=>{
-                               res.status(400).send(err)
-                            })
-                            
-                            })
 
                             })
-                        
+
                         })
                     })
 
@@ -684,190 +731,187 @@ app.post('/check_login', (req, res) => {
             })
         } else {
             console.log('error to find data pls login again')
-            res.render('user_login.hbs', result)      
+            res.render('user_login.hbs', result)
         }
     })
 })
 
 
 // save_data when fill information and line notify
-app.post('/save_data',(req,res)=>{
+app.post('/save_data', (req, res) => {
 
     let name = "";
     let surname = "";
     let date = moment().format('dddd');
     let day = moment().format('DD');
     let month = moment().format('MMMM')
-    let year =  moment().format('YYYY')
-    Current.findOne({c_badgeNo:req.body.badge}).then((d)=>{
+    let year = moment().format('YYYY')
+    Current.findOne({ c_badgeNo: req.body.badge }).then((d) => {
         //console.log(d)
         //console.log(d.c_name) 
         name = d.c_name
         surname = d.c_surname
-       /* console.log(req.body.badge)
-        console.log(name)
-        console.log(surname)
-        console.log(date)
-        console.log(day)
-        console.log(month)
-        console.log(year)
-        console.log(req.body.block)
-        console.log(req.body.productline)
-        console.log(req.body.product_name)
-        console.log(req.body.product_type)
-        console.log(req.body.productsize)
-        console.log(req.body.length)
-        console.log(req.body.weight)
-        console.log(req.body.linespeed) */
+        /* console.log(req.body.badge)
+         console.log(name)
+         console.log(surname)
+         console.log(date)
+         console.log(day)
+         console.log(month)
+         console.log(year)
+         console.log(req.body.block)
+         console.log(req.body.productline)
+         console.log(req.body.product_name)
+         console.log(req.body.product_type)
+         console.log(req.body.productsize)
+         console.log(req.body.length)
+         console.log(req.body.weight)
+         console.log(req.body.linespeed) */
 
-         let newSpotscheck = Spotcheck({
-             spot_badge:req.body.badge,
-             spot_name:name,
-             spot_surname:surname,
-             spot_date:date,
-             spot_day:day,
-             spot_month:month,
-             spot_year:year,
-             spot_block:req.body.block,
-             spot_productline:req.body.productline,
-             spot_productname:req.body.product_name,
-             spot_producttype:req.body.product_type,
-             spot_size:req.body.productsize,
-             spot_length:req.body.length,
-             spot_weight:req.body.weight,
-             spot_linespeed:req.body.linespeed
-         })
-         newSpotscheck.save().then((doc)=>{
-             console.log('success to save data on SPOTCHECK table')
-             res.render('user_insertform.hbs')
-         },(err)=>{
-             res.status(400).send(err)
-         })
+        let newSpotscheck = Spotcheck({
+            spot_badge: req.body.badge,
+            spot_name: name,
+            spot_surname: surname,
+            spot_date: date,
+            spot_day: day,
+            spot_month: month,
+            spot_year: year,
+            spot_block: req.body.block,
+            spot_productline: req.body.productline,
+            spot_productname: req.body.product_name,
+            spot_producttype: req.body.product_type,
+            spot_size: req.body.productsize,
+            spot_length: req.body.length,
+            spot_weight: req.body.weight,
+            spot_linespeed: req.body.linespeed
+        })
+        newSpotscheck.save().then((doc) => {
+            console.log('success to save data on SPOTCHECK table')
+            res.render('user_insertform.hbs')
+        }, (err) => {
+            res.status(400).send(err)
+        })
 
-         var length = req.body.length
-         var weight = req.body.weight
+        var length = req.body.length
+        var weight = req.body.weight
         // console.log(length)
         // console.log(weight)
-        
-         var product_split = req.body.product_name 
-         var name = product_split.split('-')
-         var product_type = name[0]
-         var product_id = name[1]
+
+        var product_split = req.body.product_name
+        var name = product_split.split('-')
+        var product_type = name[0]
+        var product_id = name[1]
 
         // console.log(product_type)
         // console.log(product_id)
 
-         Product.findOne({product_type:product_type}).then((d)=>{
-             if(length > d.length_max){
+        Product.findOne({ product_type: product_type }).then((d) => {
+            if (length > d.length_max) {
                 request({
                     method: 'POST',
                     uri: 'https://notify-api.line.me/api/notify',
                     header: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     auth: {
-                      bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                        bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                     },
                     form: {
-                      message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is OVER LENGTH !!!!! ', //ข้อความที่จะส่ง
-                     
+                        message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is OVER LENGTH !!!!! ', //ข้อความที่จะส่ง
+
                     },
-                  }, (err, httpResponse, body) => {
+                }, (err, httpResponse, body) => {
                     if (err) {
-                      console.log(err)
+                        console.log(err)
                     } else {
-                      console.log(body)
+                        console.log(body)
                     }
-                  })
-             }else{
-                 if(length<d.length_min){
-                     console.log('!!!!!Over length !!!!!')
-                     request({
-                         method: 'POST',
-                         uri: 'https://notify-api.line.me/api/notify',
-                         header: {
-                           'Content-Type': 'application/x-www-form-urlencoded',
-                         },
-                         auth: {
-                           bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
-                         },
-                         form: {
-                           message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is UNDER LENGTH !!!!!', //ข้อความที่จะส่ง
-                           
+                })
+            } else {
+                if (length < d.length_min) {
+                    console.log('!!!!!Over length !!!!!')
+                    request({
+                        method: 'POST',
+                        uri: 'https://notify-api.line.me/api/notify',
+                        header: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                       }, (err, httpResponse, body) => {
-                         if (err) {
-                           console.log(err)
-                         } else {
-                           console.log(body)
-                         }
-                       })
-                 }
-             }
-            if(weight < d.weight_min){
+                        auth: {
+                            bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                        },
+                        form: {
+                            message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is UNDER LENGTH !!!!!', //ข้อความที่จะส่ง
+
+                        },
+                    }, (err, httpResponse, body) => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log(body)
+                        }
+                    })
+                }
+            }
+            if (weight < d.weight_min) {
                 console.log(' !!!! Over weight !!!!!')
                 request({
                     method: 'POST',
                     uri: 'https://notify-api.line.me/api/notify',
                     header: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     auth: {
-                      bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                        bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                     },
                     form: {
-                      message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is UNDER WEIGHT !!!!!', //ข้อความที่จะส่ง
-                      
+                        message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is UNDER WEIGHT !!!!!', //ข้อความที่จะส่ง
+
                     },
-                  }, (err, httpResponse, body) => {
+                }, (err, httpResponse, body) => {
                     if (err) {
-                      console.log(err)
+                        console.log(err)
                     } else {
-                      console.log(body)
+                        console.log(body)
                     }
-                  })
-                  
-            }else{
-                if(weight > d.weight_min){
+                })
+
+            } else {
+                if (weight > d.weight_min) {
                     console.log(' !!!! Over weight !!!!!')
                     request({
                         method: 'POST',
                         uri: 'https://notify-api.line.me/api/notify',
                         header: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
+                            'Content-Type': 'application/x-www-form-urlencoded',
                         },
                         auth: {
-                          bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                            bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                         },
                         form: {
-                          message: 'Product Name : '+d.product_type+'-'+d.product_id+'  SIZE : ' +d.product_size+ ' is OVER WEIGHT !!!!!', //ข้อความที่จะส่ง
-                          
+                            message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is OVER WEIGHT !!!!!', //ข้อความที่จะส่ง
+
                         },
-                      }, (err, httpResponse, body) => {
+                    }, (err, httpResponse, body) => {
                         if (err) {
-                          console.log(err)
+                            console.log(err)
                         } else {
-                          console.log(body)
+                            console.log(body)
                         }
-                      })
-                      
-                } 
+                    })
+
+                }
             }
-         },(err)=>{
-             res.status(400).send(err)
-         })
-    },(err)=>{
+        }, (err) => {
+            res.status(400).send(err)
+        })
+    }, (err) => {
         res.status(400).send(err)
     })
-    
+
 })
 
 
 //######################################## Log Out ##############################################
-// app.get('/logout', function (req, res) {
-//     delete req.session.user_id;
-//     res.redirect('/login');
-// });
+
 
 //########################################  Port #################################################
 app.listen(3000, () => {

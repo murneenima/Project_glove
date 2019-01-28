@@ -17,7 +17,7 @@
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
 
-    <title> Weekly Schedule</title>
+    <title> Add Block</title>
     <style>
         body {
             background-color: snow;
@@ -58,7 +58,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                                <a class="nav-link active" href="http://localhost:3000/weeklyschedule">
                                     <i class="fas fa-calendar-alt"></i> Weekly Schedule
                                 </a>
                             </li>
@@ -82,12 +82,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                            <li class="nav-item">
+                             <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                            <li class="nav-item">
+                             <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -108,12 +108,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:3000/sendblock">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-table"></i> Add Block
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:3000/sendvalue">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-allergies"></i> Add Product
                                 </a>
                             </li>
@@ -147,54 +147,52 @@
                 </nav>
             </div>
 
-            <!-- ///////////////////////////////////////// FORM  /////////////////////////////////////////////////////-->
+
+
+             <!-- /////////////////////////////// Add Product ////////////////////////// -->
             <div class="col-10 mt-5">
                 <div class="container">
-
-                    <div class="row my-3">
-                        <h1>Weekly Schedule</h1>
+                    <div class="row my-3" >
+                        <h1>Add Block</h1>
                     </div>
-
-                    <div class="row my-3">
-                        <div class="col-2">
-                            <label for="exampleFormControlSelect1">Select Day :</label>
+                    <form action="http://localhost:3000/adddblock_productline" method="post">
+                        <div class="row  my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">BLOCK :</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="form-control" id="block" name="block">
+                                    
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-4">
-                            <select class="form-control" id="Select_day" aria-placeholder="Date">
-                                <option disabled selected>Please select day</option>
-                                <option value="Monday">Monday</option>
-                                <option value="Tuesday">Tuesday</option>
-                                <option value="Wednesday">Wednesday</option>
-                                <option value="Thursday">Thursday</option>
-                                <option value="Friday">Friday</option>
-                                <option value="Saturday">Saturday</option>
-                            </select>
+                        <div class="row  my-3">
+                            <div class="col-lg-3">
+                                <label for="exampleFormControlSelect1">PRODUCT LINE :</label>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="form-control" id="productline" name="productline">
+                                    
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-4">
-                            <button type="button" class="btn btn-info" onclick="is_Selected()">Search</button>
+                        <div class="row my-3  d-flex justify-content-center">
+                            <button type="submit" onclick="reloadpage()" class="btn btn-primary">Save</button>
                         </div>
-                    </div>
+                    </form>
 
-                    <div class="row my-3">
-                        <div class="container">
-                            <div class="table-responsive text-center">
-                            <table class="table" id="weekly_table">
-                            </table>
-                        </div>
-                        </div>
-                        
-                    </div>
 
                 </div>
-            </div>
+
+            </div>       
         </div>
 
     </div>
 
 
-    <!-- ////////////////////////////////////// FOOTER //////////////////////////////// -->
+    <!-- FOOTER -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
@@ -207,33 +205,34 @@
 
     <script>
         $('#year').text("" + new Date().getFullYear());
-        var staffschedule = "{{staffschedule}}"
-        var staff_schedule = JSON.parse(decodeURI(staffschedule))
-        var weekly_schedule = [];
-
-        for (let i = 0; i < staff_schedule.length; i++) {
-            weekly_schedule.push(staff_schedule[i])
-           // console.log(weekly_schedule[i])
+        function reloadpage(){
+            alert('testttt')
+            location.reload()
         }
 
-        function is_Selected() {
-            var selected_day = document.getElementById("Select_day").value
-            var table_display = "<thead class='thead-dark'><tr><th scope='col'>#</th><th scope='col'>Badge No</th><th scope='col'>Name</th><th scope='col'>Surname</th><th scope='col'>Position</th><th scope='col'>Dept.</th></tr></thead><tbody>"
-          //      console.log(selected_day)
-            let j = 0 ; 
-            for (let i = 0; i < weekly_schedule.length; i++) {
-                
-                 if (selected_day == weekly_schedule[i].day) {
-                       // console.log("=========",j)
-                        table_display += "<tr><th scope='row'>" + (j + 1) + "</th><td>" + weekly_schedule[i].s_badgeNo + "</td><td>" + weekly_schedule[i].s_name + "</td><td>" + weekly_schedule[i].s_surname + "</td><td>" + weekly_schedule[i].s_position + "</td><td>" + weekly_schedule[i].s_department + "</td></tr>"
-                        j++
-                       // console.log(j)
-                 }  
-                 
+        var data ="{{data}}"
+        var de_data = JSON.parse(decodeURI(data))
+
+        block()
+        function block(){
+            let Block = [];
+            let Productline = [];
+
+            let option_block =  "<option disabled selected>select</option>"
+            let option_productline =  "<option disabled selected>select</option>"
+            for(let i=0;i<de_data.Block.length;i++){
+                Block.push(de_data.Block[i])
+                option_block += "<option value='"+Block[i].std_block+"'>"+Block[i].std_block+"</option>"
             }
-             document.getElementById("weekly_table").innerHTML = table_display
+            for(let i=0;i<de_data.Productline.length;i++){
+                Productline.push(de_data.Productline[i])
+                option_productline += "<option value='"+Productline[i].std_productline+"'>"+Productline[i].std_productline+"</option>"
+            }
 
+            document.getElementById("block").innerHTML = option_block
+            document.getElementById("productline").innerHTML = option_productline
         }
+
     </script>
 </body>
 
