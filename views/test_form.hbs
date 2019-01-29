@@ -81,7 +81,7 @@
                 <div class="row my-3"></div>
                 <hr style="color: black;border: solid 0.3px;">
 
-                <form action="https://www.google.com/" method="GET" id="first_form">
+                <form action="http://localhost:3000/save_data" method="POST" id="form">
                     <div class="first" id="first">
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">badgeNo1</label></div>
@@ -93,7 +93,7 @@
 
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="block1" name="1block">
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="block1" name="block1">
 
                                 </select></div>
                         </div>
@@ -106,20 +106,19 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" s id="productname1" name="productname1">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight1()" id="productname1" name="productname1">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" 
-                                    id="producttype1" name="producttype1">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight1()" id="producttype1" name="producttype1">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight()"
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight1()"
                                     id="productsize1" name="productsize1">
 
                                 </select></div>
@@ -127,18 +126,17 @@
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="length1" name="length1">
-                                </select>
+                                <input type="text" class="form-control" placeholder="Length" id="length1" name="length1">
                             </div>
                         </div>
-                            <b class="form-text text-danger" id="overlength"> </b>
+                        <b class="form-text text-danger" id="overlength1"> </b>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="weight1" name="weight1">
-                                </select></div>
+                                <input type="text" class="form-control" placeholder="Weight" id="weight1" name="weight1">
+                            </div>
                         </div>
-                            <b class="form-text text-danger" id="overweight"></b>
+                        <b class="form-text text-danger" id="overweight1"></b>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
                             <div class="col-6">
@@ -151,17 +149,15 @@
                             <a href="#" class="btn btn-danger" id="next-1">Next</a>
                         </div>
                     </div>
-                </form>
-
-                <form action="https://www.google.com/" method="GET" id="second_form">
+                
                     <div class="second" id="second">
-                        <div class="row my-3">
+                        {{!-- <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">badgeNo2</label></div>
                             <div class="col-6">
                                 <input type="text" id="bagde2" name="badge2" class="form-control" placeholder="Badge"
                                     readonly>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
@@ -178,36 +174,36 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productname2" name="productname2">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight2()" id="productname2" name="productname2">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="producttype2" name="producttype2">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight2()" id="producttype2" name="producttype2">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize2" name="productsize2">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight2()"
+                                    id="productsize2" name="productsize2">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="length2" name="length2">
-                                </select></div>
-                            <b class="form-text text-danger" id="overlength">Over2</b>
+                                <input type="text" class="form-control" placeholder="Length" id="length2" name="length2">
+                            </div>
+                            <b class="form-text text-danger" id="overlength2"></b>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="weight2" name="weight2">
-
-                                </select></div>
-                            <b class="form-text text-danger" id="overweight">Over2</b>
+                                <input type="text" class="form-control" placeholder="Weight" id="weight2" name="weight2">
+                            </div>
+                            <b class="form-text text-danger" id="overweight2"></b>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
@@ -222,17 +218,15 @@
                             <a href="#" class="btn btn-danger" id="next-2">Next</a>
                         </div>
                     </div>
-                </form>
-
-                <form action="https://www.google.com/" method="GET" id="third_form">
+                
                     <div class="third" id="third">
-                        <div class="row my-3">
+                        {{!-- <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">badgeNo3</label></div>
                             <div class="col-6">
                                 <input type="text" id="bagde3" name="badge3" class="form-control" placeholder="Badge"
                                     readonly>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
@@ -249,36 +243,34 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productname3" name="productname3">
+                            <div class="col-6"><select class="custom-select custom-select-sm"  onchange="overlength_weight3()" id="productname3" name="productname3">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="producttype3" name="producttype3">
+                            <div class="col-6"><select class="custom-select custom-select-sm"  onchange="overlength_weight3()" id="producttype3" name="producttype3">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize3" name="productsize3">
+                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize3"
+                                    onchange="overlength_weight3()" name="productsize3">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="length3" name="length3">
-                                </select></div>
-                            <b class="form-text text-danger" id="overlength">Over3</b>
+                                <input type="text" class="form-control" placeholder="Length" id="length3" name="length3"></div>
+                            <b class="form-text text-danger" id="overlength3"></b>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="weight3" name="weight3">
-
-                                </select></div>
-                            <b class="form-text text-danger" id="overweight">Over3</b>
+                                <input type="text" class="form-control" placeholder="Weight" id="weight3" name="weight3"></div>
+                            <b class="form-text text-danger" id="overweight3"></b>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
@@ -293,17 +285,15 @@
                             <a href="#" class="btn btn-danger" id="next-3">Next</a>
                         </div>
                     </div>
-                </form>
-
-                <form action="https://www.google.com/" method="GET" id="fourth_form">
+                
                     <div class="fourth" id="fourth">
-                        <div class="row my-3">
+                        {{!-- <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">badgeNo4</label></div>
                             <div class="col-6">
                                 <input type="text" id="bagde4" name="badge4" class="form-control" placeholder="Badge"
                                     readonly>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Block :</label></div>
@@ -320,37 +310,35 @@
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Name :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm"  id="productname4"
-                                    name="productname4">
+                            <div class="col-6"><select class="custom-select custom-select-sm"  onchange="overlength_weight4()" id="productname4" name="productname4">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Type :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="producttype4" name="producttype4">
+                            <div class="col-6"><select class="custom-select custom-select-sm"  onchange="overlength_weight4()" id="producttype4" name="producttype4">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Product Size :</label></div>
-                            <div class="col-6"><select class="custom-select custom-select-sm" id="productsize4" name="productsize4">
+                            <div class="col-6"><select class="custom-select custom-select-sm" onchange="overlength_weight4()"
+                                    id="productsize4" name="productsize4">
 
                                 </select></div>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Length :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="length4" name="length4">
-                                </select></div>
-                            <b class="form-text text-danger" id="overlength">Over4</b>
+                                <input type="text" class="form-control" placeholder="Length" id="length4" name="length4">
+                            </div>
+                            <b class="form-text text-danger" id="overlength4"></b>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Weight :</label></div>
                             <div class="col-6">
-                                <select class="custom-select custom-select-sm" id="weight4" name="weight4">
-
-                                </select></div>
-                            <b class="form-text text-danger" id="overweight">Over4</b>
+                                <input type="text" class="form-control" placeholder="Weight" id="weight4" name="weight4"></div>
+                            <b class="form-text text-danger" id="overweight4"></b>
                         </div>
                         <div class="row my-3">
                             <div class="col-6"><label for="formGroupExampleInput">Line Speed :</label></div>
@@ -376,7 +364,7 @@
 
     var data = "{{data}}"
     var de_data = JSON.parse(decodeURI(data))
-    console.log(de_data)
+    //console.log(de_data)
     //  console.log(de_data.Product)
     //  console.log(de_data.Staff)
     //  console.log(de_data.StdLength)
@@ -413,6 +401,7 @@
         }
         for (let i = 0; i < de_data.Staff.length; i++) {
             Staff.push(de_data.Staff[i])
+            
         }
         for (let i = 0; i < de_data.StdProductName.length; i++) {
             StdProductName.push(de_data.StdProductName[i])
@@ -438,12 +427,18 @@
             StdWeight.push(de_data.StdWeight[i])
             option_weight += '<option value="' + StdWeight[i].std_weight + '">' + StdWeight[i].std_weight + '</option>'
         }
-
-
-
         // ===================================================================================================//
         //let badge = Staff[0].badgeNo
         // document.getElementById(":first/badge").value = Staff[0].badgeNo
+        display_all()
+    }
+     function display_all(){
+         
+        document.getElementById("badge1").value = Staff[0].badgeNo
+        //document.getElementById("badge2").value = Staff[0].badgeNo
+        //document.getElementById("badge3").value = Staff[0].badgeNo
+        //document.getElementById("badge4").value = Staff[0].badgeNo
+
         document.getElementById("block1").innerHTML = option_block
         document.getElementById("block2").innerHTML = option_block
         document.getElementById("block3").innerHTML = option_block
@@ -479,10 +474,10 @@
         document.getElementById("weight3").innerHTML = option_weight
         document.getElementById("weight4").innerHTML = option_weight
 
-    }
+        }
 
-    function overlength_weight() {
-        
+    function overlength_weight1() {
+
         let selectname = document.getElementById("productname1")
         let optionname = selectname.options[selectname.selectedIndex].value;
 
@@ -492,16 +487,139 @@
         let selectsize = document.getElementById("productsize1")
         let optionsize = selectsize.options[selectsize.selectedIndex].value;
 
-        console.log(optionname)
+        {{!-- console.log(optionname)
         console.log(optiontype)
-        console.log(optionsize)
-        if(optionname !== 'select' && optiontype !== 'select' && optionsize !== 'select'){ 
-            for (let i=0;i<Product.length;i++) {
+        console.log(optionsize) --}}
+
+        if(document.getElementById("overlength1").childNodes[0]!=null){
+            let list = document.getElementById("overlength1");
+            list.removeChild(list.childNodes[0]);
+        }
+        
+        if(document.getElementById("overweight1").childNodes[0]!=null ){
+            let w_list = document.getElementById("overweight1");
+                w_list.removeChild(w_list.childNodes[0]);
+        }
+
+        if (optionname !== 'select' && optiontype !== 'select' && optionsize !== 'select') {
+            for (let i = 0; i < Product.length; i++) {
                 if (optionname == Product[i].product_name && optiontype == Product[i].product_type && optionsize == Product[i].product_size) {
-                    var l = document.createTextNode("*** Std Length "+Product[i].length_min+" mm to "+Product[i].length_max+ " mm ***");
-                        document.getElementById("overlength").appendChild(l);
-                    var w = document.createTextNode("*** Std Weight "+Product[i].weight_min+" g to "+Product[i].weight_max+ " g ***");
-                    document.getElementById("overweight").appendChild(w);
+                    let l = document.createTextNode("*** Std Length " + Product[i].length_min + " mm to " + Product[i].length_max + " mm ***");
+                    document.getElementById("overlength1").appendChild(l)
+                    let w = document.createTextNode("*** Std Weight " + Product[i].weight_min + " g to " + Product[i].weight_max + " g ***");
+                    document.getElementById("overweight1").appendChild(w);
+                } else {
+                }
+            }
+        }
+    }
+
+    function overlength_weight2() {
+
+        let selectname = document.getElementById("productname2")
+        let optionname = selectname.options[selectname.selectedIndex].value;
+
+        let selecttype = document.getElementById("producttype2")
+        let optiontype = selecttype.options[selecttype.selectedIndex].value;
+
+        let selectsize = document.getElementById("productsize2")
+        let optionsize = selectsize.options[selectsize.selectedIndex].value;
+
+        {{!-- console.log(optionname)
+        console.log(optiontype)
+        console.log(optionsize) --}}
+
+        if(document.getElementById("overlength2").childNodes[0]!=null){
+            let list = document.getElementById("overlength2");
+            list.removeChild(list.childNodes[0]);
+        }
+        
+        if(document.getElementById("overweight2").childNodes[0]!=null ){
+            let w_list = document.getElementById("overweight2");
+                w_list.removeChild(w_list.childNodes[0]);
+        }
+
+        if (optionname !== 'select' && optiontype !== 'select' && optionsize !== 'select') {
+            for (let i = 0; i < Product.length; i++) {
+                if (optionname == Product[i].product_name && optiontype == Product[i].product_type && optionsize == Product[i].product_size) {
+                    let l = document.createTextNode("*** Std Length " + Product[i].length_min + " mm to " + Product[i].length_max + " mm ***");
+                    document.getElementById("overlength2").appendChild(l);
+                    let w = document.createTextNode("*** Std Weight " + Product[i].weight_min + " g to " + Product[i].weight_max + " g ***");
+                    document.getElementById("overweight2").appendChild(w);
+                }
+            }
+        }
+    }
+
+    function overlength_weight3() {
+
+        let selectname = document.getElementById("productname3")
+        let optionname = selectname.options[selectname.selectedIndex].value;
+
+        let selecttype = document.getElementById("producttype3")
+        let optiontype = selecttype.options[selecttype.selectedIndex].value;
+
+        let selectsize = document.getElementById("productsize3")
+        let optionsize = selectsize.options[selectsize.selectedIndex].value;
+
+        {{!-- console.log(optionname)
+        console.log(optiontype)
+        console.log(optionsize) --}}
+
+        if(document.getElementById("overlength3").childNodes[0]!=null){
+            let list = document.getElementById("overlength3");
+            list.removeChild(list.childNodes[0]);
+        }
+        
+        if(document.getElementById("overweight3").childNodes[0]!=null ){
+            let w_list = document.getElementById("overweight3");
+                w_list.removeChild(w_list.childNodes[0]);
+        }
+
+        if (optionname !== 'select' && optiontype !== 'select' && optionsize !== 'select') {
+            for (let i = 0; i < Product.length; i++) {
+                if (optionname == Product[i].product_name && optiontype == Product[i].product_type && optionsize == Product[i].product_size) {
+                    let l = document.createTextNode("*** Std Length " + Product[i].length_min + " mm to " + Product[i].length_max + " mm ***");
+                    document.getElementById("overlength3").appendChild(l);
+                    let w = document.createTextNode("*** Std Weight " + Product[i].weight_min + " g to " + Product[i].weight_max + " g ***");
+                    document.getElementById("overweight3").appendChild(w);
+                }
+            }
+        }
+    }
+
+    function overlength_weight4() {
+
+        let selectname = document.getElementById("productname4")
+        let optionname = selectname.options[selectname.selectedIndex].value;
+
+        let selecttype = document.getElementById("producttype4")
+        let optiontype = selecttype.options[selecttype.selectedIndex].value;
+
+        let selectsize = document.getElementById("productsize4")
+        let optionsize = selectsize.options[selectsize.selectedIndex].value;
+
+        {{!-- console.log(optionname)
+        console.log(optiontype)
+        console.log(optionsize) --}}
+
+        if(document.getElementById("overlength4").childNodes[0]!=null){
+            let list = document.getElementById("overlength4");
+            list.removeChild(list.childNodes[0]);
+        }
+        
+        if(document.getElementById("overweight4").childNodes[0]!=null ){
+            let w_list = document.getElementById("overweight4");
+                w_list.removeChild(w_list.childNodes[0]);
+        }
+
+        if (optionname !== 'select' && optiontype !== 'select' && optionsize !== 'select') {
+            for (let i = 0; i < Product.length; i++) {
+                if (optionname == Product[i].product_name && optiontype == Product[i].product_type && optionsize == Product[i].product_size) {
+                    let l = document.createTextNode("*** Std Length " + Product[i].length_min + " mm to " + Product[i].length_max + " mm ***");
+                    document.getElementById("overlength4").appendChild(l);
+                    let w = document.createTextNode("*** Std Weight " + Product[i].weight_min + " g to " + Product[i].weight_max + " g ***");
+                    document.getElementById("overweight4").appendChild(w);
                 }
             }
         }
@@ -528,6 +646,7 @@
             $("#progressText").html("1")
             $('<input type="submit" name="submit" value="Submit" id="submit" class="btn btn-success">').appendTo("#first");
             $("#next-1").hide()
+           
 
         }
         else if (line == 2) {
@@ -537,6 +656,7 @@
             $("#progressBar").css("width", "50%")
             $("#progressText").html("Form 1")
             $('<input type="submit" name="submit" value="Submit" id="submit" class="btn btn-success">').appendTo("#bt_2");
+              
 
             // next to page 2
             $("#next-1").click(function () {
@@ -545,8 +665,9 @@
                 $("#progressBar").css("width", "100%")
                 $("#progressText").html("Form 2")
                 $("#next-2").hide()
-                document.getElementById("block").innerHTML = option_block
-            })
+                document.getElementById("block2").innerHTML = option_block
+                
+                })
 
             // prev to page 1 
             $("#prev-2").click(function () {
@@ -554,6 +675,7 @@
                 $("#second").hide();
                 $("#progressBar").css("width", "50%")
                 $("#progressText").html("Form 1")
+                
             })
 
         }

@@ -536,7 +536,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('47 * * * *', function () {
+var j = schedule.scheduleJob('06 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -625,6 +625,7 @@ app.get('/weeklyschedule', (req, res) => {
     })
 })
 
+
 // ############################## User #################
 //schedule user side
 app.get('/userschedule', (req, res) => {
@@ -703,10 +704,10 @@ app.post('/check_login', (req, res) => {
                                             }).then((dataProductname) => {
                                                 data.StdProductName = dataProductname
 
-                                                StdProductType.find({},(err,producttype)=>{
+                                                StdProductType.find({}, (err, producttype) => {
                                                     if (err) console.log(err)
-                                                }).then((producttype)=>{
-                                                    data.StdProductType = producttype 
+                                                }).then((producttype) => {
+                                                    data.StdProductType = producttype
                                                     res.render('test_form.hbs', { data: encodeURI(JSON.stringify(data)) })
                                                 }, (err) => {
                                                     res.status(400).send(err)
@@ -746,89 +747,64 @@ app.post('/save_data', (req, res) => {
     let day = moment().format('DD');
     let month = moment().format('MMMM')
     let year = moment().format('YYYY')
-    Current.findOne({ c_badgeNo: req.body.badge }).then((d) => {
+    console.log(req.body.badge1)
+
+    Current.findOne({ c_badgeNo: req.body.badge1 }).then((d) => {
         //console.log(d)
-        //console.log(d.c_name) 
+        console.log(d.c_name)
         name = d.c_name
         surname = d.c_surname
-        /* console.log(req.body.badge)
-         console.log(name)
-         console.log(surname)
-         console.log(date)
-         console.log(day)
-         console.log(month)
-         console.log(year)
-         console.log(req.body.block)
-         console.log(req.body.productline)
-         console.log(req.body.product_name)
-         console.log(req.body.product_type)
-         console.log(req.body.productsize)
-         console.log(req.body.length)
-         console.log(req.body.weight)
-         console.log(req.body.linespeed) */
+        console.log(req.body.badge1)
+        console.log(name)
+        console.log(surname)
+        console.log(date)
+        console.log(day)
+        console.log(month)
+        console.log(year)
+        console.log(req.body.block1)
+        console.log(req.body.productline1)
+        console.log(req.body.productname1)
+        console.log(req.body.producttype1)
+        console.log(req.body.productsize1)
+        console.log(req.body.length1)
+        console.log(req.body.weight1)
+        console.log(req.body.linespeed1)
 
         let newSpotscheck = Spotcheck({
-            spot_badge: req.body.badge,
+            spot_badge: req.body.badge1,
             spot_name: name,
             spot_surname: surname,
             spot_date: date,
             spot_day: day,
             spot_month: month,
             spot_year: year,
-            spot_block: req.body.block,
-            spot_productline: req.body.productline,
-            spot_productname: req.body.product_name,
-            spot_producttype: req.body.product_type,
-            spot_size: req.body.productsize,
-            spot_length: req.body.length,
-            spot_weight: req.body.weight,
-            spot_linespeed: req.body.linespeed
+            spot_block: req.body.block1,
+            spot_productline: req.body.productline1,
+            spot_productname: req.body.productname1,
+            spot_producttype: req.body.producttype1,
+            spot_size: req.body.productsize1,
+            spot_length: req.body.length1,
+            spot_weight: req.body.weight1,
+            spot_linespeed: req.body.linespeed1
         })
         newSpotscheck.save().then((doc) => {
             console.log('success to save data on SPOTCHECK table')
-            res.render('user_insertform.hbs')
-        }, (err) => {
-            res.status(400).send(err)
-        })
+            res.render('test_form.hbs')
+            var length = req.body.length1
+            var weight = req.body.weight1
+            console.log(length)
+            console.log(weight)
 
-        var length = req.body.length
-        var weight = req.body.weight
-        // console.log(length)
-        // console.log(weight)
+            // var product_split = req.body.product_name
+            // var name = product_split.split('-')
+            // var product_type = name[0]
+            // var product_id = name[1]
 
-        var product_split = req.body.product_name
-        var name = product_split.split('-')
-        var product_type = name[0]
-        var product_id = name[1]
+            // console.log(product_type)
+            // console.log(product_id)
 
-        // console.log(product_type)
-        // console.log(product_id)
-
-        Product.findOne({ product_type: product_type }).then((d) => {
-            if (length > d.length_max) {
-                request({
-                    method: 'POST',
-                    uri: 'https://notify-api.line.me/api/notify',
-                    header: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    auth: {
-                        bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
-                    },
-                    form: {
-                        message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is OVER LENGTH !!!!! ', //ข้อความที่จะส่ง
-
-                    },
-                }, (err, httpResponse, body) => {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log(body)
-                    }
-                })
-            } else {
-                if (length < d.length_min) {
-                    console.log('!!!!!Over length !!!!!')
+            Product.findOne({ product_type: req.body.producttype1, product_name: req.body.productname1 }).then((d) => {
+                if (length > d.length_max) {
                     request({
                         method: 'POST',
                         uri: 'https://notify-api.line.me/api/notify',
@@ -839,7 +815,7 @@ app.post('/save_data', (req, res) => {
                             bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                         },
                         form: {
-                            message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is UNDER LENGTH !!!!!', //ข้อความที่จะส่ง
+                            message: 'Product Name : ' + d.product_name + '-' + d.product_type + '  SIZE : ' + d.product_size + ' is OVER LENGTH !!!!! ', //ข้อความที่จะส่ง
 
                         },
                     }, (err, httpResponse, body) => {
@@ -850,32 +826,32 @@ app.post('/save_data', (req, res) => {
                         }
                     })
                 }
-            }
-            if (weight < d.weight_min) {
-                console.log(' !!!! Over weight !!!!!')
-                request({
-                    method: 'POST',
-                    uri: 'https://notify-api.line.me/api/notify',
-                    header: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    auth: {
-                        bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
-                    },
-                    form: {
-                        message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is UNDER WEIGHT !!!!!', //ข้อความที่จะส่ง
+                    if (length < d.length_min) {
+                        console.log('!!!!!Over length !!!!!')
+                        request({
+                            method: 'POST',
+                            uri: 'https://notify-api.line.me/api/notify',
+                            header: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            auth: {
+                                bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                            },
+                            form: {
+                                message: 'Product Name : ' + d.product_name + '-' + d.product_type + '  SIZE : ' + d.product_size + ' is UNDER LENGTH !!!!!', //ข้อความที่จะส่ง
 
-                    },
-                }, (err, httpResponse, body) => {
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        console.log(body)
+                            },
+                        }, (err, httpResponse, body) => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.log(body)
+                            }
+                        })
                     }
-                })
-
-            } else {
-                if (weight > d.weight_min) {
+                
+                // Check Weight
+                if (weight < d.weight_min) {
                     console.log(' !!!! Over weight !!!!!')
                     request({
                         method: 'POST',
@@ -887,7 +863,7 @@ app.post('/save_data', (req, res) => {
                             bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
                         },
                         form: {
-                            message: 'Product Name : ' + d.product_type + '-' + d.product_id + '  SIZE : ' + d.product_size + ' is OVER WEIGHT !!!!!', //ข้อความที่จะส่ง
+                            message: 'Product Name : ' + d.product_name + '-' + d.product_type + '  SIZE : ' + d.product_size + ' is UNDER WEIGHT !!!!!', //ข้อความที่จะส่ง
 
                         },
                     }, (err, httpResponse, body) => {
@@ -898,15 +874,44 @@ app.post('/save_data', (req, res) => {
                         }
                     })
 
-                }
-            }
+                } 
+                    if (weight > d.weight_min) {
+                        console.log(' !!!! Over weight !!!!!')
+                        request({
+                            method: 'POST',
+                            uri: 'https://notify-api.line.me/api/notify',
+                            header: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            auth: {
+                                bearer: 'lZCZt4ehQD2q68XKhkgEMcHYs4yncRuM5VX0LSzaOrb', //token
+                            },
+                            form: {
+                                message: 'Product Name : ' + d.product_name + '-' + d.product_type + '  SIZE : ' + d.product_size + ' is OVER WEIGHT !!!!!', //ข้อความที่จะส่ง
+
+                            },
+                        }, (err, httpResponse, body) => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.log(body)
+                            }
+                        })
+
+                    }
+                
+            }, (err) => {
+                res.status(400).send(err)
+            })
+
         }, (err) => {
             res.status(400).send(err)
         })
+
+
     }, (err) => {
         res.status(400).send(err)
     })
-
 })
 
 

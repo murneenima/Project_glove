@@ -11,10 +11,22 @@ var BlockSchema = new Schema({
         type:String,
         required:true
     },
-    staff:{
+    badgeNo:{
         type:String,
         default:'N/A'
-    }
+    },
+    staff_name:{
+        type:String,
+        default:'N/A'
+    },
+    staff_surname:{
+        type:String,
+        default:'N/A'
+    },
+    staff_dept:{
+        type:String,
+        default:'N/A'
+    },
 })
 
 var Block = mongoose.model('Block',BlockSchema)

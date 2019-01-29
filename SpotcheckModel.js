@@ -43,7 +43,7 @@ var SpotcheckSchema = new Schema({
         type:String,
         required:true
     },
-    spot_productype:{
+    spot_producttype:{
         type:String,
         required:true
     },
