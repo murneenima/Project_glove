@@ -55,8 +55,6 @@ app.get('/', (req, res) => {
     res.send('hello')
 })
 
-// ########################################### STAFF ##################################################
-
 // Sign Up 
 app.post('/signup', (req, res) => {
     let newAdmin = new Admin({
@@ -100,6 +98,8 @@ app.post('/signin', (req, res) => {
     })
 })
 
+
+// ####################################### Staff #############################################
 // insert staff 
 app.post('/addstaff', (req, res) => {
     if (req.body.emp_position == 'Choose') {
@@ -236,6 +236,8 @@ app.post('/remove', (req, res) => {
 
 })
 
+
+// ################################## Staff page // แสดงผลพนักงานทั้งหมด ####################
 // Send Data for display all 
 app.get('/send_data', (req, res) => {
     Staff.find({}, (err, dataStaff) => {
@@ -249,7 +251,37 @@ app.get('/send_data', (req, res) => {
     })
 })
 
-//####################################### Product ##############################################
+// ################################ daily schedule ######################################
+// display daily schedule 
+app.get('/dailyschedule', (req, res) => {
+    Current.find({}, (err, staffschedule) => {
+        if (err) console.log(err)
+    }).then((staffschedule) => {
+        res.render('admin_dailySchedule.hbs', {
+            staffschedule: encodeURI(JSON.stringify(staffschedule))
+        })
+    }, (err) => {
+        res.status(400).send('error')
+    })
+})
+
+
+// ##################### Weekly Schedule ##############################################
+// display weekly schedule
+app.get('/weeklyschedule', (req, res) => {
+    Schedule.find({}, (err, staffschedule) => {
+        if (err) console.log(err)
+    }).then((staffschedule) => {
+        res.render('admin_weeklySchedule.hbs', {
+            staffschedule: encodeURI(JSON.stringify(staffschedule))
+
+        })
+    }, (err) => {
+        res.status(400).send('error')
+    })
+})
+
+//####################################### add value ##############################################
 // add size
 app.post('/addsize', (req, res) => {
     let newSize = new StdSize({
@@ -381,6 +413,8 @@ app.get('/sendvalue', (req, res) => {
     })
 })
 
+
+// #################################################### add Block page #######################################
 //adddblock_productline
 app.post('/adddblock_productline', (req, res) => {
     let newBlock = new Block({
@@ -394,8 +428,6 @@ app.post('/adddblock_productline', (req, res) => {
         res.status(400).send(err)
     })
 })
-
-// =====================================================================
 
 // add product line to block
 app.get('/sendblock', (req, res) => {
@@ -415,6 +447,7 @@ app.get('/sendblock', (req, res) => {
     })
 })
 
+// ################################# add product ###############################################
 // add product
 app.post('/addproduct', (req, res) => {
     let newProduct = new Product({
@@ -437,7 +470,7 @@ app.post('/addproduct', (req, res) => {
     })
 })
 
-
+// ####################################### All Product ###############################################
 //sent all product to display 
 app.get('/send_product', (req, res) => {
     Product.find({}, (err, dataProduct) => {
@@ -480,7 +513,7 @@ app.post('/removeproduct', (req, res) => {
 })
 
 
-// ################################## Schedule #######################
+// ################################## manage staff Schedule #######################
 // get staff data to add schedule
 app.get('/send_staff', (req, res) => {
     Staff.find({}, (err, dataStaff) => {
@@ -496,7 +529,7 @@ app.get('/send_staff', (req, res) => {
 
 // save weekly schedule 
 app.post('/saveschedule', (req, res) => {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaa')
+    
     let newSchedule = new Schedule({
         day: req.body.day,
         s_badgeNo: req.body.edit_id,
@@ -510,7 +543,7 @@ app.post('/saveschedule', (req, res) => {
         s_year: req.body.s_year
     })
     newSchedule.save().then((doc) => {
-        console.log('saving data to table current')
+        console.log('saving data to table SCHEDULE')
         let newMonth = new Month({
             m_day: req.body.day,
             m_badgeNo: req.body.edit_id,
@@ -524,9 +557,15 @@ app.post('/saveschedule', (req, res) => {
             m_year: req.body.m_year
         })
         newMonth.save().then((doc) => {
-            console.log('success to save data in table month')
+            console.log('success to save data in table MONTH                                                                                                           ')
             //res.send(doc)
-            res.render('admin_addStaffSchedule.hbs')
+            Staff.find({}, (err, dataStaff) => {
+                if (err) console.log(err);
+            }).then((dataStaff) => {
+                res.render('admin_addStaffSchedule.hbs', {
+                    dataStaff: encodeURI(JSON.stringify(dataStaff))
+                })
+            })
         }, (err) => {
             res.status(400).send(err)
         })
@@ -537,7 +576,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('23 * * * *', function () {
+var j = schedule.scheduleJob('35 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -570,7 +609,6 @@ var j = schedule.scheduleJob('23 * * * *', function () {
             })
 
             newCurrent.save().then((doc) => {
-                console.log('schedule success')
                 Schedule.findOne({ s_badgeNo: obj[i].s_badgeNo }, function (err, data) {
                     if (data) {
                         data.s_day = day
@@ -578,9 +616,25 @@ var j = schedule.scheduleJob('23 * * * *', function () {
                         data.s_year = year
                         data.save(function (err) {
                             if (err) // do something
-                                console.log('is fail to update date')
+                                console.log('is fail to update date on SCHEDULE table // (weekly)')
                             else
-                                console.log('is UPdated date')
+                                console.log('is UPdated date on SCHEDULE table // (weekly)')
+                        });
+                    } else {
+                        console.log(err);
+                    }
+                })
+
+                Month.findOne({ m_badgeNo: obj[i].s_badgeNo }, function (err, datamonth) {
+                    if (datamonth) {
+                        datamonth.m_date = day
+                        datamonth.m_month = month
+                        datamonth.m_year = year
+                        datamonth.save(function (err) {
+                            if (err) // do something
+                                console.log('is fail to update date on MONTH table')
+                            else
+                                console.log('is UPdated date MONTH table')
                         });
                     } else {
                         console.log(err);
@@ -588,7 +642,7 @@ var j = schedule.scheduleJob('23 * * * *', function () {
                 })
 
             }, (err) => {
-                console.log('save data to Currnent Model error')
+                console.log('save data to Current Model error')
                 res.status(400).send(err)
             })
         }
@@ -596,45 +650,27 @@ var j = schedule.scheduleJob('23 * * * *', function () {
 });
 
 
-// display daily schedule 
-app.get('/dailyschedule', (req, res) => {
-    Current.find({}, (err, staffschedule) => {
-        if (err) console.log(err)
-    }).then((staffschedule) => {
-        res.render('admin_dailySchedule.hbs', {
-            staffschedule: encodeURI(JSON.stringify(staffschedule))
-        })
-    }, (err) => {
-        res.status(400).send('error')
-    })
-})
 
-// manage staff schedule เปลี่ยน status
-
-// ##################### Weekly Schedule #####################
-// display weekly schedule
-app.get('/weeklyschedule', (req, res) => {
-    Schedule.find({}, (err, staffschedule) => {
-        if (err) console.log(err)
-    }).then((staffschedule) => {
-        res.render('admin_weeklySchedule.hbs', {
-            staffschedule: encodeURI(JSON.stringify(staffschedule))
-
-        })
-    }, (err) => {
-        res.status(400).send('error')
-    })
-})
+// ##################### manage staff Schedule ###############
+// saveschedule
 
 
 // ############################## User #################
 //schedule user side
 app.get('/userschedule', (req, res) => {
+    let user = {};
     Current.find({}, (err, staffschedule) => {
         if (err) console.log(err)
     }).then((staffschedule) => {
-        res.render('user_schedule.hbs', {
-            staffschedule: encodeURI(JSON.stringify(staffschedule))
+        user.staffschedule = staffschedule
+
+        Block.find({}, (err, block) => {
+            if (err) console.log(err)
+        }).then((block) => {
+            user.block = block
+            res.render('user_schedule.hbs', {
+                user: encodeURI(JSON.stringify(user))
+            })
         })
     }, (err) => {
         res.status(400).send('error')
@@ -754,7 +790,7 @@ app.post('/save_data', (req, res) => {
     if (req.body.block1 && req.body.productline1 && req.body.productname1 && req.body.producttype1 && req.body.productsize1
         && req.body.length1 && req.body.weight1 && req.body.linespeed1) {
         Current.findOne({ c_badgeNo: req.body.badge1 }).then((c) => {
-            
+
             name = c.c_name
             surname = c.c_surname
 
@@ -764,6 +800,22 @@ app.post('/save_data', (req, res) => {
             console.log(weight1)
 
             Product.findOne({ product_type: req.body.producttype1, product_name: req.body.productname1 }).then((d) => {
+
+                Block.findOne({ productLine: req.body.productline1 }, function (err, data) {
+                    if (data) {
+                        data.badgeNo = c.c_badgeNo
+                        data.save(function (err) {
+                            if (err)
+                                console.log('== Fail to update badgeNo in Block table ')
+                            else
+                                console.log('== Success to update badgeNo in Block table ')
+                        })
+                    } else {
+                        console.log(err)
+                    }
+
+                })
+
                 let length_min = parseFloat(d.length_min);
                 let length_max = parseFloat(d.length_max);
                 let weight_min = parseFloat(d.weight_min);
@@ -896,6 +948,8 @@ app.post('/save_data', (req, res) => {
                     })
                 }
 
+
+
             }, (err) => {
                 res.status(400).send(err)
             })
@@ -919,6 +973,39 @@ app.post('/save_data', (req, res) => {
             })
             newSpotscheck.save().then((doc) => {
                 console.log('success to save data on SPOTCHECK ====1==== table')
+
+                let check = "checked"
+                // save status to Current block 
+                Current.findOne({ c_badgeNo: req.body.badge1 }, function (err, current) {
+                    if (current) {
+                        current.c_status = check
+                        current.save(function (err) {
+                            if (err) // do something
+                                console.log('is fail to update status on CURRENT table')
+                            else
+                                console.log('is UPdated status on CURRENT table')
+
+                            // save status to Current block 
+                            Schedule.findOne({ s_badgeNo: req.body.badge1 }, function (err, schedule) {
+                                if (schedule) {
+                                    schedule.s_status = check
+                                    schedule.save(function (err) {
+                                        if (err) // do something
+                                            console.log('is fail to update status on SCHEDULE table')
+                                        else
+                                            console.log('is UPdated status on SCHEDULE table')
+                                    });
+                                } else {
+                                    console.log(err)
+                                }
+                            })
+                        });
+                    } else {
+                        console.log(err)
+                    }
+                })
+
+
                 res.render('user_success.hbs')
             })
         })

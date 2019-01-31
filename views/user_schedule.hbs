@@ -51,7 +51,7 @@
 
     <!--///////////////////////////////booooooooooooooooooooooooodyyyyyyyyyyyyyyyyyyyyy ///////////// -->
     <div class="container">
-        <div class="row my-3  d-flex justify-content-center" >
+        <div class="row my-3  d-flex justify-content-center">
             <h4>Schedule</h4>
         </div>
         <div class="row my-3">
@@ -61,37 +61,55 @@
         </div>
         <div class="row my-1">
             <div class="col pt-1 table-responsive">
-                 <table class="table table-bordered  text-center" id="stafftable" style="background-color: white;font-size:12px;">
+                <table class="table table-bordered  text-center" id="stafftable" style="background-color: white;font-size:12px;">
                 </table>
-            </div>          
-       </div>
+            </div>
+        </div>
     </div>
 </body>
 
 <script>
 
     var now = moment().format('dddd , Do MMM YYYY')
-   // console.log(now)
+    // console.log(now)
     document.getElementById("demo1").innerHTML = now
 
 
-    var staffschedule = "{{staffschedule}}"
-    var staff_schedule = JSON.parse(decodeURI(staffschedule))
-    var user_schedule = [];
+    var data = "{{user}}"
+    var de_data = JSON.parse(decodeURI(data))
+    var user_schedule = []
+    var block = [];
     var table_staff = "<thead><tr><th scope='col'>ID.</th><th scope='col'>Name Surname</th><th scope='col'>Department</th><th scope='col'>Status</th></tr></thead><tbody>";
 
-    for(let i=0;i<staff_schedule.length;i++){
-        user_schedule.push(staff_schedule[i])
+    //console.log(de_data)
+
+    for (let i = 0; i < de_data.block.length; i++) {
+        block.push(de_data.block[i])
+        console.log(block[i])
+    }
+    for (let i = 0; i < de_data.staffschedule.length; i++) {
+        user_schedule.push(de_data.staffschedule[i])
         console.log(user_schedule[i])
     }
 
-    for(let i=0;i<user_schedule.length;i++){ // แทรกหน้า login
-        table_staff += "<tr><td><a href='/userlogin'>"+user_schedule[i].c_badgeNo+"</td><td>"+user_schedule[i].c_name+" "+user_schedule[i].c_surname+"</td><td>"+user_schedule[i].c_department+" , "+user_schedule[i].c_position+"</td><td>"+user_schedule[i].c_status+"</td></tr>"
-    }
-        table_staff += "</tbody></table>"
-        document.getElementById("stafftable").innerHTML = table_staff
+    for (let i=0;i<user_schedule.length;i++) {
+            if(user_schedule[i].c_status == "checked"){
+                 table_staff += "<tr><td>" + user_schedule[i].c_badgeNo + "</td><td>" + user_schedule[i].c_name + " " + user_schedule[i].c_surname + "</td><td>" + user_schedule[i].c_department + " , " + user_schedule[i].c_position + "</td><td>"+user_schedule[i].c_status+"</td></tr>"
+            }else{
+                 table_staff += "<tr><td><a href='/userlogin'>" + user_schedule[i].c_badgeNo + "</td><td>" + user_schedule[i].c_name + " " + user_schedule[i].c_surname + "</td><td>" + user_schedule[i].c_department + " , " + user_schedule[i].c_position + "</td><td>"+user_schedule[i].c_status+"</td></tr>"
+     
+            }
+        }
+    {{!-- for (let i=0;i<user_schedule.length;i++) {
+             table_staff += "<tr><td><a href='/userlogin'>" + user_schedule[i].c_badgeNo + "</td><td>" + user_schedule[i].c_name + " " + user_schedule[i].c_surname + "</td><td>" + user_schedule[i].c_department + " , " + user_schedule[i].c_position + "</td><td>"+user_schedule[i].c_status+"</td></tr>"
+        } --}}
+
+    table_staff += "</tbody></table>"
+    document.getElementById("stafftable").innerHTML = table_staff
+
 
 
 
 </script>
+
 </html>

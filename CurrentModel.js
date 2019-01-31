@@ -5,29 +5,29 @@ var Schema = mongoose.Schema
 var CurrentSchema = new Schema({
     current_day:{
         type:String,
-        required:true
+      //  required:true
        
     },
     c_badgeNo:{
         type:String,
         required:true,
-        unique:true
+     //   unique:true
     },
     c_name:{
         type:String,
-        required:true
+     //   required:true
     },
     c_surname:{
         type:String,
-        required:true
+      //  required:true
     },
     c_position:{
         type:String,
-        required:true
+     //   required:true
     },
     c_department:{  
         type:String,
-        required:true
+     //   required:true
     },
     c_status:{
         type:String,
@@ -35,15 +35,15 @@ var CurrentSchema = new Schema({
     },
     c_date:{ // วันที่
         type:String,
-        required:true
+     //   required:true
     },
     c_month:{
         type:String,
-        required:true
+    //    required:true
     },
     c_year:{
         type:String,
-        required:true
+    //    required:true
     }
 })
 
