@@ -185,11 +185,11 @@ app.post('/update', (req, res) => {
     } else if (req.body.emp_position == 'Admin/Secretary') {
         emp_position = 'Admin/Secretary'
     }
-    console.log(req.body.badgeNo)
-    console.log(req.body.emp_name)
-    console.log(req.body.emp_surname)
-    console.log(emp_dept)
-    console.log(emp_position)
+    // console.log(req.body.badgeNo)
+    // console.log(req.body.emp_name)
+    // console.log(req.body.emp_surname)
+    // console.log(emp_dept)
+    // console.log(emp_position)
 
 
     Staff.findOne({ badgeNo: req.body.badgeNo }).then((d) => {
@@ -200,13 +200,66 @@ app.post('/update', (req, res) => {
 
         d.save().then((success) => {
             // success.render('admin_manageStaffData.hbs')
-            console.log('suuuuuuuccccccceeeeessssssss')
+            console.log('UPDATE Staff data on STAFF table success')
 
-        }, (e) => {
-            res.status(400).send(e)
+            Schedule.findOne({ s_badgeNo: req.body.badgeNo }).then((schedule) => {
+                schedule.s_name = req.body.emp_name
+                schedule.s_surname = req.body.emp_surname
+                schedule.s_department = emp_dept
+                schedule.s_position = emp_position
+
+                schedule.save().then((success) => {
+                    // success.render('admin_manageStaffData.hbs')
+                    console.log('UPDATE Staff data on SCHEDULE table success')
+
+                    Month.findOne({ m_badgeNo: req.body.badgeNo }).then((month) => {
+                        month.m_name = req.body.emp_name
+                        month.m_surname = req.body.emp_surname
+                        month.m_department = emp_dept
+                        month.m_position = emp_position
+
+                        month.save().then((success) => {
+                            console.log('UPDATE Staff data on MONTH table success')
+
+                            Current.findOne({ c_badgeNo: req.body.badgeNo }).then((current) => {
+                                current.c_name = req.body.emp_name
+                                current.c_surname = req.body.emp_surname
+                                current.c_position = emp_position
+                                current.c_department = emp_dept
+
+                                current.save().then((success) => {
+                                    console.log('UPDATE Staff data on CURRENT table success')
+
+                                    Staff.find({}, (err, dataStaff) => {
+                                        if (err) console.log(err);
+                                    }).then((dataStaff) => {
+                                        res.render('admin_manageStaffData.hbs', {
+                                            dataStaff: encodeURI(JSON.stringify(dataStaff))
+                                        })
+                                    }, (err) => {
+                                        res.status(400).send('error');
+                                    })
+
+                                }, (e) => {
+                                    res.status(400).send(e)
+                                })
+                            }, (e) => {
+                                res.status(400).send(e)
+                            })
+
+                        }, (e) => {
+                            res.status(400).send(e)
+                        })
+                    })
+
+                }, (e) => {
+                    res.status(400).send(e)
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+
         })
-    }, (err) => {
-        res.status(400).send(err)
     })
 })
 
@@ -217,18 +270,24 @@ app.post('/remove', (req, res) => {
     Staff.remove({ badgeNo: req.body.id }).then((d) => {
         console.log('=====success====')
 
-    }, (err) => {
-        res.status(400).send(err)
-    })
+        Schedule.remove({ s_badgeNo: req.body.id }).then((d) => {
+            console.log('=====success remove in table shedule ====')
 
-    Schedule.findByIdAndRemove({ badgeNo: req.body.id }).then((d) => {
-        console.log('=====success remove in table shedule ====')
+            Month.remove({ m_badgeNo: req.body.id }).then((d) => {
+                console.log('=====success remove in table shedule ====')
 
-    }, (err) => {
-        res.status(400).send(err)
-    })
-    Month.findOneAndRemove({ badgeNo: req.body.id }).then((d) => {
-        console.log('=====success remove in table shedule ====')
+                Current.remove({ c_badgeNo: req.body.id }).then((d) => {
+                    console.log('=====success remove in table shedule ====')
+            
+                }, (err) => {
+                    res.status(400).send(err)
+                })
+            }, (err) => {
+                res.status(400).send(err)
+            })
+        }, (err) => {
+            res.status(400).send(err)
+        })
 
     }, (err) => {
         res.status(400).send(err)
@@ -529,7 +588,7 @@ app.get('/send_staff', (req, res) => {
 
 // save weekly schedule 
 app.post('/saveschedule', (req, res) => {
-    
+
     let newSchedule = new Schedule({
         day: req.body.day,
         s_badgeNo: req.body.edit_id,
@@ -576,7 +635,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('35 * * * *', function () {
+var j = schedule.scheduleJob('58 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -652,7 +711,17 @@ var j = schedule.scheduleJob('35 * * * *', function () {
 
 
 // ##################### manage staff Schedule ###############
-// saveschedule
+app.get('/manageschedule',(req,res)=>{
+    Spotcheck.find({},(err,spotcheck)=>{
+        if(err) console.log(err)
+    }).then((spotcheck)=>{
+        res.render('admin_manageStaffSchedule.hbs',{
+            spotcheck : encodeURI(JSON.stringify(spotcheck))
+        })
+    },(err)=>{
+        res.status(400).send('error')
+    })
+})
 
 
 // ############################## User #################
@@ -958,6 +1027,7 @@ app.post('/save_data', (req, res) => {
                 spot_badge: req.body.badge1,
                 spot_name: name,
                 spot_surname: surname,
+                spot_time: time,
                 spot_date: date,
                 spot_day: day,
                 spot_month: month,
