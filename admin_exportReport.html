@@ -82,12 +82,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -148,14 +148,117 @@
             </div>
 
             <div class="col-10 mt-5">
-                    <div class="container">
-                            <div class="row m-3">
-                                <h1>Export Report</h1>
-                            </div>
-                            
+                <div class="container">
+                    <div class="row m-3">
+                        <h1>Export Spot Check Report</h1>
+                    </div>
 
+                    <form action="http://localhost:3000/export_schedule" method="POST">
+                    <div class="row m-3">
+                        <div class="col-md-5">
+                            <label for="exampleFormControlSelect1">SELECT MONTH TO EXPORT STAFF SCHEDULE : </label>
                         </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="month1" name="month1">
+                                <option disabled selected>Choose</option>
+                                <option>January</option>
+                                <option>February</option>
+                                <option>March</option>
+                                <option>April</option>
+                                <option>May</option>
+                                <option>June</option>
+                                <option>August</option>
+                                <option>September</option>
+                                <option>October</option>
+                                <option>November</option>
+                                <option>December </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row m-3">
+                        <div class="col-md-5">
+                            <label for="exampleFormControlSelect1">SELECT YEAR TO EXPORT STAFF SCHEDULE : </label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="year1" name="year1">
+                                <option disabled selected>Choose</option>
+                                <option>2018</option>
+                                <option>2019</option>
+                                <option>2020</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row m-3">
+                        <div class="col-md-5">
+                            <label for="exampleFormControlSelect1">EXPORT REPORT : </label>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-info">EXPORT</button>
+                        </div>
+                    </div>
+                    <hr style="background-color: black;">
+                </form>
+
+                    <!-- ========================================================= -->
+                    <form action="http://localhost:3000/export_alert" method="POST">
+
+                        <div class="row m-3">
+                            <h1>Export Over/Under Report</h1>
+                        </div>
+                        <div class="row m-3">
+                            <div class="col-md-5">
+                                <label for="exampleFormControlSelect1">SELECT MONTH TO EXPORT DATA : </label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="month2" name="month2">
+                                    <option disabled selected>Choose</option>
+                                    <option  >January</option>
+                                    <option >February</option>
+                                    <option >March</option>
+                                    <option >April</option>
+                                    <option >May</option>
+                                    <option >June</option>
+                                    <option >July</option>
+                                    <option >August</option>
+                                    <option >September</option>
+                                    <option >October</option>
+                                    <option >November</option>
+                                    <option >December </option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <div class="row m-3">
+                            <div class="col-md-5">
+                                <label for="exampleFormControlSelect1">SELECT YEAR TO EXPORT DATA : </label>
+                            </div>
+                            <div class="col-md-3">
+                                    <select class="form-control" id="year2" name="year2">
+                                        <option disabled selected>Choose</option>
+                                        <option>2018</option>
+                                        <option>2019</option>
+                                        <option>2020</option>
+                                    </select>
+                                </div>
+                            
+                        </div>
+            
+                        <div class="row m-3">
+                            <div class="col-md-5">
+                                <label for="exampleFormControlSelect1">EXPORT REPORT : </label>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-info">EXPORT</button>
+                            </div>
+                        </div>
+                    </form>
+                    <hr style="background-color: black;">
+                </div>
+
             </div>
+            
         </div>
 
     </div>
@@ -167,14 +270,16 @@
         <div class="contrainer">
             <div class="row">
                 <div class="col text-center py-4">
-                    <p>Copyright &copy; <span id="year"></span></p>
+                    <p>Copyright &copy;
+                        <span id="year"></span>
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-    $('#year').text(""+ new Date().getFullYear());
+        $('#year').text("" + new Date().getFullYear());
     </script>
 </body>
 

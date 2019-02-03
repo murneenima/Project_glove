@@ -5,6 +5,9 @@ const hbs = require('hbs')
 const moment = require('moment');
 const request = require('request')
 const schedule = require('node-schedule');
+const xl = require('excel4node');
+const nodemailer = require('nodemailer');
+const path = require('path');
 
 // ============== require Model ===============
 var Admin = require('./AdminModel')
@@ -635,7 +638,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('58 * * * *', function () {
+var j = schedule.scheduleJob('25 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -712,17 +715,299 @@ var j = schedule.scheduleJob('58 * * * *', function () {
 
 // ##################### manage staff Schedule ###############
 app.get('/manageschedule',(req,res)=>{
-    Spotcheck.find({},(err,spotcheck)=>{
+    Schedule.find({},(err,schedule)=>{
         if(err) console.log(err)
-    }).then((spotcheck)=>{
+    }).then((schedule)=>{
         res.render('admin_manageStaffSchedule.hbs',{
-            spotcheck : encodeURI(JSON.stringify(spotcheck))
+            schedule : encodeURI(JSON.stringify(schedule))
         })
     },(err)=>{
         res.status(400).send('error')
     })
 })
 
+app.post('/editstaff_schedule',(req,res)=>{
+    Schedule.findOne({s_badgeNo:req.body.s_badgeNo}).then((d)=>{
+        d.s_status = req.body.s_status2
+
+        d.save().then((success)=>{
+            console.log('Success to update STATUS')
+
+            Schedule.find({},(err,schedule)=>{
+                if(err) console.log(err)
+            }).then((schedule)=>{
+                res.render('admin_manageStaffSchedule.hbs',{
+                    schedule : encodeURI(JSON.stringify(schedule))
+                })
+            },(err)=>{
+                res.status(400).send('error')
+            })
+            
+        },(e)=>{
+            res.status(400).send(e)
+        }, (err) => {
+            res.status(400).send(err)
+        })
+
+    })
+        
+})
+
+// app.get('/manageschedule',(req,res)=>{
+//     Spotcheck.find({},(err,spotcheck)=>{
+//         if(err) console.log(err)
+//     }).then((spotcheck)=>{
+//         res.render('admin_manageStaffSchedule.hbs',{
+//             spotcheck : encodeURI(JSON.stringify(spotcheck))
+//         })
+//     },(err)=>{
+//         res.status(400).send('error')
+//     })
+// })
+
+// ########################### Export report ###############
+app.post('/export_schedule',(req,res)=>{
+    let wb = new xl.Workbook();
+    let ws = wb.addWorksheet('Sheet 1'); 
+
+    let numStyle = wb.createStyle({
+        font: {
+            color: '#000000',
+            size: 12
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+
+    
+    //ws.cell(1,1).string('some text'); 
+    //ws.cell(1,2).number(100); 
+    //ws.cell(1,3).formula('A1+A2');
+    //ws.cell(1,4).bool(true);
+    //wb.write('staffschedule.xlsx', res);
+
+     Spotcheck.find({spot_month:req.body.month1,spot_year:req.body.year1},function(err,result){
+        ws.cell(1,1).string("Time").style(numStyle); 
+        ws.cell(1,2).string("Date").style(numStyle); 
+        ws.cell(1,3).string("Badge No").style(numStyle); 
+        ws.cell(1,4).string("Name").style(numStyle); 
+        ws.cell(1,5).string("Surname").style(numStyle); 
+        ws.cell(1,6).string("Block").style(numStyle); 
+        ws.cell(1,7).string("Product Line").style(numStyle); 
+        ws.cell(1,8).string("Productname").style(numStyle); 
+        ws.cell(1,9).string("Length").style(numStyle); 
+        ws.cell(1,10).string("Weight").style(numStyle); 
+        ws.cell(1,11).string("Line Speed").style(numStyle);
+        let row=2 ;
+        for(let j=0;j<result.length;j++){         
+                 ws.cell(row,1).string(""+result[j].spot_time); 
+                 ws.cell(row,2).string(""+result[j].spot_day +" "+result[j].spot_month+" "+result[j].spot_year); 
+                 ws.cell(row,3).string(""+result[j].spot_badge); 
+                 ws.cell(row,4).string(""+result[j].spot_name); 
+                 ws.cell(row,5).string(""+result[j].spot_surname); 
+                 ws.cell(row,6).string(""+result[j].spot_block); 
+                 ws.cell(row,7).string(""+result[j].spot_productline); 
+                 ws.cell(row,8).string(""+result[j].spot_productname+"-"+result[j].spot_producttype); 
+                 ws.cell(row,9).string(""+result[j].spot_length); 
+                 ws.cell(row,10).string(""+result[j].spot_weight); 
+                 ws.cell(row,11).string(""+result[j].spot_linespeed);    
+                 row++ 
+
+        }
+        
+            //wb.write('myfirstexcel.xlsx')
+            wb.write('staff_schedule.xlsx', res);
+     },(err)=>{
+         res.status(400).send(err)
+     })
+
+    //ws.cell(1,1).number(100); 
+    // หมายถึงใส่ค่าตัวเลข 100 ลงไปที่ cell A1
+    //ws.cell(1,2).string('some text'); 
+    //หมายถึงใส่ค่าตัวอักษร some text ลงใน cell B1
+    //ws.cell(1,3).formula('A1+A2'); 
+    //หมายถึงใส่สูตร A1+A2 ใน cell C1
+    //ws.cell(1,4).bool(true);
+    //หมายถึงใส่ค่า boolean true ใน cell D1
+})
+
+app.post('/export_alert',(req,res)=>{
+    let wb2 = new xl.Workbook();
+    let ws2 = wb2.addWorksheet('Sheet 1'); 
+
+    let numStyle = wb2.createStyle({
+        font: {
+            color: '#000000',
+            size: 12
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+
+    Alert.find({a_month:req.body.month2,a_year:req.body.year2},function(err,al){
+        ws2.cell(1,1).string("Time").style(numStyle); 
+        ws2.cell(1,2).string("Date").style(numStyle); 
+        ws2.cell(1,3).string("Badge No").style(numStyle); 
+        ws2.cell(1,4).string("Name Surname").style(numStyle); 
+        ws2.cell(1,5).string("Depatment").style(numStyle);  
+        ws2.cell(1,6).string("Block").style(numStyle); 
+        ws2.cell(1,7).string("Product Line").style(numStyle); 
+        ws2.cell(1,8).string("Product ID").style(numStyle); 
+        ws2.cell(1,9).string("Productname").style(numStyle); 
+        ws2.cell(1,10).string("STD Length").style(numStyle); 
+        ws2.cell(1,11).string("Length").style(numStyle); 
+        ws2.cell(1,12).string("STD Weight").style(numStyle); 
+        ws2.cell(1,13).string("Weight").style(numStyle); 
+        ws2.cell(1,14).string("Line Speed").style(numStyle);
+
+        let row2=2 ;
+        for(let i=0;i<al.length;i++){         
+                 ws2.cell(row2,1).string(""+al[i].a_time); 
+                 ws2.cell(row2,2).string(""+al[i].a_day +" "+al[i].a_date+" "+al[i].a_month+" "+al[i].a_year); 
+                 ws2.cell(row2,3).string(""+al[i].a_badgeNo); 
+                 ws2.cell(row2,4).string(""+al[i].a_name+" " +al[i].a_surname); 
+                 ws2.cell(row2,5).string(""+al[i].a_dept); 
+                 ws2.cell(row2,6).string(""+al[i].a_block); 
+                 ws2.cell(row2,7).string(""+al[i].a_productline); 
+                 ws2.cell(row2,8).string(""+al[i].a_productID); 
+                 ws2.cell(row2,9).string(""+al[i].a_productName+"-"+al[i].a_productType); 
+                 ws2.cell(row2,10).string(""+al[i].a_stdlength_min+"-"+al[i].a_stdlength_max); 
+                 ws2.cell(row2,11).string(""+al[i].a_length);    
+                 ws2.cell(row2,12).string(""+al[i].a_stdweight_min+"-"+al[i].a_stdweight_max);    
+                 ws2.cell(row2,13).string(""+al[i].a_weight);    
+                 ws2.cell(row2,14).string(""+al[i].a_linespeed);     
+                 row2++ 
+        }
+        wb2.write('over_under_stabdard.xlsx', res);
+
+    },(err)=>{
+        res.status(400).send(err)
+    })
+
+})
+
+// ########################## export to chart #######################
+app.get('/chart',(req,res)=>{
+    Spotcheck.find({}, (err, spotcheck) => {
+        if (err) console.log(err);
+    }).then((spotcheck) => {
+        res.render('admin_gloveReport.hbs', {
+            spotcheck: encodeURI(JSON.stringify(spotcheck))
+        })
+    }, (err) => {
+        res.status(400).send('error');
+    })
+})
+// ############################# export data to email ###################
+// var j = schedule.scheduleJob('27 * * * *', function(){
+//     console.log('The answer to life, the universe, and everything!');
+
+//     let wb = new xl.Workbook();
+//     let ws = wb.addWorksheet('Sheet 1'); 
+
+//     let numStyle = wb.createStyle({
+//         font: {
+//             color: '#000000',
+//             size: 12
+//         },
+//         numberFormat: '$#,##0.00; ($#,##0.00); -'
+//     });
+
+    
+//     //ws.cell(1,1).string('some text'); 
+//     //ws.cell(1,2).number(100); 
+//     //ws.cell(1,3).formula('A1+A2');
+//     //ws.cell(1,4).bool(true);
+//     //wb.write('staffschedule.xlsx', res);
+
+//      Spotcheck.find({},function(err,result){
+//         ws.cell(1,1).string("Time").style(numStyle); 
+//         ws.cell(1,2).string("Date").style(numStyle); 
+//         ws.cell(1,3).string("Badge No").style(numStyle); 
+//         ws.cell(1,4).string("Name").style(numStyle); 
+//         ws.cell(1,5).string("Surname").style(numStyle); 
+//         ws.cell(1,6).string("Block").style(numStyle); 
+//         ws.cell(1,7).string("Product Line").style(numStyle); 
+//         ws.cell(1,8).string("Productname").style(numStyle); 
+//         ws.cell(1,9).string("Length").style(numStyle); 
+//         ws.cell(1,10).string("Weight").style(numStyle); 
+//         ws.cell(1,11).string("Line Speed").style(numStyle);
+//         let row=2 ;
+//         for(let j=0;j<result.length;j++){         
+//                  ws.cell(row,1).string(""+result[j].spot_time); 
+//                  ws.cell(row,2).string(""+result[j].spot_day +" "+result[j].spot_month+" "+result[j].spot_year); 
+//                  ws.cell(row,3).string(""+result[j].spot_badge); 
+//                  ws.cell(row,4).string(""+result[j].spot_name); 
+//                  ws.cell(row,5).string(""+result[j].spot_surname); 
+//                  ws.cell(row,6).string(""+result[j].spot_block); 
+//                  ws.cell(row,7).string(""+result[j].spot_productline); 
+//                  ws.cell(row,8).string(""+result[j].spot_productname+"-"+result[j].spot_producttype); 
+//                  ws.cell(row,9).string(""+result[j].spot_length); 
+//                  ws.cell(row,10).string(""+result[j].spot_weight); 
+//                  ws.cell(row,11).string(""+result[j].spot_linespeed);    
+//                  row++ 
+
+//         }
+        
+//             wb.write('myfirstexcel.xlsx')
+//             //wb.write('staff_schedule.xlsx', res);
+//      },(err)=>{
+//          console.log(err)
+//      })
+
+//     //async function main(){
+
+//         // Generate test SMTP service account from ethereal.email
+//         // Only needed if you don't have a real mail account for testing
+//        // let account = await nodemailer.createTestAccount();
+      
+//         // create reusable transporter object using the default SMTP transport
+//         const account ={
+//             user : "vyynf2arcbp5x4v3@ethereal.email",
+//             pass: "pVn3AvewcfhuyrSqyT"
+//         };
+//         let transporter = nodemailer.createTransport({
+//           host: "smtp.ethereal.email",
+//           port: 587,
+//           secure: false, // true for 465, false for other ports
+//           auth: {
+//             user: account.user, // generated ethereal user
+//             pass: account.pass // generated ethereal password
+//           }
+//         });
+      
+//         // setup email data with unicode symbols
+//         let mailOptions = {
+//           from: '"Fred Foo 👻" <foo@example.com>', // sender address
+//           to: "bar@example.com, baz@example.com", // list of receivers
+//           subject: "Hello ✔", // Subject line
+//           text: "Hello world?", // plain text body
+//           html: "<b>Hello world?</b>" ,// html body
+//           attachment:[
+//               {
+//                 //filename: 'myfirstexcel1.xlsx',
+            
+//               }
+//           ]
+//         };
+      
+//         // send mail with defined transport object
+//         //let info = await transporter.sendMail(mailOptions)
+      
+//         transporter.sendMail(mailOptions,(error,info)=>{
+//             if(error){
+//                 return console.log(error)
+//             }
+//             console.log("Message sent: %s", info.messageId);
+//             // Preview only available when sending through an Ethereal account
+//             console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+//         })
+      
+//         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+//         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+//       //}
+      
+//      // main().catch(console.error);
+//   });
 
 // ############################## User #################
 //schedule user side

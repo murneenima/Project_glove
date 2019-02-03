@@ -16,14 +16,16 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-    <title>Manage Staff Schedule</title>
+    <title> Glove weight report</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
         }
-    
     </style>
 </head>
 
@@ -83,13 +85,13 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                            <li class="nav-item">
+                                <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
                             </li>
@@ -134,7 +136,7 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_gloveReport.html">
+                                <a class="nav-link" href="#">
                                     <i class="far fa-chart-bar"></i> Glove Weight Report
                                 </a>
                             </li>
@@ -148,108 +150,17 @@
                 </nav>
             </div>
 
-            <!-- ///////////////////////////////////////////////////////////////////////////////////////-->
+            <!-- /////////////////////////////////////////////////////////////////////////////////////////////////-->
             <div class="col-10 mt-5">
                 <div class="container">
                     <div class="row m-3">
-                        <h1 style="color: brown;">Manage Staff Schedule</h1>
+                        <h1>Glove weight report</h1>
                     </div>
+                    <div id="top_x_div" style="width: 800px; height: 600px;"></div>
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table id="table_staff" class="table table-bordred table-striped justify-content-center">
-
-                                    </table>
-
-                                </div>
-
-                            </div>
-                        </div>
+                    <div class="row m-3">
+                        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
                     </div>
-
-                    <!-- =============================== Edit ================================-->
-                    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span
-                                            class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                                    <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
-                                </div>
-
-                                <div class="modal-body">
-                                    <form action="http://localhost:3000/editstaff_schedule" method="POST">
-                                        <div class="row m-2">
-                                            <div class="col-6">
-                                                <label for="exampleFormControlSelect1">Badge NO :</label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="text" class="form-control" placeholder="Badge No" id="s_badgeNo"
-                                                    name="s_badgeNo" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row m-2">
-                                            <div class="col-6">
-                                                <label for="exampleFormControlSelect1">Name </label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="text" class="form-control" placeholder="Name" id="s_name"
-                                                    name="s_name" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row m-2">
-                                            <div class="col-6">
-                                                <label for="exampleFormControlSelect1">Surname :</label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input type="text" class="form-control" id="s_surname" name="s_surname"
-                                                    placeholder="Surname" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row m-2">
-                                        
-                                        <div class="col-6">
-                                            <label for="exampleFormControlSelect1">Status :</label>
-                                        </div>
-                                        <div class="col-3">
-                                                <input type="text" class="form-control" id="s_status" name="s_status"
-                                                    placeholder="Surname" readonly>
-                                        </div>
-                                        <div class="col-3">
-                                            <select class="form-control" id="s_status2" name="s_status2">
-                                                <option disabled selected>Choose</option>
-                                                <option>A/L</option>
-                                                <option>P/L</option>
-                                                <option>M/L</option>
-                                                <option>MC</option>
-                                                <option>Take day off</option>
-                                            </select>
-                                        </div>
-                                        </div>
-
-                                        <div class="modal-footer ">
-                                            <button type="submit" onclick="reloadpage()" class="btn btn-warning btn-lg"
-                                                style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span>
-                                                Update</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                    </div>
-
-                   
-
-                    
                 </div>
             </div>
         </div>
@@ -257,12 +168,14 @@
     </div>
 
 
-    <!-- ################################### FOOTER #################################### -->
+    <!-- FOOTER -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
                 <div class="col text-center py-4">
-                    <p>Copyright &copy; <span id="year"></span></p>
+                    <p>Copyright &copy;
+                        <span id="year"></span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -270,43 +183,90 @@
 
     <script>
         $('#year').text("" + new Date().getFullYear());
-        var schedule = "{{schedule}}"
-        var de_schedule = JSON.parse(decodeURI(schedule))
-        var staff_schedule = [];
-        var option_staff = "<thead><th>No</th><th>Badge No.</th><th>Name</th><th>Department</th><th>Position</th><th>Date</th><th>Status</th><th>Edit</th></thead>"
-        
-        
-        show_schedule()
-        function show_schedule(){
-            for(let i=0;i<de_schedule.length;i++){
-                staff_schedule.push(de_schedule[i])
-                console.log(staff_schedule[i])
-                option_staff += "<tbody><tr><td>" + (i + 1) + "</td><td>" + staff_schedule[i].s_badgeNo+"</td><td>"+staff_schedule[i].s_name+"  "+staff_schedule[i].s_surname+"</td><td>"+staff_schedule[i].s_department+"</td><td>"+staff_schedule[i].s_position+"</td><td>"+staff_schedule[i].s_day+" "+staff_schedule[i].s_month+" "+staff_schedule[i].s_year+"</td><td>"+staff_schedule[i].s_status+"</td><td><p data-placement='top' data-toggle='tooltip' title='Edit'><button class='btn btn-primary btn-xs'  onclick='ShowModal_Edit(" + i + ")' data-title='Edit' data-toggle='modal' data-target='#edit' ><i class='fas fa-edit'></i></button></p></td></tr></tbody>"
+
+        var spotcheck = "{{spotcheck}}"
+        var de_spotcheck = JSON.parse(decodeURI(spotcheck))
+        var staff_spotcheck = [];
+
+        var mon = 0;
+        var tue=0;
+        var wed =0;
+        var thu = 0;
+        var fri =0 ;
+        var sat = 0
+
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+
+        var d = new Date();
+        var n = month[d.getMonth()];
+        for (let i = 0; i < de_spotcheck.length; i++) {
+            staff_spotcheck.push(de_spotcheck[i])
+            console.log(staff_spotcheck[i])
+
+            if (staff_spotcheck[i].spot_month == n) {
+                if(staff_spotcheck[i].spot_date == 'Monday'){
+                    mon++
+                }else if(staff_spotcheck[i].spot_date == 'Tuesday'){
+                 tue++
+                }else if(staff_spotcheck[i].spot_date == 'Wednesday'){
+                     wed++
+                }else if(staff_spotcheck[i].spot_date == 'Thursday'){
+                     thu++
+                }else if(staff_spotcheck[i].spot_date == 'Friday'){
+                     fri++
+                }else if(staff_spotcheck[i].spot_date == 'Saturday'){
+                    sat++
+                }
+
             }
-            document.getElementById("table_staff").innerHTML = option_staff
         }
 
-        //console.log(de_schedule)
+        google.charts.load('current', { 'packages': ['bar'] });
+        google.charts.setOnLoadCallback(drawStuff);
 
-        
+        function drawStuff() {
+            var data = new google.visualization.arrayToDataTable([
+                ['Date','Number of staff'],
+                ["Monday ", mon],
+                ["Tuesday", tue],
+                ["Wednesday", wed],
+                ["Thursday", thu],
+                ["Friday", fri],
+                ['Saturday', sat]
+            ]);
 
+            var options = {
+                width: 1000,
+                legend: { position: 'center' },
+                chart: {
+                    
+                
+                },
+                axes: {
+                    x: {
+                        0: { side: 'top', label: 'Bar Chart' } // Top x-axis.
+                    }
+                },
+                bar: { groupWidth: "90%" }
+            };
 
-        // edit 
-        function ShowModal_Edit(index) {
-            $('#edit').data('curid', index); // curid = index
-            $('#edit').modal('show');
-            document.getElementById("s_badgeNo").value = staff_schedule[index].s_badgeNo
-            document.getElementById("s_name").value = staff_schedule[index].s_name
-            document.getElementById("s_surname").value = staff_schedule[index].s_surname
-            document.getElementById("s_status").value = staff_schedule[index].s_status
-        }
-
-         // --------------- reload page
-        function reloadpage() {
-            alert('Edit data Success')
-            window.location.search += '&param=42';
-
-        }
+            var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+            // Convert the Classic options to Material options.
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+        // pie  
     </script>
 </body>
 
