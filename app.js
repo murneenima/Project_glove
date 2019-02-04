@@ -7,6 +7,7 @@ const request = require('request')
 const schedule = require('node-schedule');
 const xl = require('excel4node');
 const nodemailer = require('nodemailer');
+const fs = require('fs')
 const path = require('path');
 
 // ============== require Model ===============
@@ -281,7 +282,7 @@ app.post('/remove', (req, res) => {
 
                 Current.remove({ c_badgeNo: req.body.id }).then((d) => {
                     console.log('=====success remove in table shedule ====')
-            
+
                 }, (err) => {
                     res.status(400).send(err)
                 })
@@ -535,12 +536,73 @@ app.post('/addproduct', (req, res) => {
 // ####################################### All Product ###############################################
 //sent all product to display 
 app.get('/send_product', (req, res) => {
-    Product.find({}, (err, dataProduct) => {
+
+    let data ={}
+    // block 
+    StdBlock.find({}, (err, datablock) => {
         if (err) console.log(err)
-    }).then((dataProduct) => {
-        res.render('admin_allProduct.hbs', {
-            dataProduct: encodeURI(JSON.stringify(dataProduct))
+    }).then((datablock) => {
+        data.StdBlock = datablock
+
+        // product bame , prduct type
+        Product.find({}, (err, dataproduct) => {
+            if (err) console.log(err)
+        }).then((dataproduct) => {
+            data.Product = dataproduct
+
+            //  Size
+            StdSize.find({}, (err, datasize) => {
+                if (err) console.log(err)
+            }).then((datasize) => {
+                data.StdSize = datasize
+
+                // Std Length
+                StdLength.find({}, (err, datalength) => {
+                    if (err) console.log(err)
+                }).then((datalength) => {
+                    data.StdLength = datalength
+
+
+                    //Std weight
+                    StdWeight.find({}, (err, dataweight) => {
+                        if (err) console.log(err)
+                    }).then((dataweight) => {
+                        data.StdWeight = dataweight
+
+                        StdProductline.find({}, (err, dataproductline) => {
+                            if (err) console.log(err)
+                        }).then((dataproductline) => {
+                            data.StdProductline = dataproductline
+
+                            StdProductName.find({}, (err, dataProductname) => {
+                                if (err) console.log(err)
+                            }).then((dataProductname) => {
+                                data.StdProductName = dataProductname
+
+                                StdProductType.find({}, (err, producttype) => {
+                                    if (err) console.log(err)
+                                }).then((producttype) => {
+                                    data.StdProductType = producttype
+
+                                    Block.find({},(err,datablock)=>{
+                                        if (err) console.log(err)
+                                    }).then((datablock)=>{
+                                        data.Block = datablock
+                                        res.render('admin_allProduct.hbs', { data: encodeURI(JSON.stringify(data)) })
+                                    }, (err) => {
+                                        res.status(400).send(err)
+                                    })
+                                })
+                            })
+                        })
+                    })
+
+                })
+
+            })
+
         })
+    
     }, (err) => {
         res.status(400).send('error')
     })
@@ -572,6 +634,16 @@ app.post('/removeproduct', (req, res) => {
     }, (err) => {
         res.status(400).send(err)
     })
+})
+
+// edit block
+app.post('/removeblock', (req, res) => {
+    console.log('dataIn :', req.body.product_line)
+    Block.deleteOne({productLine:req.body.product_line}).then((data) => {
+        console.log('Block deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
 })
 
 
@@ -638,7 +710,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('25 * * * *', function () {
+var j = schedule.scheduleJob('00 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 
@@ -714,61 +786,49 @@ var j = schedule.scheduleJob('25 * * * *', function () {
 
 
 // ##################### manage staff Schedule ###############
-app.get('/manageschedule',(req,res)=>{
-    Schedule.find({},(err,schedule)=>{
-        if(err) console.log(err)
-    }).then((schedule)=>{
-        res.render('admin_manageStaffSchedule.hbs',{
-            schedule : encodeURI(JSON.stringify(schedule))
+app.get('/manageschedule', (req, res) => {
+    Schedule.find({}, (err, schedule) => {
+        if (err) console.log(err)
+    }).then((schedule) => {
+        res.render('admin_manageStaffSchedule.hbs', {
+            schedule: encodeURI(JSON.stringify(schedule))
         })
-    },(err)=>{
+    }, (err) => {
         res.status(400).send('error')
     })
 })
 
-app.post('/editstaff_schedule',(req,res)=>{
-    Schedule.findOne({s_badgeNo:req.body.s_badgeNo}).then((d)=>{
+app.post('/editstaff_schedule', (req, res) => {
+    Schedule.findOne({ s_badgeNo: req.body.s_badgeNo }).then((d) => {
         d.s_status = req.body.s_status2
 
-        d.save().then((success)=>{
+        d.save().then((success) => {
             console.log('Success to update STATUS')
 
-            Schedule.find({},(err,schedule)=>{
-                if(err) console.log(err)
-            }).then((schedule)=>{
-                res.render('admin_manageStaffSchedule.hbs',{
-                    schedule : encodeURI(JSON.stringify(schedule))
+            Schedule.find({}, (err, schedule) => {
+                if (err) console.log(err)
+            }).then((schedule) => {
+                res.render('admin_manageStaffSchedule.hbs', {
+                    schedule: encodeURI(JSON.stringify(schedule))
                 })
-            },(err)=>{
+            }, (err) => {
                 res.status(400).send('error')
             })
-            
-        },(e)=>{
+
+        }, (e) => {
             res.status(400).send(e)
         }, (err) => {
             res.status(400).send(err)
         })
 
     })
-        
+
 })
 
-// app.get('/manageschedule',(req,res)=>{
-//     Spotcheck.find({},(err,spotcheck)=>{
-//         if(err) console.log(err)
-//     }).then((spotcheck)=>{
-//         res.render('admin_manageStaffSchedule.hbs',{
-//             spotcheck : encodeURI(JSON.stringify(spotcheck))
-//         })
-//     },(err)=>{
-//         res.status(400).send('error')
-//     })
-// })
-
 // ########################### Export report ###############
-app.post('/export_schedule',(req,res)=>{
+app.post('/export_schedule', (req, res) => {
     let wb = new xl.Workbook();
-    let ws = wb.addWorksheet('Sheet 1'); 
+    let ws = wb.addWorksheet('Sheet 1');
 
     let numStyle = wb.createStyle({
         font: {
@@ -778,47 +838,47 @@ app.post('/export_schedule',(req,res)=>{
         numberFormat: '$#,##0.00; ($#,##0.00); -'
     });
 
-    
+
     //ws.cell(1,1).string('some text'); 
     //ws.cell(1,2).number(100); 
     //ws.cell(1,3).formula('A1+A2');
     //ws.cell(1,4).bool(true);
     //wb.write('staffschedule.xlsx', res);
 
-     Spotcheck.find({spot_month:req.body.month1,spot_year:req.body.year1},function(err,result){
-        ws.cell(1,1).string("Time").style(numStyle); 
-        ws.cell(1,2).string("Date").style(numStyle); 
-        ws.cell(1,3).string("Badge No").style(numStyle); 
-        ws.cell(1,4).string("Name").style(numStyle); 
-        ws.cell(1,5).string("Surname").style(numStyle); 
-        ws.cell(1,6).string("Block").style(numStyle); 
-        ws.cell(1,7).string("Product Line").style(numStyle); 
-        ws.cell(1,8).string("Productname").style(numStyle); 
-        ws.cell(1,9).string("Length").style(numStyle); 
-        ws.cell(1,10).string("Weight").style(numStyle); 
-        ws.cell(1,11).string("Line Speed").style(numStyle);
-        let row=2 ;
-        for(let j=0;j<result.length;j++){         
-                 ws.cell(row,1).string(""+result[j].spot_time); 
-                 ws.cell(row,2).string(""+result[j].spot_day +" "+result[j].spot_month+" "+result[j].spot_year); 
-                 ws.cell(row,3).string(""+result[j].spot_badge); 
-                 ws.cell(row,4).string(""+result[j].spot_name); 
-                 ws.cell(row,5).string(""+result[j].spot_surname); 
-                 ws.cell(row,6).string(""+result[j].spot_block); 
-                 ws.cell(row,7).string(""+result[j].spot_productline); 
-                 ws.cell(row,8).string(""+result[j].spot_productname+"-"+result[j].spot_producttype); 
-                 ws.cell(row,9).string(""+result[j].spot_length); 
-                 ws.cell(row,10).string(""+result[j].spot_weight); 
-                 ws.cell(row,11).string(""+result[j].spot_linespeed);    
-                 row++ 
+    Spotcheck.find({ spot_month: req.body.month1, spot_year: req.body.year1 }, function (err, result) {
+        ws.cell(1, 1).string("Time").style(numStyle);
+        ws.cell(1, 2).string("Date").style(numStyle);
+        ws.cell(1, 3).string("Badge No").style(numStyle);
+        ws.cell(1, 4).string("Name").style(numStyle);
+        ws.cell(1, 5).string("Surname").style(numStyle);
+        ws.cell(1, 6).string("Block").style(numStyle);
+        ws.cell(1, 7).string("Product Line").style(numStyle);
+        ws.cell(1, 8).string("Productname").style(numStyle);
+        ws.cell(1, 9).string("Length").style(numStyle);
+        ws.cell(1, 10).string("Weight").style(numStyle);
+        ws.cell(1, 11).string("Line Speed").style(numStyle);
+        let row = 2;
+        for (let j = 0; j < result.length; j++) {
+            ws.cell(row, 1).string("" + result[j].spot_time);
+            ws.cell(row, 2).string("" + result[j].spot_day + " " + result[j].spot_month + " " + result[j].spot_year);
+            ws.cell(row, 3).string("" + result[j].spot_badge);
+            ws.cell(row, 4).string("" + result[j].spot_name);
+            ws.cell(row, 5).string("" + result[j].spot_surname);
+            ws.cell(row, 6).string("" + result[j].spot_block);
+            ws.cell(row, 7).string("" + result[j].spot_productline);
+            ws.cell(row, 8).string("" + result[j].spot_productname + "-" + result[j].spot_producttype);
+            ws.cell(row, 9).string("" + result[j].spot_length);
+            ws.cell(row, 10).string("" + result[j].spot_weight);
+            ws.cell(row, 11).string("" + result[j].spot_linespeed);
+            row++
 
         }
-        
-            //wb.write('myfirstexcel.xlsx')
-            wb.write('staff_schedule.xlsx', res);
-     },(err)=>{
-         res.status(400).send(err)
-     })
+
+        wb.write('myfirstexcel.xlsx')
+        //wb.write('staff_schedule.xlsx', res);
+    }, (err) => {
+        res.status(400).send(err)
+    })
 
     //ws.cell(1,1).number(100); 
     // หมายถึงใส่ค่าตัวเลข 100 ลงไปที่ cell A1
@@ -830,9 +890,9 @@ app.post('/export_schedule',(req,res)=>{
     //หมายถึงใส่ค่า boolean true ใน cell D1
 })
 
-app.post('/export_alert',(req,res)=>{
+app.post('/export_alert', (req, res) => {
     let wb2 = new xl.Workbook();
-    let ws2 = wb2.addWorksheet('Sheet 1'); 
+    let ws2 = wb2.addWorksheet('Sheet 1');
 
     let numStyle = wb2.createStyle({
         font: {
@@ -842,50 +902,64 @@ app.post('/export_alert',(req,res)=>{
         numberFormat: '$#,##0.00; ($#,##0.00); -'
     });
 
-    Alert.find({a_month:req.body.month2,a_year:req.body.year2},function(err,al){
-        ws2.cell(1,1).string("Time").style(numStyle); 
-        ws2.cell(1,2).string("Date").style(numStyle); 
-        ws2.cell(1,3).string("Badge No").style(numStyle); 
-        ws2.cell(1,4).string("Name Surname").style(numStyle); 
-        ws2.cell(1,5).string("Depatment").style(numStyle);  
-        ws2.cell(1,6).string("Block").style(numStyle); 
-        ws2.cell(1,7).string("Product Line").style(numStyle); 
-        ws2.cell(1,8).string("Product ID").style(numStyle); 
-        ws2.cell(1,9).string("Productname").style(numStyle); 
-        ws2.cell(1,10).string("STD Length").style(numStyle); 
-        ws2.cell(1,11).string("Length").style(numStyle); 
-        ws2.cell(1,12).string("STD Weight").style(numStyle); 
-        ws2.cell(1,13).string("Weight").style(numStyle); 
-        ws2.cell(1,14).string("Line Speed").style(numStyle);
+    Alert.find({ a_month: req.body.month2, a_year: req.body.year2 }, function (err, al) {
+        ws2.cell(1, 1).string("Time").style(numStyle);
+        ws2.cell(1, 2).string("Date").style(numStyle);
+        ws2.cell(1, 3).string("Badge No").style(numStyle);
+        ws2.cell(1, 4).string("Name Surname").style(numStyle);
+        ws2.cell(1, 5).string("Depatment").style(numStyle);
+        ws2.cell(1, 6).string("Block").style(numStyle);
+        ws2.cell(1, 7).string("Product Line").style(numStyle);
+        ws2.cell(1, 8).string("Product ID").style(numStyle);
+        ws2.cell(1, 9).string("Productname").style(numStyle);
+        ws2.cell(1, 10).string("STD Length").style(numStyle);
+        ws2.cell(1, 11).string("Length").style(numStyle);
+        ws2.cell(1, 12).string("STD Weight").style(numStyle);
+        ws2.cell(1, 13).string("Weight").style(numStyle);
+        ws2.cell(1, 14).string("Line Speed").style(numStyle);
 
-        let row2=2 ;
-        for(let i=0;i<al.length;i++){         
-                 ws2.cell(row2,1).string(""+al[i].a_time); 
-                 ws2.cell(row2,2).string(""+al[i].a_day +" "+al[i].a_date+" "+al[i].a_month+" "+al[i].a_year); 
-                 ws2.cell(row2,3).string(""+al[i].a_badgeNo); 
-                 ws2.cell(row2,4).string(""+al[i].a_name+" " +al[i].a_surname); 
-                 ws2.cell(row2,5).string(""+al[i].a_dept); 
-                 ws2.cell(row2,6).string(""+al[i].a_block); 
-                 ws2.cell(row2,7).string(""+al[i].a_productline); 
-                 ws2.cell(row2,8).string(""+al[i].a_productID); 
-                 ws2.cell(row2,9).string(""+al[i].a_productName+"-"+al[i].a_productType); 
-                 ws2.cell(row2,10).string(""+al[i].a_stdlength_min+"-"+al[i].a_stdlength_max); 
-                 ws2.cell(row2,11).string(""+al[i].a_length);    
-                 ws2.cell(row2,12).string(""+al[i].a_stdweight_min+"-"+al[i].a_stdweight_max);    
-                 ws2.cell(row2,13).string(""+al[i].a_weight);    
-                 ws2.cell(row2,14).string(""+al[i].a_linespeed);     
-                 row2++ 
+        let row2 = 2;
+        for (let i = 0; i < al.length; i++) {
+            ws2.cell(row2, 1).string("" + al[i].a_time);
+            ws2.cell(row2, 2).string("" + al[i].a_day + " " + al[i].a_date + " " + al[i].a_month + " " + al[i].a_year);
+            ws2.cell(row2, 3).string("" + al[i].a_badgeNo);
+            ws2.cell(row2, 4).string("" + al[i].a_name + " " + al[i].a_surname);
+            ws2.cell(row2, 5).string("" + al[i].a_dept);
+            ws2.cell(row2, 6).string("" + al[i].a_block);
+            ws2.cell(row2, 7).string("" + al[i].a_productline);
+            ws2.cell(row2, 8).string("" + al[i].a_productID);
+            ws2.cell(row2, 9).string("" + al[i].a_productName + "-" + al[i].a_productType);
+            ws2.cell(row2, 10).string("" + al[i].a_stdlength_min + "-" + al[i].a_stdlength_max);
+            ws2.cell(row2, 11).string("" + al[i].a_length);
+            ws2.cell(row2, 12).string("" + al[i].a_stdweight_min + "-" + al[i].a_stdweight_max);
+            ws2.cell(row2, 13).string("" + al[i].a_weight);
+            ws2.cell(row2, 14).string("" + al[i].a_linespeed);
+            row2++
         }
-        wb2.write('over_under_stabdard.xlsx', res);
+        // wb2.write('excel.xlsx', function(err, stats) {
+        //     if (err) {
+        //       console.error(err);
+        //     } else {
+        //       console.log(stats); // Prints out an instance of a node.js fs.Stats object
+        //         readfileandsendmail()
+        //     }
+        //   });
+        // wb2.write('myfirstexcel2.xlsx',function (err, stats){
+        //      readfileandsendmail()
+        //     res.send('success')
+        // })
 
-    },(err)=>{
+        wb2.write('over_under_standard.xlsx', res);
+
+    }, (err) => {
         res.status(400).send(err)
     })
 
 })
 
+
 // ########################## export to chart #######################
-app.get('/chart',(req,res)=>{
+app.get('/chart', (req, res) => {
     Spotcheck.find({}, (err, spotcheck) => {
         if (err) console.log(err);
     }).then((spotcheck) => {
@@ -896,118 +970,161 @@ app.get('/chart',(req,res)=>{
         res.status(400).send('error');
     })
 })
-// ############################# export data to email ###################
-// var j = schedule.scheduleJob('27 * * * *', function(){
-//     console.log('The answer to life, the universe, and everything!');
-
-//     let wb = new xl.Workbook();
-//     let ws = wb.addWorksheet('Sheet 1'); 
-
-//     let numStyle = wb.createStyle({
-//         font: {
-//             color: '#000000',
-//             size: 12
-//         },
-//         numberFormat: '$#,##0.00; ($#,##0.00); -'
-//     });
-
+// ############################# sending to  email ###################
+var j = schedule.scheduleJob('17 * * * *', function () {
+    console.log('The answer to life, the universe, and everything!');
     
-//     //ws.cell(1,1).string('some text'); 
-//     //ws.cell(1,2).number(100); 
-//     //ws.cell(1,3).formula('A1+A2');
-//     //ws.cell(1,4).bool(true);
-//     //wb.write('staffschedule.xlsx', res);
+    let time = moment().format('LT');
+    let date = moment().format('dddd');
+    let day = moment().format('DD');
+    let month = moment().format('MMMM')
+    let year = moment().format('YYYY')
+    
+    let wb2 = new xl.Workbook();
+    let ws2 = wb2.addWorksheet('Sheet 1');
 
-//      Spotcheck.find({},function(err,result){
-//         ws.cell(1,1).string("Time").style(numStyle); 
-//         ws.cell(1,2).string("Date").style(numStyle); 
-//         ws.cell(1,3).string("Badge No").style(numStyle); 
-//         ws.cell(1,4).string("Name").style(numStyle); 
-//         ws.cell(1,5).string("Surname").style(numStyle); 
-//         ws.cell(1,6).string("Block").style(numStyle); 
-//         ws.cell(1,7).string("Product Line").style(numStyle); 
-//         ws.cell(1,8).string("Productname").style(numStyle); 
-//         ws.cell(1,9).string("Length").style(numStyle); 
-//         ws.cell(1,10).string("Weight").style(numStyle); 
-//         ws.cell(1,11).string("Line Speed").style(numStyle);
-//         let row=2 ;
-//         for(let j=0;j<result.length;j++){         
-//                  ws.cell(row,1).string(""+result[j].spot_time); 
-//                  ws.cell(row,2).string(""+result[j].spot_day +" "+result[j].spot_month+" "+result[j].spot_year); 
-//                  ws.cell(row,3).string(""+result[j].spot_badge); 
-//                  ws.cell(row,4).string(""+result[j].spot_name); 
-//                  ws.cell(row,5).string(""+result[j].spot_surname); 
-//                  ws.cell(row,6).string(""+result[j].spot_block); 
-//                  ws.cell(row,7).string(""+result[j].spot_productline); 
-//                  ws.cell(row,8).string(""+result[j].spot_productname+"-"+result[j].spot_producttype); 
-//                  ws.cell(row,9).string(""+result[j].spot_length); 
-//                  ws.cell(row,10).string(""+result[j].spot_weight); 
-//                  ws.cell(row,11).string(""+result[j].spot_linespeed);    
-//                  row++ 
+    let numStyle = wb2.createStyle({
+        font: {
+            color: '#000000',
+            size: 12
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+    Alert.find({ }, function (err, al) {
+        ws2.cell(1, 1).string("Time").style(numStyle);
+        ws2.cell(1, 2).string("Date").style(numStyle);
+        ws2.cell(1, 3).string("Badge No").style(numStyle);
+        ws2.cell(1, 4).string("Name Surname").style(numStyle);
+        ws2.cell(1, 5).string("Depatment").style(numStyle);
+        ws2.cell(1, 6).string("Block").style(numStyle);
+        ws2.cell(1, 7).string("Product Line").style(numStyle);
+        ws2.cell(1, 8).string("Product ID").style(numStyle);
+        ws2.cell(1, 9).string("Productname").style(numStyle);
+        ws2.cell(1, 10).string("STD Length").style(numStyle);
+        ws2.cell(1, 11).string("Length").style(numStyle);
+        ws2.cell(1, 12).string("STD Weight").style(numStyle);
+        ws2.cell(1, 13).string("Weight").style(numStyle);
+        ws2.cell(1, 14).string("Line Speed").style(numStyle);
 
-//         }
-        
-//             wb.write('myfirstexcel.xlsx')
-//             //wb.write('staff_schedule.xlsx', res);
-//      },(err)=>{
-//          console.log(err)
-//      })
+        let row2 = 2;
+        for (let i = 0; i < al.length; i++) {
+            ws2.cell(row2, 1).string("" + al[i].a_time);
+            ws2.cell(row2, 2).string("" + al[i].a_day + " " + al[i].a_date + " " + al[i].a_month + " " + al[i].a_year);
+            ws2.cell(row2, 3).string("" + al[i].a_badgeNo);
+            ws2.cell(row2, 4).string("" + al[i].a_name + " " + al[i].a_surname);
+            ws2.cell(row2, 5).string("" + al[i].a_dept);
+            ws2.cell(row2, 6).string("" + al[i].a_block);
+            ws2.cell(row2, 7).string("" + al[i].a_productline);
+            ws2.cell(row2, 8).string("" + al[i].a_productID);
+            ws2.cell(row2, 9).string("" + al[i].a_productName + "-" + al[i].a_productType);
+            ws2.cell(row2, 10).string("" + al[i].a_stdlength_min + "-" + al[i].a_stdlength_max);
+            ws2.cell(row2, 11).string("" + al[i].a_length);
+            ws2.cell(row2, 12).string("" + al[i].a_stdweight_min + "-" + al[i].a_stdweight_max);
+            ws2.cell(row2, 13).string("" + al[i].a_weight);
+            ws2.cell(row2, 14).string("" + al[i].a_linespeed);
+            row2++
+        }
+        wb2.write('outofstandard.xlsx', function(err, stats) {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(stats); // Prints out an instance of a node.js fs.Stats object
+                readfileandsendmail()
+            }
+          });
+    }, (err) => {
+        res.status(400).send(err)
+    })
+    // ========================================
+    let wb3 = new xl.Workbook();
+    let ws3 = wb3.addWorksheet('Sheet 1');
 
-//     //async function main(){
+    let numStyle3 = wb3.createStyle({
+        font: {
+            color: '#000000',
+            size: 12
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
 
-//         // Generate test SMTP service account from ethereal.email
-//         // Only needed if you don't have a real mail account for testing
-//        // let account = await nodemailer.createTestAccount();
-      
-//         // create reusable transporter object using the default SMTP transport
-//         const account ={
-//             user : "vyynf2arcbp5x4v3@ethereal.email",
-//             pass: "pVn3AvewcfhuyrSqyT"
-//         };
-//         let transporter = nodemailer.createTransport({
-//           host: "smtp.ethereal.email",
-//           port: 587,
-//           secure: false, // true for 465, false for other ports
-//           auth: {
-//             user: account.user, // generated ethereal user
-//             pass: account.pass // generated ethereal password
-//           }
-//         });
-      
-//         // setup email data with unicode symbols
-//         let mailOptions = {
-//           from: '"Fred Foo 👻" <foo@example.com>', // sender address
-//           to: "bar@example.com, baz@example.com", // list of receivers
-//           subject: "Hello ✔", // Subject line
-//           text: "Hello world?", // plain text body
-//           html: "<b>Hello world?</b>" ,// html body
-//           attachment:[
-//               {
-//                 //filename: 'myfirstexcel1.xlsx',
+    Spotcheck.find({spot_date:date,spot_day:day,spot_month:month,spot_year:year},function(err,cur){
+        ws3.cell(1, 1).string("Time").style(numStyle);
+        ws3.cell(1, 2).string("Date").style(numStyle);
+        ws3.cell(1, 3).string("Badge No").style(numStyle);
+        ws3.cell(1, 4).string("Name").style(numStyle);
+        ws3.cell(1, 5).string("Surname").style(numStyle);
+        ws3.cell(1, 6).string("Block").style(numStyle);
+        ws3.cell(1, 7).string("Product Line").style(numStyle);
+        ws3.cell(1, 8).string("Productname").style(numStyle);
+        ws3.cell(1, 9).string("Length").style(numStyle);
+        ws3.cell(1, 10).string("Weight").style(numStyle);
+        ws3.cell(1, 11).string("Line Speed").style(numStyle);
+
+        let row2 = 2;
+        for (let j = 0; j < cur.length; j++) {
+            ws3.cell(row, 1).string("" + cur[j].spot_time);
+            ws3.cell(row, 2).string("" + cur[j].spot_day + " " + cur[j].spot_month + " " + cur[j].spot_year);
+            ws3.cell(row, 3).string("" + cur[j].spot_badge);
+            ws3.cell(row, 4).string("" + cur[j].spot_name);
+            ws3.cell(row, 5).string("" + cur[j].spot_surname);
+            ws3.cell(row, 6).string("" + cur[j].spot_block);
+            ws3.cell(row, 7).string("" + cur[j].spot_productline);
+            ws3.cell(row, 8).string("" + cur[j].spot_productname + "-" + cur[j].spot_producttype);
+            ws3.cell(row, 9).string("" + cur[j].spot_length);
+            ws3.cell(row, 10).string("" + cur[j].spot_weight);
+            ws3.cell(row, 11).string("" + cur[j].spot_linespeed);
             
-//               }
-//           ]
-//         };
-      
-//         // send mail with defined transport object
-//         //let info = await transporter.sendMail(mailOptions)
-      
-//         transporter.sendMail(mailOptions,(error,info)=>{
-//             if(error){
-//                 return console.log(error)
-//             }
-//             console.log("Message sent: %s", info.messageId);
-//             // Preview only available when sending through an Ethereal account
-//             console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            row2++
+        }
+        wb3.write('spotcheck.xlsx', function(err, stats) {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(stats); // Prints out an instance of a node.js fs.Stats object
+                readfileandsendmail()
+            }
+          });
+    }, (err) => {
+        res.status(400).send(err)
+    })
+});
 
-//         })
-      
-//         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-//         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-//       //}
-      
-//      // main().catch(console.error);
-//   });
+function readfileandsendmail(){
+
+    const account = {
+        user: "vyynf2arcbp5x4v3@ethereal.email",
+        pass: "pVn3AvewcfhuyrSqyT"
+    };
+    let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: account.user, // generated ethereal user
+            pass: account.pass // generated ethereal password
+        }
+    });
+
+    let data = fs.readFileSync("./outofstandard.xlsx")
+    let data2 = fs.readFileSync("./spotcheck.xlsx")
+
+    let mailOptions = {
+        from: 'admin', // sender address
+        to: "bar@example.com, baz@example.com", // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Report Gloves' product that out of standard</b>",// html body
+        attachments: [{ 'filename': 'outofstandard.xlsx', 'content': data }],
+        attachments: [{ 'filename': 'spotcheck.xlsx', 'content': data2 }]
+    }
+     transporter.sendMail(mailOptions,function (err,info){
+         console.log("Message sent: %s", info.messageId);
+         // Preview only available when sending through an Ethereal account
+         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+     })
+
+
+}
 
 // ############################## User #################
 //schedule user side
@@ -1521,38 +1638,6 @@ app.post('/save_data', (req, res) => {
 
 })
 
-
-
-// function saveAlert2() {
-//     let newAlert2 = new Alert({
-//         a_time: time,
-//         a_day: day,
-//         a_date: date,
-//         a_month: month,
-//         a_year: year,
-//         a_badge: badgeNo,
-//         a_name: name,
-//         a_surname: surname,
-//         a_dept: c.c_department,
-//         a_block: req.body.block1,
-//         a_productline: req.body.productline2,
-//         a_productID: d.product_id,
-//         a_productName: d.product_name,
-//         a_productType: d.product_type,
-//         a_stdlength_min: d.length_min,
-//         a_stdlength_max: d.length_max,
-//         a_stdweight_min: d.weight_min,
-//         a_stdweight_max: d.weight_max,
-//         a_length: req.body.length2,
-//         a_weight: req.body.weight2,
-//         a_linespeed: req.body.linespeed1
-//     })
-//     newAlert2.save().then((doc) => {
-//         console.log('saving data to ALERT table success')
-//     }, (err) => {
-//         res.send(400).send(err)
-//     })
-// }
 
 
 //######################################## Log Out ##############################################
