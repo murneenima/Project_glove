@@ -29,7 +29,7 @@ var StdProductline = require('./StdProductlineModel')
 var Alert = require('./AlertModel')
 
 // =============== Connect =========================
-mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
+mongoose.connect(process.env.MONGODB_URI||'mongodb://localhost:27017/gloveDB').then((doc) => {
     console.log('@@@@ Success to connect with Database @@@')
 }, (err) => {
     console.log('!!!!!!!!!! error to connect with database !!!!!!!!!')
