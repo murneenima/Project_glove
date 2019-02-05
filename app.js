@@ -36,6 +36,8 @@ mongoose.connect('mongodb://localhost:27017/gloveDB').then((doc) => {
 })
 
 var app = express()
+app.use(express.static('public'))
+app.set('view engine','hbs')
 app.use(bodyParser.json()) // ส่งข้อมูลแบบ JSon
 app.use(bodyParser.urlencoded({
     extended: true
