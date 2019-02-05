@@ -16,14 +16,55 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <script>
+        if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function() {
+         
+         // window object
+         var win = window.top || window;
+         
+         // session store
+         var store = (win.name ? JSON.parse(win.name) : {});
+         
+         // save store on page unload
+         function Save() {
+           win.name = JSON.stringify(store);
+         };
+         
+         // page unload event
+         if (window.addEventListener) window.addEventListener("unload", Save, false);
+         else if (window.attachEvent) window.attachEvent("onunload", Save);
+         else window.onunload = Save;
+        
+         // public methods
+         return {
+         
+           // set a session variable
+           set: function(name, value) {
+             store[name] = value;
+           },
+           
+           // get a session value
+           get: function(name) {
+             return (store[name] ? store[name] : undefined);
+           },
+           
+           // clear session
+           clear: function() { store = {}; },
+           
+           // dump session data
+           dump: function() { return JSON.stringify(store); }
+        
+         };
+        
+        })();
+        </script>
 
-    <title>Manage Staff Schedule</title>
+    <title> Daily Schedule</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
         }
-    
     </style>
 </head>
 
@@ -33,7 +74,7 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Glove Weight Spot Check</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" id="logout">Sign out</a>
             </li>
         </ul>
     </nav>
@@ -54,7 +95,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:3000/dailyschedule">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
@@ -148,24 +189,73 @@
                 </nav>
             </div>
 
-            <!-- ///////////////////////////////////////////////////////////////////////////////////////-->
+            <!-- ////////////////////////////////////// Code ///////////////////////////////// -->
             <div class="col-10 mt-5">
                 <div class="container">
-                    <div class="row m-3">
-                        <h1 style="color: brown;">Manage Staff Schedule</h1>
+
+                    <div class="row my-3">
+                        <h1>Today Schedule</h1>
                     </div>
 
-                   
-                
+                    <div class="row my-3">
+                        <div class="col-md-2">
+                            <label for="exampleInputEmail1">Today : </label>
+                        </div>
+                        <div class="col-md-5">
+                            <p id="demo1"></p>
+                        </div>
+                    </div>
 
+                    <div class="row my-3">
+                        <div class="table-responsive text-center">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Emp. No</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Dept.</th>
+                                        <th scope="col">Positon</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>123456</td>
+                                        <td>momo dfidf</td>
+                                        <td>HR</td>
+                                        <td>Officer</td>
+                                        <td>Online</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>334455</td>
+                                        <td>Mark Thornton</td>
+                                        <td>Admin</td>
+                                        <td>Officer</td>
+                                        <td>Online</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>778866</td>
+                                        <td>the Bird</td>
+                                        <td>HR</td>
+                                        <td>Officer</td>
+                                        <td>Online</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-
-    <!-- ################################### FOOTER #################################### -->
+==
+    <!-- FOOTER -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
@@ -177,7 +267,26 @@
     </footer>
 
     <script>
-        $('#year').text("" + new Date().getFullYear());
+    $('#year').text(""+ new Date().getFullYear());
+
+    if (Session.get("status") != 1) {
+                window.location.href = 'http://127.0.0.1:5500/admin_login.html';
+            }
+        
+            function exit() {
+                exit = document.getElementById("logout").value
+                // console.log(exit)
+                var confirmexit = confirm('Do you want to logout?')
+                if (exit == "logout") {
+                    if (confirm) {
+                        // console.log("exit")
+                        // alert("Logout successfully");
+                        Session.set("status", '0');
+                        window.location = "http://127.0.0.1:5500/admin_login.html"; // Redirecting to other page.
+                        return false;
+                    }
+                }
+            }
     </script>
 </body>
 

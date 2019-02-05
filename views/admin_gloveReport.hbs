@@ -19,6 +19,48 @@
     <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
     <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function() {
+         
+         // window object
+         var win = window.top || window;
+         
+         // session store
+         var store = (win.name ? JSON.parse(win.name) : {});
+         
+         // save store on page unload
+         function Save() {
+           win.name = JSON.stringify(store);
+         };
+         
+         // page unload event
+         if (window.addEventListener) window.addEventListener("unload", Save, false);
+         else if (window.attachEvent) window.attachEvent("onunload", Save);
+         else window.onunload = Save;
+        
+         // public methods
+         return {
+         
+           // set a session variable
+           set: function(name, value) {
+             store[name] = value;
+           },
+           
+           // get a session value
+           get: function(name) {
+             return (store[name] ? store[name] : undefined);
+           },
+           
+           // clear session
+           clear: function() { store = {}; },
+           
+           // dump session data
+           dump: function() { return JSON.stringify(store); }
+        
+         };
+        
+        })();
+        </script>
 
     <title> Glove weight report</title>
     <style>
@@ -35,7 +77,7 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Glove Weight Spot Check</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" id="logout">Sign out</a>
             </li>
         </ul>
     </nav>
@@ -267,6 +309,25 @@
             chart.draw(data, google.charts.Bar.convertOptions(options));
         };
         // pie  
+
+        if (Session.get("status") != 1) {
+                window.location.href = 'http://127.0.0.1:5500/admin_login.html';
+            }
+        
+            function exit() {
+                exit = document.getElementById("logout").value
+                // console.log(exit)
+                var confirmexit = confirm('Do you want to logout?')
+                if (exit == "logout") {
+                    if (confirm) {
+                        // console.log("exit")
+                        // alert("Logout successfully");
+                        Session.set("status", '0');
+                        window.location = "http://127.0.0.1:5500/admin_login.html"; // Redirecting to other page.
+                        return false;
+                    }
+                }
+            }
     </script>
 </body>
 

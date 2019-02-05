@@ -102,7 +102,6 @@ app.post('/signin', (req, res) => {
     })
 })
 
-
 // ####################################### Staff #############################################
 // insert staff 
 app.post('/addstaff', (req, res) => {
@@ -353,7 +352,7 @@ app.post('/addsize', (req, res) => {
 
     newSize.save().then((doc) => {
         console.log('success')
-        res.send(doc)
+        //res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
@@ -366,7 +365,7 @@ app.post('/addpdname', (req, res) => {
 
     newStdProductName.save().then((doc) => {
         console.log('success')
-        res.send(doc)
+       // res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
@@ -379,7 +378,7 @@ app.post('/addpdtype', (req, res) => {
 
     newStdProductType.save().then((doc) => {
         console.log('success')
-        res.send(doc)
+       // res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
@@ -392,7 +391,7 @@ app.post('/addlength', (req, res) => {
 
     newStdLength.save().then((doc) => {
         console.log('success')
-        res.send(doc)
+       // res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
@@ -525,9 +524,9 @@ app.post('/addproduct', (req, res) => {
     })
 
     newProduct.save().then((doc) => {
-        //console.log(doc)
+        console.log(doc)
 
-        res.send(doc)
+        //res.send(doc)
     }, (err) => {
         res.status(400).send(err)
     })
@@ -608,6 +607,79 @@ app.get('/send_product', (req, res) => {
     })
 })
 
+app.get('/send_value', (req, res) => {
+
+    let data ={}
+    // block 
+    StdBlock.find({}, (err, datablock) => {
+        if (err) console.log(err)
+    }).then((datablock) => {
+        data.StdBlock = datablock
+
+        // product bame , prduct type
+        Product.find({}, (err, dataproduct) => {
+            if (err) console.log(err)
+        }).then((dataproduct) => {
+            data.Product = dataproduct
+
+            //  Size
+            StdSize.find({}, (err, datasize) => {
+                if (err) console.log(err)
+            }).then((datasize) => {
+                data.StdSize = datasize
+
+                // Std Length
+                StdLength.find({}, (err, datalength) => {
+                    if (err) console.log(err)
+                }).then((datalength) => {
+                    data.StdLength = datalength
+
+
+                    //Std weight
+                    StdWeight.find({}, (err, dataweight) => {
+                        if (err) console.log(err)
+                    }).then((dataweight) => {
+                        data.StdWeight = dataweight
+
+                        StdProductline.find({}, (err, dataproductline) => {
+                            if (err) console.log(err)
+                        }).then((dataproductline) => {
+                            data.StdProductline = dataproductline
+
+                            StdProductName.find({}, (err, dataProductname) => {
+                                if (err) console.log(err)
+                            }).then((dataProductname) => {
+                                data.StdProductName = dataProductname
+
+                                StdProductType.find({}, (err, producttype) => {
+                                    if (err) console.log(err)
+                                }).then((producttype) => {
+                                    data.StdProductType = producttype
+
+                                    Block.find({},(err,datablock)=>{
+                                        if (err) console.log(err)
+                                    }).then((datablock)=>{
+                                        data.Block = datablock
+                                        res.render('admin_value.hbs', { data: encodeURI(JSON.stringify(data)) })
+                                    }, (err) => {
+                                        res.status(400).send(err)
+                                    })
+                                })
+                            })
+                        })
+                    })
+
+                })
+
+            })
+
+        })
+    
+    }, (err) => {
+        res.status(400).send('error')
+    })
+})
+
 // edit product data
 app.post('/editproduct', (req, res) => {
     Product.findOne({ product_id: req.body.product_id }).then((d) => {
@@ -625,7 +697,6 @@ app.post('/editproduct', (req, res) => {
         })
     })
 })
-
 // remove product data
 app.post('/removeproduct', (req, res) => {
     console.log('dataIn :', req.body.id)
@@ -638,9 +709,64 @@ app.post('/removeproduct', (req, res) => {
 
 // edit block
 app.post('/removeblock', (req, res) => {
-    console.log('dataIn :', req.body.product_line)
-    Block.deleteOne({productLine:req.body.product_line}).then((data) => {
+    console.log('dataIn :', req.body.id)
+    Block.remove({productLine:req.body.id}).then((data) => {
         console.log('Block deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+})
+
+// edit STD size
+app.post('/remove_stdsize', (req, res) => {
+    console.log('dataIn :', req.body.id)
+    StdSize.remove({std_size:req.body.id}).then((data) => {
+        console.log('Size deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+})
+// delete Product line
+app.post('/remove_productline', (req, res) => {
+    console.log('dataIn :', req.body.id)
+    StdProductline.remove({std_productline:req.body.id}).then((data) => {
+        console.log('Product line deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+})
+// delete PD name
+app.post('/remove_productname', (req, res) => {
+    console.log('dataIn :', req.body.id)
+    StdProductName.remove({std_productname:req.body.id}).then((data) => {
+        console.log('Product name deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+})
+// delete PD type
+app.post('/remove_producttype', (req, res) => {
+    console.log('dataIn :', req.body.id)
+    StdProductType.remove({std_producttype:req.body.id}).then((data) => {
+        console.log('Product Type deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+})
+// delete length
+app.post('/remove_length', (req, res) => {
+    console.log('dataIn :', req.body.id)
+    StdLength.remove({std_length:req.body.id}).then((data) => {
+        console.log('Length deleted success')
+        }, (err) => {
+            res.status(400).send(err)
+        })
+})
+// delete weight
+app.post('/remove_weight', (req, res) => {
+    console.log('dataIn :', req.body.id)
+    StdWeight.remove({std_weight:req.body.id}).then((data) => {
+        console.log('Weight deleted success')
         }, (err) => {
             res.status(400).send(err)
         })
@@ -710,7 +836,7 @@ app.post('/saveschedule', (req, res) => {
 
 //  Daily Schedule get staff to dailay , current table
 // !!!!!!!!! run every midnight !!!!!!!!!!!!!! 
-var j = schedule.scheduleJob('00 * * * *', function () {
+var j = schedule.scheduleJob('40 * * * *', function () {
     var day_format = moment().format('dddd');
     console.log(day_format)
 

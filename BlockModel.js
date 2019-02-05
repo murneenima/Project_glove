@@ -10,6 +10,7 @@ var BlockSchema = new Schema({
     },
     productLine:{
         type:String,
+        unique:true
       //  required:true
      
     },

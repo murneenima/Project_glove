@@ -16,13 +16,56 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <script>
+        if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function() {
+         
+         // window object
+         var win = window.top || window;
+         
+         // session store
+         var store = (win.name ? JSON.parse(win.name) : {});
+         
+         // save store on page unload
+         function Save() {
+           win.name = JSON.stringify(store);
+         };
+         
+         // page unload event
+         if (window.addEventListener) window.addEventListener("unload", Save, false);
+         else if (window.attachEvent) window.attachEvent("onunload", Save);
+         else window.onunload = Save;
+        
+         // public methods
+         return {
+         
+           // set a session variable
+           set: function(name, value) {
+             store[name] = value;
+           },
+           
+           // get a session value
+           get: function(name) {
+             return (store[name] ? store[name] : undefined);
+           },
+           
+           // clear session
+           clear: function() { store = {}; },
+           
+           // dump session data
+           dump: function() { return JSON.stringify(store); }
+        
+         };
+        
+        })();
+        </script>
 
-    <title>Manage Staff Data</title>
+    <title>Add Staff Schedule</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
         }
+    
     </style>
 </head>
 
@@ -32,12 +75,12 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Glove Weight Spot Check</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" id="logout">Sign out</a>
             </li>
         </ul>
     </nav>
 
-    <!-- //////////////////////////////////// Side bar ////////////////////////////////////////////////////// -->
+    <!-- //////////////////////////////////// Body ////////////////////////////////////////////////////// -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-2 mt-4">
@@ -53,7 +96,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:3000/dailySchedule">
+                                <a class="nav-link" href="http://localhost:3000/dailyschedule">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
@@ -63,7 +106,6 @@
                                 </a>
                             </li>
                         </ul>
-
                         <!-- ================================== Staff ============================================= -->
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                             <span>Staff</span>
@@ -83,7 +125,7 @@
                                 </a>
                             </li>
                              <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:3000/send_staff">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
@@ -147,58 +189,93 @@
                 </nav>
             </div>
 
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////-->
             <div class="col-10 mt-5">
                 <div class="container">
                     <div class="row m-3">
-                        <h1>Manage Staff Data</h1>
+                        <h1 style="color: brown;">Add Staff Schedule</h1>
                     </div>
 
-                    <div class="table-responsive">
-                        <table id="mytable" class="table table-bordred table-striped">
-
-                            <!------------------------ Table Head ------------------------------------------>
-                            <thead>
-                                <th><input type="checkbox" id="checkall" /></th>
-                                <th>Badge No.</th>
-                                <th>Name</th>
-                                <th>Surname</th>
-                                <th>Positon</th>
-                                <th>Department</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </thead>
-
-                            <!------------------------ Table Body------------------------------------------>
-                            <tbody>
-                                <tr>
-                                    <td><input type="checkbox" class="checkthis" /></td>
-                                    <td>Mohsin</td>
-                                    <td>Irshad</td>
-                                    <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                                    <td>isometric.mohsin@gmail.com</td>
-                                    <td>+923335586757</td>
-                                    <td>
-                                        <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
-                                                data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p>
-                                    </td>
-                                    <td>
-                                        <p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs"
-                                                data-title="Delete" data-toggle="modal" data-target="#delete"><span
-                                                    class="glyphicon glyphicon-trash"></span></button></p>
-                                    </td>
-                                </tr>
-                                    
-                            </tbody>
-                        </table>
-
+                    <div class="container">
+                        <div class="row m-3">
+                            <div class="col-md-2">
+                                <label for="exampleFormControlSelect1">SELECT : </label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="day" name="day">
+                                    <option selected>Choose</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr style="background-color: black;">
                     </div>
+
+                    <div class="container">
+                        <div class="row m-3">
+                            <h3>Add Staff</h3>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">EMPLOYEE ID :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="edit_id">
+                                    <option selected>Choose</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">NAME :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Emp. Name " readonly id="edit_name">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">SURNAME :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Emp. Surname" readonly id="edit_surname">
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">POSITION :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Position" readonly id="edit_position">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="exampleFormControlSelect1">DEPARTMENT :</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="Dept." readonly id="edit_dept">
+                            </div>
+                        </div>
+
+                        <div class="row m-3">
+                            <button type="submit" class="btn btn-info">Add</button>
+                        </div>
+                        <hr style="background-color: black;">
+                    </div>
+
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- FOOTER -->
+
+    <!-- ################################### FOOTER #################################### -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
@@ -212,9 +289,24 @@
     <script>
         $('#year').text("" + new Date().getFullYear());
 
-        function display(){
-            
-        }
+        if (Session.get("status") != 1) {
+                window.location.href = 'http://127.0.0.1:5500/admin_login.html';
+            }
+        
+            function exit() {
+                exit = document.getElementById("logout").value
+                // console.log(exit)
+                var confirmexit = confirm('Do you want to logout?')
+                if (exit == "logout") {
+                    if (confirm) {
+                        // console.log("exit")
+                        // alert("Logout successfully");
+                        Session.set("status", '0');
+                        window.location = "http://127.0.0.1:5500/admin_login.html"; // Redirecting to other page.
+                        return false;
+                    }
+                }
+            }
     </script>
 </body>
 

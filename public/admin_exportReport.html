@@ -16,11 +16,50 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
-    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function() {
+         
+         // window object
+         var win = window.top || window;
+         
+         // session store
+         var store = (win.name ? JSON.parse(win.name) : {});
+         
+         // save store on page unload
+         function Save() {
+           win.name = JSON.stringify(store);
+         };
+         
+         // page unload event
+         if (window.addEventListener) window.addEventListener("unload", Save, false);
+         else if (window.attachEvent) window.attachEvent("onunload", Save);
+         else window.onunload = Save;
+        
+         // public methods
+         return {
+         
+           // set a session variable
+           set: function(name, value) {
+             store[name] = value;
+           },
+           
+           // get a session value
+           get: function(name) {
+             return (store[name] ? store[name] : undefined);
+           },
+           
+           // clear session
+           clear: function() { store = {}; },
+           
+           // dump session data
+           dump: function() { return JSON.stringify(store); }
+        
+         };
+        
+        })();
+        </script>
 
-    <title> Glove weight report</title>
+    <title> Export Report</title>
     <style>
         body {
             background-color: snow;
@@ -35,7 +74,7 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Glove Weight Spot Check</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" id="logout">Sign out</a>
             </li>
         </ul>
     </nav>
@@ -85,12 +124,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -136,12 +175,12 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="http://localhost:3000/chart">
                                     <i class="far fa-chart-bar"></i> Glove Weight Report
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="http://127.0.0.1:5500/admin_exportReport.html">
+                                <a class="nav-link" href="#">
                                     <i class="fas fa-clipboard-list"></i> Export Report
                                 </a>
                             </li>
@@ -149,72 +188,160 @@
                     </div>
                 </nav>
             </div>
-            
-            <!-- /////////////////////////////////////////////////////////////////////////////////////////////////-->
+
             <div class="col-10 mt-5">
-                    <div class="container">
-                            <div class="row m-3">
-                                <h1>Glove weight report</h1>
+                <div class="container">
+                    <div class="row m-3">
+                        <h1>Export Spot Check Report</h1>
+                    </div>
+
+                    <form action="http://localhost:3000/export_schedule" method="POST">
+                    <div class="row m-3">
+                        <div class="col-md-5">
+                            <label for="exampleFormControlSelect1">SELECT MONTH TO EXPORT STAFF SCHEDULE : </label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="month1" name="month1">
+                                <option disabled selected>Choose</option>
+                                <option>January</option>
+                                <option>February</option>
+                                <option>March</option>
+                                <option>April</option>
+                                <option>May</option>
+                                <option>June</option>
+                                <option>August</option>
+                                <option>September</option>
+                                <option>October</option>
+                                <option>November</option>
+                                <option>December </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row m-3">
+                        <div class="col-md-5">
+                            <label for="exampleFormControlSelect1">SELECT YEAR TO EXPORT STAFF SCHEDULE : </label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="year1" name="year1">
+                                <option disabled selected>Choose</option>
+                                <option>2018</option>
+                                <option>2019</option>
+                                <option>2020</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row m-3">
+                        <div class="col-md-5">
+                            <label for="exampleFormControlSelect1">EXPORT REPORT : </label>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-info">EXPORT</button>
+                        </div>
+                    </div>
+                    <hr style="background-color: black;">
+                </form>
+
+                    <!-- ========================================================= -->
+                    <form action="http://localhost:3000/export_alert" method="POST">
+
+                        <div class="row m-3">
+                            <h1>Export Over/Under Report</h1>
+                        </div>
+                        <div class="row m-3">
+                            <div class="col-md-5">
+                                <label for="exampleFormControlSelect1">SELECT MONTH TO EXPORT DATA : </label>
                             </div>
-                            <div id="top_x_div" style="width: 800px; height: 600px;"></div>
-                            
-                            <div class="row m-3">
-                                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="month2" name="month2">
+                                    <option disabled selected>Choose</option>
+                                    <option  >January</option>
+                                    <option >February</option>
+                                    <option >March</option>
+                                    <option >April</option>
+                                    <option >May</option>
+                                    <option >June</option>
+                                    <option >July</option>
+                                    <option >August</option>
+                                    <option >September</option>
+                                    <option >October</option>
+                                    <option >November</option>
+                                    <option >December </option>
+                                </select>
                             </div>
                         </div>
+            
+                        <div class="row m-3">
+                            <div class="col-md-5">
+                                <label for="exampleFormControlSelect1">SELECT YEAR TO EXPORT DATA : </label>
+                            </div>
+                            <div class="col-md-3">
+                                    <select class="form-control" id="year2" name="year2">
+                                        <option disabled selected>Choose</option>
+                                        <option>2018</option>
+                                        <option>2019</option>
+                                        <option>2020</option>
+                                    </select>
+                                </div>
+                            
+                        </div>
+            
+                        <div class="row m-3">
+                            <div class="col-md-5">
+                                <label for="exampleFormControlSelect1">EXPORT REPORT : </label>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-info">EXPORT</button>
+                            </div>
+                        </div>
+                    </form>
+                    <hr style="background-color: black;">
+                </div>
+
             </div>
+            
         </div>
 
     </div>
 
 
-    <!-- FOOTER -->
+
+    <!-- /////////////////////////////////////////// FOOTER //////////////////////////////////////// -->
     <footer id="main-footer" class="bg-light">
         <div class="contrainer">
             <div class="row">
                 <div class="col text-center py-4">
-                    <p>Copyright &copy; <span id="year"></span></p>
+                    <p>Copyright &copy;
+                        <span id="year"></span>
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-    $('#year').text(""+ new Date().getFullYear());
+        $('#year').text("" + new Date().getFullYear());
 
-    google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawStuff);
-
-      function drawStuff() {
-        var data = new google.visualization.arrayToDataTable([
-          ['วันที่', 'จำนวน'],
-          ["Monday ", 44],
-          ["Tuesday", 31],
-          ["Wednesday", 12],
-          ["Thursday", 10],
-          ["Friday", 10],
-          ['Saturday', 3]
-        ]);
-
-        var options = {
-          width: 1000,
-          legend: { position: 'none' },
-          chart: {
-            title: 'Staff Spot Check',},
-          axes: {
-            x: {
-              0: { side: 'top', label: 'Bar Chart'} // Top x-axis.
+        if (Session.get("status") != 1) {
+                window.location.href = 'http://127.0.0.1:5500/admin_login.html';
             }
-          },
-          bar: { groupWidth: "90%" }
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('top_x_div'));
-        // Convert the Classic options to Material options.
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-      };
-        // pie  
-        </script>
+        
+            function exit() {
+                exit = document.getElementById("logout").value
+                // console.log(exit)
+                var confirmexit = confirm('Do you want to logout?')
+                if (exit == "logout") {
+                    if (confirm) {
+                        // console.log("exit")
+                        // alert("Logout successfully");
+                        Session.set("status", '0');
+                        window.location = "http://127.0.0.1:5500/admin_login.html"; // Redirecting to other page.
+                        return false;
+                    }
+                }
+            }
+    </script>
 </body>
 
 </html>

@@ -103,7 +103,7 @@ function check_form(){
   }
 }
 
-function setCookie(cname,cvalue,exdays) {
+{{!-- function setCookie(cname,cvalue,exdays) {
   var d = new Date();
  // console.log("1."+d)
   var time_get = parseInt(d.getTime())
@@ -136,12 +136,15 @@ function checkCookie() {
     alert("Welcome again " + user);
   } else {
      user = document.getElementById("badgeNO1").value
+
      if (user != "" && user != null) {
         alert("Welcome " + user);
         setCookie("username", user, 1);
      }
   }
-}
+} --}}
+
+
 </script>
 
 </html>

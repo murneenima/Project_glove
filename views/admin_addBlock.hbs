@@ -16,6 +16,48 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <script>
+        if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function () {
+
+            // window object
+            var win = window.top || window;
+
+            // session store
+            var store = (win.name ? JSON.parse(win.name) : {});
+
+            // save store on page unload
+            function Save() {
+                win.name = JSON.stringify(store);
+            };
+
+            // page unload event
+            if (window.addEventListener) window.addEventListener("unload", Save, false);
+            else if (window.attachEvent) window.attachEvent("onunload", Save);
+            else window.onunload = Save;
+
+            // public methods
+            return {
+
+                // set a session variable
+                set: function (name, value) {
+                    store[name] = value;
+                },
+
+                // get a session value
+                get: function (name) {
+                    return (store[name] ? store[name] : undefined);
+                },
+
+                // clear session
+                clear: function () { store = {}; },
+
+                // dump session data
+                dump: function () { return JSON.stringify(store); }
+
+            };
+
+        })();
+    </script>
 
     <title> Add Block</title>
     <style>
@@ -32,7 +74,7 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Glove Weight Spot Check</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" id="logout">Sign out</a>
             </li>
         </ul>
     </nav>
@@ -82,12 +124,12 @@
                                     <i class="fas fa-user-cog"></i> Manage Staff Data
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/send_staff">
                                     <i class="fas fa-address-book"></i> Add Staff Schedule
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a class="nav-link" href="http://localhost:3000/manageschedule">
                                     <i class="fas fa-calendar-alt"></i> Manage Staff Schedule
                                 </a>
@@ -149,10 +191,10 @@
 
 
 
-             <!-- /////////////////////////////// Add Product ////////////////////////// -->
+            <!-- /////////////////////////////// Add Product ////////////////////////// -->
             <div class="col-10 mt-5">
                 <div class="container">
-                    <div class="row my-3" >
+                    <div class="row my-3">
                         <h1>Add Block</h1>
                     </div>
                     <form action="http://localhost:3000/adddblock_productline" method="post">
@@ -162,7 +204,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <select class="form-control" id="block" name="block">
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -173,7 +215,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <select class="form-control" id="productline" name="productline">
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -186,7 +228,7 @@
 
                 </div>
 
-            </div>       
+            </div>
         </div>
 
     </div>
@@ -197,7 +239,9 @@
         <div class="contrainer">
             <div class="row">
                 <div class="col text-center py-4">
-                    <p>Copyright &copy; <span id="year"></span></p>
+                    <p>Copyright &copy;
+                        <span id="year"></span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -205,34 +249,52 @@
 
     <script>
         $('#year').text("" + new Date().getFullYear());
-        function reloadpage(){
+        function reloadpage() {
             alert('testttt')
             location.reload()
         }
 
-        var data ="{{data}}"
+        var data = "{{data}}"
         var de_data = JSON.parse(decodeURI(data))
 
         block()
-        function block(){
+        function block() {
             let Block = [];
             let Productline = [];
 
-            let option_block =  "<option disabled selected>select</option>"
-            let option_productline =  "<option disabled selected>select</option>"
-            for(let i=0;i<de_data.Block.length;i++){
+            let option_block = "<option disabled selected>select</option>"
+            let option_productline = "<option disabled selected>select</option>"
+            for (let i = 0; i < de_data.Block.length; i++) {
                 Block.push(de_data.Block[i])
-                option_block += "<option value='"+Block[i].std_block+"'>"+Block[i].std_block+"</option>"
+                option_block += "<option value='" + Block[i].std_block + "'>" + Block[i].std_block + "</option>"
             }
-            for(let i=0;i<de_data.Productline.length;i++){
+            for (let i = 0; i < de_data.Productline.length; i++) {
                 Productline.push(de_data.Productline[i])
-                option_productline += "<option value='"+Productline[i].std_productline+"'>"+Productline[i].std_productline+"</option>"
+                option_productline += "<option value='" + Productline[i].std_productline + "'>" + Productline[i].std_productline + "</option>"
             }
 
             document.getElementById("block").innerHTML = option_block
             document.getElementById("productline").innerHTML = option_productline
         }
 
+        if (Session.get("status") != 1) {
+            window.location.href = 'http://127.0.0.1:5500/admin_login.html';
+        }
+
+        function exit() {
+            exit = document.getElementById("logout").value
+            // console.log(exit)
+            var confirmexit = confirm('Do you want to logout?')
+            if (exit == "logout") {
+                if (confirm) {
+                    // console.log("exit")
+                    // alert("Logout successfully");
+                    Session.set("status", '0');
+                    window.location = "http://127.0.0.1:5500/admin_login.html"; // Redirecting to other page.
+                    return false;
+                }
+            }
+        }
     </script>
 </body>
 

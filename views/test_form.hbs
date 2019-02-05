@@ -14,6 +14,48 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+        <script>
+        if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function() {
+         
+         // window object
+         var win = window.top || window;
+         
+         // session store
+         var store = (win.name ? JSON.parse(win.name) : {});
+         
+         // save store on page unload
+         function Save() {
+           win.name = JSON.stringify(store);
+         };
+         
+         // page unload event
+         if (window.addEventListener) window.addEventListener("unload", Save, false);
+         else if (window.attachEvent) window.attachEvent("onunload", Save);
+         else window.onunload = Save;
+        
+         // public methods
+         return {
+         
+           // set a session variable
+           set: function(name, value) {
+             store[name] = value;
+           },
+           
+           // get a session value
+           get: function(name) {
+             return (store[name] ? store[name] : undefined);
+           },
+           
+           // clear session
+           clear: function() { store = {}; },
+           
+           // dump session data
+           dump: function() { return JSON.stringify(store); }
+        
+         };
+        
+        })();
+        </script>
     <style type="text/css">
         #second,
         #third,
@@ -36,7 +78,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#"> Log out</a>
+                    <a class="nav-link" id="logout" href="http://localhost:3000/userschedule"> Log out</a>
                 </li>
             </ul>
         </div>
@@ -68,9 +110,9 @@
                         <select class="custom-select custom-select-sm" id="line" name="line">
                             <option disabled selected>select</option>
                             <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option disabled selected value="2">2</option>
+                            <option disabled selected  value="3">3</option>
+                            <option disabled selected  value="4">4</option>
                         </select>
                     </div>
 
@@ -773,6 +815,24 @@
         }
     }
 
+    if (Session.get("status") != 1) {
+                window.location.href = 'http://127.0.0.1:5500/admin_login.html';
+            }
+        
+            function exit() {
+                exit = document.getElementById("logout").value
+                // console.log(exit)
+                var confirmexit = confirm('Do you want to logout?')
+                if (exit == "logout") {
+                    if (confirm) {
+                        // console.log("exit")
+                        // alert("Logout successfully");
+                        Session.set("status", '0');
+                        window.location = "login.html"; // Redirecting to other page.
+                        return false;
+                    }
+                }
+            }
 
 
 

@@ -15,10 +15,8 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet"> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
-    {{!-- <script type="text/javascript" src="../session.js"></script> --}}
-     <script>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans" rel="stylesheet">
+    <script>
         if (JSON && JSON.stringify && JSON.parse) var Session = Session || (function() {
          
          // window object
@@ -60,13 +58,11 @@
         
         })();
         </script>
-
-    <title> Daily Schedule</title>
+    <title> Add Value</title>
     <style>
         body {
             background-color: snow;
             font-family: 'IBM Plex Sans', sans-serif;
-
         }
     </style>
 </head>
@@ -98,7 +94,7 @@
                         </h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="http://localhost:3000/dailyschedule">
                                     <i class="fas fa-calendar-check"></i> Daily Schedule
                                 </a>
                             </li>
@@ -192,76 +188,178 @@
                 </nav>
             </div>
 
-            <!-- ////////////////////////////////////// Code ///////////////////////////////// -->
             <div class="col-10 mt-5">
                 <div class="container">
-
                     <div class="row my-3">
-                        <h1>Today's Schedule</h1>
+                        <h1>Add Value</h1>
                     </div>
 
-                    <div class="row my-3">
-                        <div class="col-md-1">
-                            <label style="font-size: 25px;">Date:</label>
+                    <div class="container">
+                        <!-- Add Block -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addblock" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Block : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="block" name="block" placeholder="Block">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-md-5">
-                            <p id="demo1" style="font-size: 25px;color: brown;"></p>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add Product Line -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addproductline" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Product Line : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="productline" name="productline" placeholder="Product Line">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add Size -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addsize" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Size : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="size" name="size" placeholder="Size">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add Product Name -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addpdname" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Product Name : </h4>
+                                        <!-- <label for="exampleFormControlInput1">Add Size : </label> -->
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_productname" name="std_productname" placeholder="Product Name">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info" >Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                            <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add Product Type -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addpdtype" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add Product Type : </h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_producttype" name="std_producttype" placeholder="Product Type">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+                        <!-- Add STD Length -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addlength" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add STD Length : </h4>        
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_length" name="std_length" placeholder="Standard Length">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
+
+
+                        <!-- Add STD Weight -->
+                        <div class="div p-2" style="background-color:rgb(148, 229, 231)">
+                            <form action="http://localhost:3000/addweight" method="POST">
+                                <div class="row my-3">
+                                    <div class="col-4">
+                                        <h4> Add STD Weight : </h4>        
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" id="std_weight" name="std_weight" placeholder="Standard Weight">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" onclick="Reload_data()" class="btn btn-info">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <hr style="background-color: rgb(80, 78, 78);border-width: 1px;">
                     </div>
 
-
-                    <div class="row my-3">
-                        <div class="container">
-                            <table class="table table-striped text-center" id="daily" style="">
-                            </table>
-
-                        </div>
-                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
+    </div>
+    </div>
+
+    </div>
 
 
-        <!-- FOOTER -->
-        <footer id="main-footer" class="bg-light">
-            <div class="contrainer">
-                <div class="row">
-                    <div class="col text-center py-4">
-                        <p>Copyright &copy;
-                            <span id="year"></span>
-                        </p>
-                    </div>
+    <!-- FOOTER -->
+    <footer id="main-footer" class="bg-light">
+        <div class="contrainer">
+            <div class="row">
+                <div class="col text-center py-4">
+                    <p>Copyright &copy; <span id="year"></span></p>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        <script type="text/javascript">
-            $('#year').text("" + new Date().getFullYear());
-            var now = moment().format('dddd , Do MMMM YYYY ');
-            document.getElementById("demo1").innerHTML = now
+    <script>
+        $('#year').text("" + new Date().getFullYear());
+    // block_id()
+    // function block_id(){
+    //     let id = 0 ;
+    //     document.getElementById("blockID").value = "A"+(id+1);
+    // }
 
-            var staffschedule = "{{staffschedule}}"
-            var schedulestaff = JSON.parse(decodeURI(staffschedule))
-            var schedule = [];
+    function Reload_data(){
+        alert('was pressed')
+        window.location.href ='http://127.0.0.1:5500/admin_addValue.html'
 
-            for (let i = 0; i < schedulestaff.length; i++) {
-                schedule.push(schedulestaff[i])
-                // console.log(schedule[i].c_name)
-            }
+    }
 
-            daily_schedule()
-            function daily_schedule() {
-                var table_schedule = "<thead class='table-info'><tr><th scope='col'>#</th><th scope='col'>Firstname</th><th scope='col'>Lastname</th><th scope='col'>Position</th><th scope='col'>Department</th><th scope='col'>Status</th></tr></thead>";
-
-                for (let i = 0; i < schedule.length; i++) {
-                    table_schedule += "<tbody><tr><th scope='row'>" + (i + 1) + "</th><td>" + schedule[i].c_name + "</td><td>" + " " + schedule[i].c_surname + "</td><td>" + schedule[i].c_position + "</td><td>" + schedule[i].c_department + "</td><td>" + schedule[i].c_status + "</td></tr>"
-                }
-                document.getElementById("daily").innerHTML = table_schedule;
-
-            }
-
-            if (Session.get("status") != 1) {
+    if (Session.get("status") != 1) {
                 window.location.href = 'http://127.0.0.1:5500/admin_login.html';
             }
         
@@ -279,7 +377,7 @@
                     }
                 }
             }
-        </script>
+    </script>
 </body>
 
 </html>
